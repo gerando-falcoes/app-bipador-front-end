@@ -1,19 +1,20 @@
-import React, {useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { AuthContext } from '../../contexts/auth'
 
 
 const HomePage = () => {
-    // const [password, setPassword] = useState('')
-    // const [categoria, setCategoria] = useState('')
-    // setCategoria(localStorage.getItem('user', ))
-    // setPassword(localStorage.getItem('user', ))
-    console.log(JSON.parse(localStorage.getItem('user')));
-    const { logout, login} = useContext(AuthContext)
+
+    const local =JSON.parse(localStorage.getItem('user'))
+    console.log(local.category)
+    
+    const { logout, redirectBip} = useContext(AuthContext)
+
     const handleLogout = () => {
         logout()
     }
+
     const handleVoltarParaBipagem = () => {
-        login()
+        redirectBip(local.email, local.password,local.category)
     }
 
     return (

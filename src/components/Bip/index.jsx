@@ -71,19 +71,19 @@ const Produto = () => {
           setPosts(dados => [...dados, resp.data])
           
           
-          localStorage.setItem('Produto', JSON.stringify(posts))
-
+          
         })
         .catch(err => {
-
+          
           err = { message: 'Produto não encontrado' }
           document.getElementById('code').value = ''
           alert(err.message)
         })
-      // localStorage.setItem('posts', [...posts]);
-      // console.log(posts);
-
-    }
+        // localStorage.setItem('posts', [...posts]);
+        // console.log(posts);
+        
+      }
+      localStorage.setItem('Produto', JSON.stringify(posts))
   }
   const handleDelet = (e) => {
     const index = e.target.value

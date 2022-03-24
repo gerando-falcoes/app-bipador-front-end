@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
             navigate('/bip/'+category+'/'+name)
         }
     }
-    const logout = () => {
+    const logout = (email, password, category) => {
         console.log('logout')
         localStorage.removeItem('user')
         localStorage.removeItem('Produto')
@@ -65,8 +65,24 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
         navigate('/login');
     }
+    const redirectBip = async(email, password, category) => {
+        console.log('login auth', { email, password, category});
+        const name = JSON.stringify(email).split('@gerandofalcoes.com').join('').replaceAll('.', '-').replaceAll('"', '')
+        if (category === '1' && password === "tamojunto") {
+            navigate('/bip/'+category+'/'+name)
+        }else if(category === '2' && password === "vaikida"){
+            navigate('/bip/'+category+'/'+name)
+        }else if(category === '3' && password === "ehnois"){
+            navigate('/bip/'+category+'/'+name)
+        }else if(category === '4' && password === "trabalhoduro"){
+            navigate('/bip/'+category+'/'+name)
+        }else if(category === '5' && password === "123"){
+            navigate('/bip/'+category+'/'+name)
+        }
+
+    }
     return (
-        <AuthContext.Provider value={{ authenticated: !!user, user, loading, login, logout }}>
+        <AuthContext.Provider value={{ authenticated: !!user, user, loading, login, logout, redirectBip}}>
             {children}
         </AuthContext.Provider>
 
