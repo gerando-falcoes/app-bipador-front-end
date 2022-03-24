@@ -9,13 +9,13 @@ const Produto = () => {
 
   const { pathname } = window.location
 
-  const nomeRetirar = JSON.stringify(pathname).replaceAll('"', '').replaceAll('bip', '').replaceAll('/', '').replaceAll('1', '').replaceAll('2', '').replaceAll('3', '').replaceAll('4', '').replaceAll('5', '')
-  const nomeFuncionario = JSON.stringify(pathname).replaceAll('"', '').replaceAll('bip', '').replaceAll('%20', ' ').replaceAll('/', '').replaceAll(' ', '-').replaceAll('1', '').replaceAll('2', '').replaceAll('3', '').replaceAll('4', '').replaceAll('5', '')
+  const nomeRetirar = JSON.stringify(pathname).replaceAll('"', '').replaceAll('bip', '').replaceAll('/', '').replaceAll('2', '').replaceAll('3', '').replaceAll('4', '').replaceAll('5', '').replaceAll('6', '').replaceAll('7', '').replaceAll('8', '').replaceAll('9', '').replaceAll('10', '').replaceAll('1', '')
+  const nomeFuncionario = JSON.stringify(pathname).replaceAll('"', '').replaceAll('bip', '').replaceAll('%20', ' ').replaceAll('/', '').replaceAll(' ', '-').replaceAll('2', '').replaceAll('3', '').replaceAll('4', '').replaceAll('5', '').replaceAll('6', '').replaceAll('7', '').replaceAll('8', '').replaceAll('9', '').replaceAll('10', '').replaceAll('1', '')
   const unidade = JSON.stringify(pathname).split(nomeRetirar).join('').replaceAll('"', '').replaceAll('bip', '').replaceAll('/', '')
   const url = `${unidade}/${nomeFuncionario}`
   console.log(nomeFuncionario);
 
-  console.log(url);
+  console.log(url);//url com unidade/nome do funcionario
 
 
   const [posts, setPosts] = useState([])
@@ -29,10 +29,10 @@ const Produto = () => {
     }
     console.log(localStorage.getItem('Produto'));
   }, []);
-  var list = [...posts];
+  var list = [...posts];//list eu uso para fazer alteração no post de produtos quero fazer um delet
 
   
-  const handleKeyPressSave = async (e) => {
+  const handleKeyPressSave = async (e) => {// enviar para api salvar em txt
 
     await api.post(`/produto/${url}/${posts}`, posts)
       .then(resp => {
@@ -45,8 +45,6 @@ const Produto = () => {
         alert(err.message)
 
       })
-      
-
 
   }
 
@@ -58,9 +56,8 @@ const Produto = () => {
     console.log(e);
 
 
-    if (code.length === 12) {
+    if (code.length === 12) {// 12 porque o codigo de barras tem tamanho de 12 no banco 
 
-      // console.log(localStorage.getItem('posts'));
       const code = e.target.value
 
       await api.get(`/produto/${code}`)
@@ -70,49 +67,23 @@ const Produto = () => {
           alterarQuantidade.quantidade = quantidade
           setPosts(dados => [...dados, resp.data])
           
-          
-          localStorage.setItem('Produto', JSON.stringify(posts))
-
-        })
-        .catch(err => {
-
+        }).catch(err => {
           err = { message: 'Produto não encontrado' }
           document.getElementById('code').value = ''
           alert(err.message)
         })
-      // localStorage.setItem('posts', [...posts]);
-      // console.log(posts);
-
-    }
+        
+      }
+      localStorage.setItem('Produto', JSON.stringify(posts))
   }
   const handleDelet = (e) => {
     const index = e.target.value
-    // console.log(posts);
-    // console.log(posts[index]);
-    // console.log('antes');
-    // console.log(list);
-
-
     list.splice(index, 1)
-    // console.log('depois');
     setPosts(list);
     localStorage.setItem('Produto', JSON.stringify(list))
-    // console.log(list);
-    // console.log(posts);
-    // const vari = posts.filter(item => {
-    //   console.log(item);
-    // })
-    // console.log(vari);
 
-    // const name = e.target.getAttribute("name")
-    // setPosts(list.filter(item => item.index !== index));
-
-    // list.splice(e.target.value, 1);
-    // console.log(list[0]);
-    // setPosts({ list});
   }
-  // const resultado = -1 > 0 ? 'É maior que zero' : 'É menor que zero';
-  // console.log(resultado)
+
 
   return (
     <>

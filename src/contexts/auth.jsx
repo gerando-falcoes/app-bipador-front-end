@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        
+
         const recovereUser = localStorage.getItem('user')
         // const token = localStorage.getItem('token')
         // if (recovereUser && token) {
@@ -20,8 +20,8 @@ export const AuthProvider = ({ children }) => {
         setLoading(false)
     }, []);
 
-    const login = async(email, password, category) => {
-        console.log('login auth', { email, password, category});
+    const login = async (email, password, category) => {
+        console.log('login auth', { email, password, category });
         const name = JSON.stringify(email).split('@gerandofalcoes.com').join('').replaceAll('.', '-').replaceAll('"', '')
         // console.log(nome);
         //api criar uma session
@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
 
         // const loggedUser = response.data.user;
         // const token = response.data.token; 
- 
+
         const loggedUser = {
             id: '123',
             email, password, category
@@ -42,22 +42,38 @@ export const AuthProvider = ({ children }) => {
 
         if (category === '1' && password === "tamojunto") {
             setUser(loggedUser)
-            navigate('/bip/'+category+'/'+name)
-        }else if(category === '2' && password === "vaikida"){
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '2' && password === "vaikida") {
             setUser(loggedUser)
-            navigate('/bip/'+category+'/'+name)
-        }else if(category === '3' && password === "ehnois"){
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '3' && password === "ehnois") {
             setUser(loggedUser)
-            navigate('/bip/'+category+'/'+name)
-        }else if(category === '4' && password === "trabalhoduro"){
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '4' && password === "trabalhoduro") {
             setUser(loggedUser)
-            navigate('/bip/'+category+'/'+name)
-        }else if(category === '5' && password === "123"){
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '5' && password === "123") {
             setUser(loggedUser)
-            navigate('/bip/'+category+'/'+name)
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '6' && password === "tamojunto") {
+            setUser(loggedUser)
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '7' && password === "tamojunto") {
+            setUser(loggedUser)
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '8' && password === "tamojunto") {
+            setUser(loggedUser)
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '9' && password === "tamojunto") {
+            setUser(loggedUser)
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '10' && password === "tamojunto") {
+            setUser(loggedUser)
+            navigate('/bip/' + category + '/' + name)
         }
+
     }
-    const logout = () => {
+    const logout = (email, password, category) => {
         console.log('logout')
         localStorage.removeItem('user')
         localStorage.removeItem('Produto')
@@ -65,8 +81,34 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
         navigate('/login');
     }
+    const redirectBip = async (email, password, category) => {
+        console.log('login auth', { email, password, category });
+        const name = JSON.stringify(email).split('@gerandofalcoes.com').join('').replaceAll('.', '-').replaceAll('"', '')
+        if (category === '1' && password === "tamojunto") {
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '2' && password === "vaikida") {
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '3' && password === "ehnois") {
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '4' && password === "trabalhoduro") {
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '5' && password === "123") {
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '6' && password === "tamojunto") {
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '7' && password === "tamojunto") {
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '8' && password === "tamojunto") {
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '9' && password === "tamojunto") {
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '10' && password === "tamojunto") {
+            navigate('/bip/' + category + '/' + name)
+        }
+
+    }
     return (
-        <AuthContext.Provider value={{ authenticated: !!user, user, loading, login, logout }}>
+        <AuthContext.Provider value={{ authenticated: !!user, user, loading, login, logout, redirectBip }}>
             {children}
         </AuthContext.Provider>
 
