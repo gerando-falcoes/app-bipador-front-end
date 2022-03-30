@@ -70,6 +70,21 @@ export const AuthProvider = ({ children }) => {
         } else if (category === '10' && password === "tamojunto") {
             setUser(loggedUser)
             navigate('/bip/' + category + '/' + name)
+        }else if (category === '11' && password === "tamojunto") {
+            setUser(loggedUser)
+            navigate('/bip/' + category + '/' + name)
+        }else if (category === '12' && password === "tamojunto") {
+            setUser(loggedUser)
+            navigate('/bip/' + category + '/' + name)
+        }else if (category === '13' && password === "tamojunto") {
+            setUser(loggedUser)
+            navigate('/bip/' + category + '/' + name)
+        }else if (category === '14' && password === "tamojunto") {
+            setUser(loggedUser)
+            navigate('/bip/' + category + '/' + name)
+        }else if (category === '15' && password === "tamojunto") {
+            setUser(loggedUser)
+            navigate('/bip/' + category + '/' + name)
         }
 
     }
