@@ -39,6 +39,7 @@ const Produto = () => {
         // console.log(resp);
         alert("Arquivo salvo com sucesso! \n statusText: " + resp.statusText + " \n Status: " + resp.status)
         setPosts([]);
+        localStorage.setItem('Produto',[]);
       })
       .catch(err => {
         err = { message: 'Algo deu errado!' }

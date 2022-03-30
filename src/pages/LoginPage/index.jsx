@@ -25,6 +25,11 @@ const LoginPage = () => {
                     <label htmlFor=""  className="email">Categoria</label>
                     <select value={categoria}  onChange={(e) => setCategoria(e.target.value)} id="Categoria" name="Categoria">
                         <option> </option>
+                        <option value="11">ENTRADA CD</option>
+                        <option value="12">SAIDA CENTER NORTE</option>
+                        <option value="13">SAIDA POÁ</option>
+                        <option value="14">SAIDA SUZANO</option>
+                        <option value="15">SAIDA EUCALIPTOS</option>
                         <option value="1">INVENTÁRIO CD</option>
                         <option value="2">INVENTÁRIO LOJA POA </option>
                         <option value="3">INVENTÁRIO E_COMMERCE</option>
