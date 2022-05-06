@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import api from "../../services/api";
-import Post from "../List/index";
+import Post from "../List";
 import "../Bip/Bip.css";
 
 import { InputGroup, Button, FormControl } from "react-bootstrap";
-const Produto = () => {
+const Bip = () => {
   const [amount, setAmount] = useState(1);
 
   const { pathname } = window.location;
@@ -47,9 +47,6 @@ const Produto = () => {
     .replaceAll("bip", "")
     .replaceAll("/", "");
   const url = `${unidade}/${nomeFuncionario}`;
-  console.log(nomeFuncionario);
-
-  console.log(url); //url com unidade/nome do funcionario
 
   const [posts, setPosts] = useState([]);
 
@@ -59,9 +56,8 @@ const Produto = () => {
     if (recoverePost) {
       setPosts(JSON.parse(recoverePost));
     }
-    console.log(localStorage.getItem("Produto"));
   }, []);
-  var list = [...posts]; //list eu uso para fazer alteração no post de produtos quero fazer um delet
+  const list = [...posts]; //list eu uso para fazer alteração no post de produtos quero fazer um delete
 
   const handleKeyPressSave = async (e) => {
     // enviar para api salvar em txt
@@ -86,10 +82,7 @@ const Produto = () => {
   };
 
   const handleKeyPress = async (e) => {
-    // pega informaçoes da api e guardo no state
     const code = document.getElementById("code").value;
-    console.log(code.length);
-    console.log(e);
 
     if (code.length === 12) {
       // 12 porque o codigo de barras tem tamanho de 12 no banco
@@ -133,7 +126,6 @@ const Produto = () => {
                 defaultValue="1"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                // aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
               />
             </InputGroup>
@@ -180,16 +172,8 @@ const Produto = () => {
               onClick={handleKeyPressSave}
               id="button-addon2"
             >
-              {/* <a href="http://localhost:8080/C:/settings.txt" download='teste nome'>Download</a> */}
               Download
             </Button>
-
-            {/* <input
-                type="button"
-                value="aberte enter parar salvar"
-                // onChange={handleChange}
-                onClick={handleKeyPressSave}
-              /> */}
           </>
         </main>
       }
@@ -197,9 +181,9 @@ const Produto = () => {
   );
 };
 
-Produto.propTypes = {
+Bip.propTypes = {
   nome: PropTypes.string,
   descricao: PropTypes.string,
 };
 
-export default Produto;
+export default Bip;
