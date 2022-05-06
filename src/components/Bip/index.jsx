@@ -7,6 +7,8 @@ import "../Bip/Bip.css";
 import { InputGroup, Button, FormControl } from "react-bootstrap";
 const Bip = () => {
   const [amount, setAmount] = useState(1);
+  const [code, setCode] = useState();
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const { pathname } = window.location;
 
@@ -59,53 +61,50 @@ const Bip = () => {
   }, []);
   const list = [...posts]; //list eu uso para fazer alteração no post de produtos quero fazer um delete
 
-  const handleKeyPressSave = async (e) => {
-    // enviar para api salvar em txt
-
-    await api
-      .post(`/produto/${url}/${posts}`, posts)
-      .then((resp) => {
-        // console.log(resp);
-        alert(
-          "Arquivo salvo com sucesso! \n statusText: " +
-            resp.statusText +
-            " \n Status: " +
-            resp.status
-        );
-        setPosts([]);
-        localStorage.setItem("Produto", []);
-      })
-      .catch((err) => {
-        err = { message: "Algo deu errado!" };
-        alert(err.message);
-      });
+  const handleSave = async (e) => {
+    // salvar em txt
+    try {
+      const resp = await api.post(`/produto/${url}/${posts}`, posts);
+      alert(
+        "Arquivo salvo com sucesso! \n statusText: " +
+          resp.statusText +
+          " \n Status: " +
+          resp.status
+      );
+      setPosts([]);
+      localStorage.setItem("Produto", []);
+    } catch (error) {
+      const err = { message: "Algo deu errado!" };
+      alert(err.message);
+    }
   };
 
-  const handleKeyPress = async (e) => {
-    const code = document.getElementById("code").value;
+  const onChangeCode = async (e) => {
+    const value = e.target.value;
+    setCode(value);
+    setIsDisabled(true);
 
-    if (code.length === 12) {
+    if (value?.length === 12) {
       // 12 porque o codigo de barras tem tamanho de 12 no banco
 
-      const code = e.target.value;
-
       await api
-        .get(`/produto/${code}`)
+        .get(`/produto/${value}`)
         .then((resp) => {
-          document.getElementById("code").value = "";
+          setCode("");
           const alterarQuantidade = resp.data;
           alterarQuantidade.quantidade = amount;
           setPosts((dados) => [...dados, resp.data]);
         })
         .catch((err) => {
           err = { message: "Produto não encontrado" };
-          document.getElementById("code").value = "";
+          setCode("");
           alert(err.message);
         });
     }
     localStorage.setItem("Produto", JSON.stringify(posts));
+    setIsDisabled(false);
   };
-  const handleDelet = (e) => {
+  const handleDelete = (e) => {
     const index = e.target.value;
     list.splice(index, 1);
     setPosts(list);
@@ -135,13 +134,15 @@ const Bip = () => {
                 id="code"
                 type="number"
                 placeholder=""
+                value={code}
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
-                onChange={handleKeyPress}
+                onChange={onChangeCode}
+                disabled={isDisabled}
               />
               <Button
                 variant="outline-secondary"
-                onClick={handleKeyPressSave}
+                onClick={handleSave}
                 id="button-addon2"
               >
                 Salvar em .txt
@@ -157,19 +158,19 @@ const Bip = () => {
                 preco={post.preco}
                 data={post.createdAt}
                 id={post.id_produto}
-                delet={handleDelet}
+                delete={handleDelete}
               />
             ))}
             <Button
               variant="outline-secondary"
-              onClick={handleKeyPressSave}
+              onClick={handleSave}
               id="button-addon2"
             >
               Salvar em .txt
             </Button>
             <Button
               variant="outline-secondary"
-              onClick={handleKeyPressSave}
+              onClick={handleSave}
               id="button-addon2"
             >
               Download
