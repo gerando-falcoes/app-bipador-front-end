@@ -1,0 +1,47 @@
+.table {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.section {
+  width: 100%;
+  overflow: hidden;
+  border-right: 1px solid #ddd;
+}
+.title {
+  font-weight: bold;
+  border-bottom: 2px #000 solid;
+  padding: 16px;
+}
+.value {
+  padding: 16px;
+  background-color: #f2f2f2;
+}
+.delete_button {
+  padding: 8px 12px;
+  background-color: #f2f2f2;
+}
+
+@media screen and (max-width: 768px) {
+  .table {
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .title {
+    text-align: center;
+  }
+
+  .value {
+    text-align: center;
+  }
+
+  .delete_button {
+    display: flex;
+    justify-content: center;
+  }
+}
