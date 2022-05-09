@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+# Coletor
+<!-- ![GitHub repo size](https://img.shields.io/github/repo-size/iuricode/README-template?style=for-the-badge)
+![GitHub language count](https://img.shields.io/github/languages/count/iuricode/README-template?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/iuricode/README-template?style=for-the-badge)
+![Bitbucket open issues](https://img.shields.io/bitbucket/issues/iuricode/README-template?style=for-the-badge)
+![Bitbucket open pull requests](https://img.shields.io/bitbucket/pr-raw/iuricode/README-template?style=for-the-badge) -->
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+imagem do fluxo:
+<img src="https://drive.google.com/file/d/10GDfzWlbEEdM6emvLLX08IJDKPzru8gK/view?usp=sharing" alt="fluxo">
 
-## Available Scripts
+> Coletor é uma aplicação web que roda em um coletor do modelo Zebra MC40, com o objetivo de realizar contagem para inventários ou listagem de produto para emissão de nota fiscal para transferência entre lojas.
 
-In the project directory, you can run:
+### Ajustes e melhorias
 
-### `npm start`
+O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas nas seguintes tarefas mencionadas no 
+<a href="https://app.asana.com/0/1202012013077371/board">asana</a>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<!-- - [x] Tarefa 1
+- [x] Tarefa 2
+- [x] Tarefa 3
+- [ ] Tarefa 4
+- [ ] Tarefa 5 -->
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 💻 Pré-requisitos
 
-### `npm test`
+Antes de começar, verifique se você atendeu aos seguintes requisitos:
+<!---Estes são apenas requisitos de exemplo. Adicionar, duplicar ou remover conforme necessário--->
+* node v16.14.1
+* React 17.0.2
+* compatível com`<Windows / Linux >.
+<!-- * Você leu `<guia / link / documentação_relacionada_ao_projeto>`. -->
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🚀 Instalando Coletor
 
-### `npm run build`
+Para instalar, siga estas etapas:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## ☕Iniciar o coletor local
 
-### `npm run eject`
+```
+npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 📫 Informações adicionais 
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. A api esta no azure
+2. link para consumir todos os <a href="https://coletor-api.azurewebsites.net/produtos">produtos</a>
+3. para cadastro envio da criação do arquivo: https://coletor-api.azurewebsites.net/produto/:unidade/:persona/:produto (a api não usa o produto que vem nos parametros eu usei para teste e esqueci de tirar rs) 
+4. api tem o unico objetivo de consultar se o produto existe, criar o arquivo txt
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+<!-- ## 🤝 Colaboradores
+ -->
+<!-- 
+## 😄 Seja um dos contribuidores<br>
 
-## Learn More
+Quer fazer parte desse projeto? Clique [AQUI](CONTRIBUTING.md) e leia como contribuir.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📝 Licença
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Esse projeto está sob licença. Veja o arquivo [LICENÇA](LICENSE.md) para mais detalhes. -->
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[⬆ Voltar ao topo](#nome-do-projeto)<br>
