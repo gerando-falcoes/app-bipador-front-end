@@ -56,7 +56,7 @@ const Bip = () => {
     const recoverePost = localStorage.getItem("Produto");
 
     if (recoverePost) {
-      setPosts(JSON.parse(recoverePost));
+      setPosts(sortByDate(JSON.parse(recoverePost)));
     }
   }, []);
   const list = [...posts]; //list eu uso para fazer alteração no post de produtos quero fazer um delete
@@ -79,6 +79,25 @@ const Bip = () => {
     }
   };
 
+  const sortByDate = (data)=> {
+    const compare = (prev, next)=>{
+      if (prev > next ){
+        return -1;
+      }
+      if ( prev < next ){
+        return 1;
+      }
+      return 0;
+    }
+    data.sort((prevData, nextData)=>{
+      // just to prevent pre-data without visual data
+      if(!prevData?.visual?.addedTime) prevData.visual = { addedTime: new Date() }
+      if(!nextData?.visual?.addedTime) nextData.visual = { addedTime: new Date() }
+      return compare(prevData?.visual.addedTime.getTime(), nextData?.visual.addedTime.getTime()) 
+    })
+    return data
+  }
+
   const onChangeCode = async (e) => {
     const value = e.target.value;
     setCode(value);
@@ -93,7 +112,10 @@ const Bip = () => {
           setCode("");
           const alterarQuantidade = resp.data;
           alterarQuantidade.quantidade = amount;
-          setPosts((dados) => [...dados, resp.data]);
+          const addedTime = new Date();
+          // visual is data that it's just to be used at the frontend
+          const data = {...resp.data, visual: { addedTime }}
+          setPosts((dados) => sortByDate([...dados, data]));
         })
         .catch((err) => {
           err = { message: "Produto não encontrado" };
