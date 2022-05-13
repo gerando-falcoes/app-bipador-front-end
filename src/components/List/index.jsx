@@ -1,7 +1,8 @@
-import PropTypes from "prop-types";
-import Table from "react-bootstrap/Table";
+import PropTypes from 'prop-types'
+import Table from 'react-bootstrap/Table'
 
-const Post = (props) => {
+const Post = ({posts, onDelete}) => {
+  let totalProducts = 0;
   return (
     <article>
       <Table striped bordered hover>
@@ -15,32 +16,52 @@ const Post = (props) => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>{props.id}</td>
-            <td>{props.nome}</td>
-            <td>{props.preco}</td>
-            <td>{props.quantidade}</td>
-            <td>
-              <button
-                type="button"
-                onClick={props.delete}
-                value={props.index}
-                className="btn btn-danger"
-              >
-                Deletar
-              </button>
-            </td>
-          </tr>
+          {posts.map((product, index) => {
+            totalProducts += Number(product.quantidade)
+            return (   
+              <tr>
+                <td>{product.id_produto}</td>
+                <td>{product.nome}</td>
+                <td>{product.preco}</td>
+                <td>{product.quantidade}</td>
+                <td>
+                  <button
+                    type="button"
+                    onClick={() => onDelete(index)}
+                    className="btn btn-danger"
+                  >
+                    Deletar
+                  </button>
+                </td>
+              </tr>
+            )
+          })}
         </tbody>
+        <tfoot>
+          <tr>            
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Total: {totalProducts}</td>
+            <td></td>
+          </tr>
+        </tfoot>
       </Table>
 
       {/* Definir Classe CSS */}
     </article>
-  );
-};
+  )
+}
 
 Post.propTypes = {
-  nome: PropTypes.string,
-};
+  posts: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    nome: PropTypes.string.isRequired,
+    preco: PropTypes.number.isRequired,
+    quantidade: PropTypes.number.isRequired,
+  })),
 
-export default Post;
+  onDelete: PropTypes.func.isRequired,
+}
+
+export default Post

@@ -96,16 +96,14 @@ const Bip = () => {
           setPosts((dados) => [...dados, resp.data]);
         })
         .catch((err) => {
-          err = { message: "Produto não encontrado" };
           setCode("");
-          alert(err.message);
+          alert("Produto não encontrado");
         });
     }
     localStorage.setItem("Produto", JSON.stringify(posts));
     setIsDisabled(false);
   };
-  const handleDelete = (e) => {
-    const index = e.target.value;
+  const handleDelete = (index) => {
     list.splice(index, 1);
     setPosts(list);
     localStorage.setItem("Produto", JSON.stringify(list));
@@ -150,17 +148,10 @@ const Bip = () => {
             </InputGroup>
           </div>
           <>
-            {posts.map((post, index) => (
-              <Post
-                key={index}
-                nome={post.nome}
-                quantidade={post.quantidade}
-                preco={post.preco}
-                data={post.createdAt}
-                id={post.id_produto}
-                delete={handleDelete}
-              />
-            ))}
+            <Post                
+              posts={posts}
+              onDelete={handleDelete}
+            />
             <Button
               variant="outline-secondary"
               onClick={handleSave}
