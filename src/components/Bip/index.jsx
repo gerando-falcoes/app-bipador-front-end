@@ -72,12 +72,16 @@ const Bip = () => {
           resp.status
       );
       setPosts([]);
-      localStorage.setItem("Produto", []);
     } catch (error) {
       const err = { message: "Algo deu errado!" };
       alert(err.message);
     }
   };
+
+
+  useEffect (() => {
+    localStorage.setItem("Produto", JSON.stringify(posts));
+  }, [posts])
 
   const onChangeCode = async (e) => {
     const value = e.target.value;
@@ -90,23 +94,30 @@ const Bip = () => {
       await api
         .get(`/produto/${value}`)
         .then((resp) => {
-          setCode("");
           const alterarQuantidade = resp.data;
           alterarQuantidade.quantidade = amount;
-          setPosts((dados) => [...dados, resp.data]);
+          const items = JSON.parse(localStorage.getItem("Produto") || '')
+          const item = items.find(element => element.id_produto == e.target.value);
+          if (item) {
+            const foundIndex = items.findIndex(x => x.id_produto == item.id_produto);
+            item.quantidade = Number(item.quantidade) + Number(amount);
+            items[foundIndex] = item;
+            setPosts(items);
+          } else {
+            setPosts((dados) => [...dados, resp.data]);
+          }
+          setCode("");
         })
         .catch((err) => {
           setCode("");
           alert("Produto não encontrado");
         });
     }
-    localStorage.setItem("Produto", JSON.stringify(posts));
     setIsDisabled(false);
   };
   const handleDelete = (index) => {
     list.splice(index, 1);
     setPosts(list);
-    localStorage.setItem("Produto", JSON.stringify(list));
   };
 
   return (
