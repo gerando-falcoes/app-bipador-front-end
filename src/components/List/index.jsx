@@ -1,46 +1,22 @@
 import PropTypes from "prop-types";
-import Table from "react-bootstrap/Table";
+import Table from "../Table";
+import "../List/List.css";
 
 const Post = (props) => {
   return (
-    <article>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Code</th>
-            <th>Produto</th>
-            <th>Preço</th>
-            <th>quantidade</th>
-            <th>Deletar</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{props.id}</td>
-            <td>{props.nome}</td>
-            <td>{props.preco}</td>
-            <td>{props.quantidade}</td>
-            <td>
-              <button
-                type="button"
-                onClick={props.delete}
-                value={props.index}
-                className="btn btn-danger"
-              >
-                Deletar
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </Table>
-
-      {/* Definir Classe CSS */}
+    <article className="list">
+      <Table data={props} />
     </article>
   );
 };
 
 Post.propTypes = {
+  id: PropTypes.string,
   nome: PropTypes.string,
+  preco: PropTypes.string,
+  quantidade: PropTypes.number,
+  delete: PropTypes.func,
+  index: PropTypes.number,
 };
 
 export default Post;

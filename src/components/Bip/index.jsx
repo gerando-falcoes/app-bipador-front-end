@@ -114,7 +114,7 @@ const Bip = () => {
   return (
     <>
       {
-        <main>
+        <main className="container mt-3">
           <div className="teste">
             <label>Quantidade</label>
             <InputGroup className="mb-3">
