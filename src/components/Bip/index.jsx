@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import api from "../../services/api";
-import Post from "../List/index";
+import Post from "../List";
 import "../Bip/Bip.css";
 
 import { InputGroup, Button, FormControl } from "react-bootstrap";
-const Produto = () => {
+const Bip = () => {
+  const [amount, setAmount] = useState(1);
+  const [code, setCode] = useState();
+  const [isDisabled, setIsDisabled] = useState(false);
+
   const { pathname } = window.location;
 
   const nomeRetirar = JSON.stringify(pathname)
@@ -45,9 +49,6 @@ const Produto = () => {
     .replaceAll("bip", "")
     .replaceAll("/", "");
   const url = `${unidade}/${nomeFuncionario}`;
-  console.log(nomeFuncionario);
-
-  console.log(url); //url com unidade/nome do funcionario
 
   const [posts, setPosts] = useState([]);
 
@@ -57,62 +58,53 @@ const Produto = () => {
     if (recoverePost) {
       setPosts(JSON.parse(recoverePost));
     }
-    console.log(localStorage.getItem("Produto"));
   }, []);
-  var list = [...posts]; //list eu uso para fazer alteração no post de produtos quero fazer um delet
+  const list = [...posts]; //list eu uso para fazer alteração no post de produtos quero fazer um delete
 
-  const handleKeyPressSave = async (e) => {
-    // enviar para api salvar em txt
-
-    await api
-      .post(`/produto/${url}/${posts}`, posts)
-      .then((resp) => {
-        // console.log(resp);
-        alert(
-          "Arquivo salvo com sucesso! \n statusText: " +
-            resp.statusText +
-            " \n Status: " +
-            resp.status
-        );
-        setPosts([]);
-        localStorage.setItem("Produto", []);
-      })
-      .catch((err) => {
-        err = { message: "Algo deu errado!" };
-        alert(err.message);
-      });
+  const handleSave = async (e) => {
+    // salvar em txt
+    try {
+      const resp = await api.post(`/produto/${url}/${posts}`, posts);
+      alert(
+        "Arquivo salvo com sucesso! \n statusText: " +
+          resp.statusText +
+          " \n Status: " +
+          resp.status
+      );
+      setPosts([]);
+      localStorage.setItem("Produto", []);
+    } catch (error) {
+      const err = { message: "Algo deu errado!" };
+      alert(err.message);
+    }
   };
 
-  const handleKeyPress = async (e) => {
-    // pega informaçoes da api e guardo no state
-    var qt = document.getElementById("qt");
-    const quantidade = qt.value;
-    const code = document.getElementById("code").value;
-    console.log(code.length);
-    console.log(e);
+  const onChangeCode = async (e) => {
+    const value = e.target.value;
+    setCode(value);
+    setIsDisabled(true);
 
-    if (code.length === 12) {
+    if (value?.length === 12) {
       // 12 porque o codigo de barras tem tamanho de 12 no banco
 
-      const code = e.target.value;
-
       await api
-        .get(`/produto/${code}`)
+        .get(`/produto/${value}`)
         .then((resp) => {
-          document.getElementById("code").value = "";
+          setCode("");
           const alterarQuantidade = resp.data;
-          alterarQuantidade.quantidade = quantidade;
+          alterarQuantidade.quantidade = amount;
           setPosts((dados) => [...dados, resp.data]);
         })
         .catch((err) => {
           err = { message: "Produto não encontrado" };
-          document.getElementById("code").value = "";
+          setCode("");
           alert(err.message);
         });
     }
     localStorage.setItem("Produto", JSON.stringify(posts));
+    setIsDisabled(false);
   };
-  const handleDelet = (e) => {
+  const handleDelete = (e) => {
     const index = e.target.value;
     list.splice(index, 1);
     setPosts(list);
@@ -128,11 +120,11 @@ const Produto = () => {
             <InputGroup className="mb-3">
               <br />
               <FormControl
-                id="qt"
                 type="number"
                 min="1"
                 defaultValue="1"
-                // aria-label="Recipient's username"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
                 aria-describedby="basic-addon2"
               />
             </InputGroup>
@@ -142,13 +134,15 @@ const Produto = () => {
                 id="code"
                 type="number"
                 placeholder=""
+                value={code}
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
-                onChange={handleKeyPress}
+                onChange={onChangeCode}
+                disabled={isDisabled}
               />
               <Button
                 variant="outline-secondary"
-                onClick={handleKeyPressSave}
+                onClick={handleSave}
                 id="button-addon2"
               >
                 Salvar em .txt
@@ -164,31 +158,23 @@ const Produto = () => {
                 preco={post.preco}
                 data={post.createdAt}
                 id={post.id_produto}
-                delet={handleDelet}
+                delete={handleDelete}
               />
             ))}
             <Button
               variant="outline-secondary"
-              onClick={handleKeyPressSave}
+              onClick={handleSave}
               id="button-addon2"
             >
               Salvar em .txt
             </Button>
             <Button
               variant="outline-secondary"
-              onClick={handleKeyPressSave}
+              onClick={handleSave}
               id="button-addon2"
             >
-              {/* <a href="http://localhost:8080/C:/settings.txt" download='teste nome'>Download</a> */}
               Download
             </Button>
-
-            {/* <input
-                type="button"
-                value="aberte enter parar salvar"
-                // onChange={handleChange}
-                onClick={handleKeyPressSave}
-              /> */}
           </>
         </main>
       }
@@ -196,9 +182,9 @@ const Produto = () => {
   );
 };
 
-Produto.propTypes = {
+Bip.propTypes = {
   nome: PropTypes.string,
   descricao: PropTypes.string,
 };
 
-export default Produto;
+export default Bip;

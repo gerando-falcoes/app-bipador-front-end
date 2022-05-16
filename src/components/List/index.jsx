@@ -15,7 +15,7 @@ Post.propTypes = {
   nome: PropTypes.string,
   preco: PropTypes.string,
   quantidade: PropTypes.number,
-  delet: PropTypes.func,
+  delete: PropTypes.func,
   index: PropTypes.number,
 };
 
