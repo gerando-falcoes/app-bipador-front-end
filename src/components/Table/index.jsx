@@ -26,7 +26,7 @@ const Table = ({ data }) => {
         <div className={style.delete_button}>
           <button
             type="button"
-            onClick={data.delet}
+            onClick={data.delete}
             value={data.index}
             className="btn btn-danger"
           >
