@@ -2,21 +2,27 @@ import PropTypes from "prop-types";
 import Table from "../Table";
 import "../List/List.css";
 
-const Post = (props) => {
+const Post = ({posts, onDelete}) => {
   return (
     <article className="list">
-      <Table data={props} />
+      <Table 
+        posts={posts}
+        onDelete={onDelete}
+      />
     </article>
-  );
-};
+  )
+}
 
 Post.propTypes = {
-  id: PropTypes.string,
-  nome: PropTypes.string,
-  preco: PropTypes.string,
-  quantidade: PropTypes.number,
-  delete: PropTypes.func,
-  index: PropTypes.number,
+  posts: PropTypes.arrayOf(PropTypes.shape({
+    id_produto: PropTypes.string.isRequired,
+    nome: PropTypes.string.isRequired,
+    preco: PropTypes.number.isRequired,
+    quantidade: PropTypes.number.isRequired,
+  })),
+
+  onDelete: PropTypes.func.isRequired,
+
 };
 
-export default Post;
+export default Post
