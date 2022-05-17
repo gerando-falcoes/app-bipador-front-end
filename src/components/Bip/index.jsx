@@ -97,9 +97,9 @@ const Bip = () => {
           const alterarQuantidade = resp.data;
           alterarQuantidade.quantidade = amount;
           const items = JSON.parse(localStorage.getItem("Produto") || '')
-          const item = items.find(element => element.id_produto == e.target.value);
+          const item = items.find(element => element.id_produto === e.target.value);
           if (item) {
-            const foundIndex = items.findIndex(x => x.id_produto == item.id_produto);
+            const foundIndex = items.findIndex(x => x.id_produto === item.id_produto);
             item.quantidade = Number(item.quantidade) + Number(amount);
             items[foundIndex] = item;
             setPosts(items);
