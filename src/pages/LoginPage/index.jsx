@@ -30,6 +30,7 @@ const LoginPage = () => {
                         <option value="13">SAIDA POÁ</option>
                         <option value="14">SAIDA SUZANO</option>
                         <option value="15">SAIDA EUCALIPTOS</option>
+                        <option value="16">ENTRADA PJ</option>
                         {/* <option value="1">INVENTÁRIO CD</option>
                         <option value="2">INVENTÁRIO LOJA POA </option>
                         <option value="3">INVENTÁRIO E_COMMERCE</option>
