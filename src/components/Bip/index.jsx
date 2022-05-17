@@ -7,7 +7,7 @@ import "../Bip/Bip.css";
 import { InputGroup, Button, FormControl } from "react-bootstrap";
 const Bip = () => {
   const [amount, setAmount] = useState(1);
-  const [code, setCode] = useState();
+  const [code, setCode] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
 
   const { pathname } = window.location;
