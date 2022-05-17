@@ -94,17 +94,17 @@ const Bip = () => {
         .get(`/produto/${value}`)
         .then((resp) => {
           const alterarQuantidade = resp.data
-          let isNewProduct = true;
-          alterarQuantidade.quantidade = amount;
-          const items = JSON.parse(localStorage.getItem('Produto') || '');
+          let isNewProduct = true
+          alterarQuantidade.quantidade = amount
+          const items = JSON.parse(localStorage.getItem('Produto') || '')
           items.map((item, index) => {
             if (item.id_produto === e.target.value) {
-              items[index].quantidade = Number(items[index].quantidade) + Number(amount);
-              setPosts(items);
-              isNewProduct = false;
+              items[index].quantidade = Number(items[index].quantidade) + Number(amount)
+              setPosts(items)
+              isNewProduct = false
             }
           })
-          isNewProduct && setPosts((dados) => [...dados, resp.data]);
+          isNewProduct && setPosts((dados) => [...dados, resp.data])
           setCode('')
         })
         .catch((err) => {
