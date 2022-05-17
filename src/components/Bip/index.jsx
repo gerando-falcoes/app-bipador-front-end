@@ -84,8 +84,14 @@ const Bip = () => {
 
   const onChangeCode = async (e) => {
     const value = e.target.value
-    setCode(value)
     setIsDisabled(true)
+    if (!amount) {
+      setIsDisabled(false)
+      setCode('')
+      alert('Insira a quantidade primeiro.')
+      return
+    }
+    setCode(value)
 
     if (value?.length === 12) {
       // 12 porque o codigo de barras tem tamanho de 12 no banco
@@ -129,6 +135,7 @@ const Bip = () => {
               <br />
               <FormControl
                 type="number"
+                required
                 min="1"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
@@ -145,6 +152,7 @@ const Bip = () => {
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
                 onChange={onChangeCode}
+                required
                 disabled={isDisabled}
               />
               <Button variant="outline-secondary" onClick={handleSave} id="button-addon2">
