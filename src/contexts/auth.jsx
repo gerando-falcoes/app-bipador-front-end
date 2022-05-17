@@ -85,7 +85,7 @@ export const AuthProvider = ({ children }) => {
         }else if (category === '15' && password === "tamojunto") {
             setUser(loggedUser)
             navigate('/bip/' + category + '/' + name)
-        }else if (category === '16' && password === "1234") {
+        }else if (category === '16' && password === "tamojunto") {
             setUser(loggedUser)
             navigate('/bip/' + category + '/' + name)
         }
