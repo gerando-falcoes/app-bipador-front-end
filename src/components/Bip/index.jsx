@@ -131,7 +131,6 @@ const Bip = () => {
               <FormControl
                 type="number"
                 min="1"
-                defaultValue="1"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 aria-describedby="basic-addon2"

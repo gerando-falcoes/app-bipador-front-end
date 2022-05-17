@@ -9,7 +9,7 @@ const Table = ({posts, onDelete}) => {
       {posts.map((product, index) => {
         totalProducts += Number(product.quantidade)
         return (
-          <div className={style.table}>           
+          <div className={style.table} key={product.id_produto}>           
             <div className={style.section}>
               <div className={style.title}>Code</div>
               <div className={style.value}>{product.id_produto}</div>
@@ -55,7 +55,7 @@ Table.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.shape({
     id_produto: PropTypes.string.isRequired,
     nome: PropTypes.string.isRequired,
-    preco: PropTypes.string.isRequired,
+    preco: PropTypes.number.isRequired,
     quantidade: PropTypes.number.isRequired,
   })),
 

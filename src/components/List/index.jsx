@@ -17,7 +17,7 @@ Post.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.shape({
     id_produto: PropTypes.string.isRequired,
     nome: PropTypes.string.isRequired,
-    preco: PropTypes.string.isRequired,
+    preco: PropTypes.number.isRequired,
     quantidade: PropTypes.number.isRequired,
   })),
 
