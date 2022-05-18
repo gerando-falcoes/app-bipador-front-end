@@ -82,6 +82,7 @@ const Bip = () => {
     localStorage.setItem('Produto', JSON.stringify(posts))
   }, [posts])
 
+
   const onChangeCode = async (e) => {
     const value = e.target.value
     setCode(value)
