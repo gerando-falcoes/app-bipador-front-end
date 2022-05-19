@@ -1,4 +1,8 @@
 import React, { useContext } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 import {
     BrowserRouter as Router,
     Route,
@@ -35,6 +39,17 @@ const AppRouter = () => {
                     <Route exact path="/bip/:id/:name" element={ <Private><Bipador /></Private>} />
                 </Routes>
             </AuthProvider>
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </Router>
 
     )

@@ -1,5 +1,6 @@
 import React, { useState, createContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 // import {api, createSessions} from '../services/api'
 export const AuthContext = createContext();
@@ -89,7 +90,7 @@ export const AuthProvider = ({ children }) => {
         }else if (category === '16' && password === "tamojunto") {
             setUser(loggedUser)
             navigate('/bip/' + category + '/' + name)
-        } else alert('Dados de login ou categoria incorreta.')
+        } else toast.error("Dados de login ou categoria incorreta.")
 
     }
 
