@@ -1,5 +1,6 @@
 import React, { useState, createContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+
 // import {api, createSessions} from '../services/api'
 export const AuthContext = createContext();
 
@@ -88,9 +89,10 @@ export const AuthProvider = ({ children }) => {
         }else if (category === '16' && password === "tamojunto") {
             setUser(loggedUser)
             navigate('/bip/' + category + '/' + name)
-        }
+        } else alert('Dados de login ou categoria incorreta.')
 
     }
+
     const logout = (email, password, category) => {
         console.log('logout')
         localStorage.removeItem('user')
@@ -122,7 +124,7 @@ export const AuthProvider = ({ children }) => {
             navigate('/bip/' + category + '/' + name)
         } else if (category === '10' && password === "tamojunto") {
             navigate('/bip/' + category + '/' + name)
-        } 
+        }
 
     }
     return (
