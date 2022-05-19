@@ -75,7 +75,7 @@ const Bip = () => {
       setIsDisabled(false)
       setCode('')
       //alert('Insira a quantidade primeiro.')
-      toast.warn("Insira a quantidade primeiro.")
+      toast.error("Insira a quantidade primeiro.")
       return
     }
     setCode(value)
