@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
         console.log('login auth', { email, password, category });
         const name = JSON.stringify(email).split('@gerandofalcoes.com').join('').replaceAll('.', '-').replaceAll('"', '')
         // console.log(nome);
-        //api criar uma session
+        // api criar uma session
         // const response = await createSessions(email, password);
         // console.log('login auth', response.data);
 
@@ -71,29 +71,29 @@ export const AuthProvider = ({ children }) => {
         } else if (category === '10' && password === "tamojunto") {
             setUser(loggedUser)
             navigate('/bip/' + category + '/' + name)
-        }else if (category === '11' && password === "tamojunto") {
+        } else if (category === '11' && password === "tamojunto") {
             setUser(loggedUser)
             navigate('/bip/' + category + '/' + name)
-        }else if (category === '12' && password === "tamojunto") {
+        } else if (category === '12' && password === "tamojunto") {
             setUser(loggedUser)
             navigate('/bip/' + category + '/' + name)
-        }else if (category === '13' && password === "tamojunto") {
+        } else if (category === '13' && password === "tamojunto") {
             setUser(loggedUser)
             navigate('/bip/' + category + '/' + name)
-        }else if (category === '14' && password === "tamojunto") {
+        } else if (category === '14' && password === "tamojunto") {
+           setUser(loggedUser)
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '15' && password === "tamojunto") {
             setUser(loggedUser)
             navigate('/bip/' + category + '/' + name)
-        }else if (category === '15' && password === "tamojunto") {
-            setUser(loggedUser)
-            navigate('/bip/' + category + '/' + name)
-        }else if (category === '16' && password === "tamojunto") {
+        } else if (category === '16' && password === "tamojunto") {
             setUser(loggedUser)
             navigate('/bip/' + category + '/' + name)
         } else alert('Dados de login ou categoria incorreta.')
 
     }
 
-    const logout = (email, password, category) => {
+    const logout = () => {
         console.log('logout')
         localStorage.removeItem('user')
         localStorage.removeItem('Produto')
@@ -138,6 +138,7 @@ export const AuthProvider = ({ children }) => {
             navigate('/bip/' + category + '/' + name)
         }
     }
+    
     return (
         <AuthContext.Provider value={{ authenticated: !!user, user, loading, login, logout, redirectBip }}>
             {children}
