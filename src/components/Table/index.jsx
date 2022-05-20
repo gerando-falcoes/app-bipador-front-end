@@ -1,8 +1,28 @@
-import React from "react";
+import {React, useState} from "react";
 import PropTypes from "prop-types";
 import style from "./table.module.css";
+import DeleteConfirmation from "../DeleteConfirmation";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+
 
 const Table = ({posts, onDelete}) => {
+  
+  const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false);
+
+  const showModal = () => {
+    setDisplayConfirmationModal(true)
+  }
+
+  const hideConfirmationModal = () => {
+    setDisplayConfirmationModal(false);
+  }
+
+  const confirmDeleteModal = ({index}) => {
+    onDelete(index)
+    hideConfirmationModal()
+  }
+
   let totalProducts = 0;
   return (
     <> 
@@ -31,11 +51,18 @@ const Table = ({posts, onDelete}) => {
               <div className={style.delete_button}>
                 <button
                   type="button"
-                  onClick={() => onDelete(index)}
+                  onClick={() => showModal()}
                   className="btn btn-danger"
                 >
                   <img src="/images/trash.svg" alt="delete icon" />
                 </button>
+                <DeleteConfirmation
+                  showModal={displayConfirmationModal} 
+                  confirmModal={onDelete} 
+                  hideModal={hideConfirmationModal}
+                  index={index}
+                  message={'Você está excluindo o produto ' + posts[index].nome + '. Tem certeza?'}
+                />
               </div>
             </div>
           </div>  
