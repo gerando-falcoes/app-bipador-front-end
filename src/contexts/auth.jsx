@@ -124,8 +124,19 @@ export const AuthProvider = ({ children }) => {
             navigate('/bip/' + category + '/' + name)
         } else if (category === '10' && password === "tamojunto") {
             navigate('/bip/' + category + '/' + name)
+        } else if (category === '11' && password === "tamojunto") {
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '12' && password === "tamojunto") {
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '13' && password === "tamojunto") {
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '14' && password === "tamojunto") {
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '15' && password === "tamojunto") {
+            navigate('/bip/' + category + '/' + name)
+        } else if (category === '16' && password === "tamojunto") {
+            navigate('/bip/' + category + '/' + name)
         }
-
     }
     return (
         <AuthContext.Provider value={{ authenticated: !!user, user, loading, login, logout, redirectBip }}>
