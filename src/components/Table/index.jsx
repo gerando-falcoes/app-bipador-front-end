@@ -8,21 +8,25 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const Table = ({posts, onDelete}) => {
   
-  const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false);
+  const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false)
+  const [index, setIndex] = useState('')
+  const [name, setName] = useState('')
 
-  const showModal = () => {
+  const startModal = (index) => {
     setDisplayConfirmationModal(true)
+    setIndex(index)
+    setName(posts[index].nome)
+  }
+
+  const confirmDelete = (index) => {
+    onDelete(index)
+    setDisplayConfirmationModal(false)
   }
 
   const hideConfirmationModal = () => {
     setDisplayConfirmationModal(false);
   }
-
-  const confirmDeleteModal = ({index}) => {
-    onDelete(index)
-    hideConfirmationModal()
-  }
-
+  
   let totalProducts = 0;
   return (
     <> 
@@ -51,28 +55,28 @@ const Table = ({posts, onDelete}) => {
               <div className={style.delete_button}>
                 <button
                   type="button"
-                  onClick={() => showModal()}
+                  onClick={() => startModal(index)}
                   className="btn btn-danger"
                 >
                   <img src="/images/trash.svg" alt="delete icon" />
                 </button>
-                <DeleteConfirmation
-                  showModal={displayConfirmationModal} 
-                  confirmModal={onDelete} 
-                  hideModal={hideConfirmationModal}
-                  index={index}
-                  message={'Você está excluindo o produto ' + posts[index].nome + '. Tem certeza?'}
-                />
               </div>
             </div>
-          </div>  
+          </div>
         )
         })}
         <div className={style.table}>
           <div className={style.section}>
             <div className={`${style.total_products} text-center`}>Total de Produtos: {totalProducts}</div>
           </div>
-        </div>    
+        </div>
+        <DeleteConfirmation
+          showModal={displayConfirmationModal} 
+          confirmModal={confirmDelete} 
+          hideModal={hideConfirmationModal}
+          index={index}
+          message={'Você está excluindo o produto ' + name + '. Tem certeza?'}
+        />
     </>
   );
 };
