@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import api from '../../services/api'
 import Post from '../List'
 import '../Bip/Bip.css'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { InputGroup, Button, FormControl } from 'react-bootstrap'
 const Bip = () => {
@@ -61,23 +63,6 @@ const Bip = () => {
   }, [])
   const list = [...posts] //list eu uso para fazer alteração no post de produtos quero fazer um delete
 
-  const handleSave = async (e) => {
-    // salvar em txt
-    try {
-      const resp = await api.post(`/produto/${url}/${posts}`, posts)
-      alert(
-        'Arquivo salvo com sucesso! \n statusText: ' +
-          resp.statusText +
-          ' \n Status: ' +
-          resp.status
-      )
-      setPosts([])
-    } catch (error) {
-      const err = { message: 'Algo deu errado!' }
-      alert(err.message)
-    }
-  }
-
   useEffect(() => {
     localStorage.setItem('Produto', JSON.stringify(posts))
   }, [posts])
@@ -85,8 +70,14 @@ const Bip = () => {
 
   const onChangeCode = async (e) => {
     const value = e.target.value
-    setCode(value)
     setIsDisabled(true)
+    if (!amount) {
+      setIsDisabled(false)
+      setCode('')
+      toast.error("Insira a quantidade primeiro.")
+      return
+    }
+    setCode(value)
 
     if (value?.length === 12) {
       // 12 porque o codigo de barras tem tamanho de 12 no banco
@@ -110,14 +101,31 @@ const Bip = () => {
         })
         .catch((err) => {
           setCode('')
-          alert('Produto não encontrado')
+          toast.error('Produto não encontrado.')
         })
     }
     setIsDisabled(false)
   }
+
   const handleDelete = (index) => {
     list.splice(index, 1)
     setPosts(list)
+  }
+
+  const handleSave = async (e) => {
+    // salvar em txt
+    if (!posts.length) {
+      toast.error('Adicione pelo menos um produto.')
+      return
+    }
+    try {
+      const resp = await api.post(`/produto/${url}/${posts}`, posts)
+      setPosts([])
+      toast.success("Arquivo salvo com sucesso!")
+    } catch (error) {
+        const err = { message: 'Algo deu errado!' }
+        toast.error(err.message)
+    }
   }
 
   return (

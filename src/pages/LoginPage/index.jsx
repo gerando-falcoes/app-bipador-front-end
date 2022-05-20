@@ -49,7 +49,7 @@ const LoginPage = () => {
                     <input type="email" className="email" id="email" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div className="field">
-                    <label htmlFor="password" className="password">senha</label>
+                    <label htmlFor="password" className="password">Senha</label>
                     <input type="password" className="password" id="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
                 <div className="action">
