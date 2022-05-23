@@ -1,21 +1,19 @@
 import {React, useState} from "react";
 import PropTypes from "prop-types";
 import style from "./table.module.css";
-import DeleteConfirmation from "../DeleteConfirmation";
-import "bootstrap/dist/css/bootstrap.min.css";
-
+import DeleteModal from "../DeleteModal";
 
 
 const Table = ({posts, onDelete}) => {
   
   const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false)
-  const [index, setIndex] = useState('')
-  const [name, setName] = useState('')
+  const [productIndex, setProductIndex] = useState('')
+  const [productName, setProductName] = useState('')
 
   const startModal = (index) => {
     setDisplayConfirmationModal(true)
-    setIndex(index)
-    setName(posts[index].nome)
+    setProductIndex(index)
+    setProductName(posts[index].nome)
   }
 
   const confirmDelete = (index) => {
@@ -70,12 +68,12 @@ const Table = ({posts, onDelete}) => {
             <div className={`${style.total_products} text-center`}>Total de Produtos: {totalProducts}</div>
           </div>
         </div>
-        <DeleteConfirmation
+        <DeleteModal
           showModal={displayConfirmationModal} 
           confirmModal={confirmDelete} 
           hideModal={hideConfirmationModal}
-          index={index}
-          message={'Você está excluindo o produto ' + name + '. Tem certeza?'}
+          index={productIndex}
+          message={'Você está excluindo o produto ' + productName + '. Tem certeza?'}
         />
     </>
   );
