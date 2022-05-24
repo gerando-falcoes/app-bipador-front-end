@@ -13,11 +13,8 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const recovereUser = localStorage.getItem('user')
-    // const token = localStorage.getItem('token')
-    // if (recovereUser && token) {
     if (recovereUser) {
       setUser(JSON.parse(recovereUser))
-      // api.defaults.headers.Authorization = `Bearer ${token}`
     }
     setLoading(false)
   }, [])
@@ -25,7 +22,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password, category) => {
     console.log('login auth', { email, password, category })
     console.log(email)
-    const [name, company] = email.split('@')
+    const [name] = email.split('@')
     try {
       await api.post('/users/login', { email, password })
       const loggedUser = {
@@ -34,8 +31,6 @@ export const AuthProvider = ({ children }) => {
         category,
       }
       localStorage.setItem('user', JSON.stringify(loggedUser))
-      // localStorage.setItem('token', token)
-      // api.defaults.headers.Authorization = `Bearer ${token}`
       setUser(loggedUser)
       navigate('/bip/' + category + '/' + name)
     } catch (err) {
@@ -53,33 +48,8 @@ export const AuthProvider = ({ children }) => {
     navigate('/login')
   }
   const redirectBip = async (email, password, category) => {
-    console.log('login auth', { email, password, category })
-    const name = JSON.stringify(email)
-      .split('@gerandofalcoes.com')
-      .join('')
-      .replaceAll('.', '-')
-      .replaceAll('"', '')
-    if (category === '1' && password === 'tamojunto') {
-      navigate('/bip/' + category + '/' + name)
-    } else if (category === '2' && password === 'vaikida') {
-      navigate('/bip/' + category + '/' + name)
-    } else if (category === '3' && password === 'ehnois') {
-      navigate('/bip/' + category + '/' + name)
-    } else if (category === '4' && password === 'trabalhoduro') {
-      navigate('/bip/' + category + '/' + name)
-    } else if (category === '5' && password === '123') {
-      navigate('/bip/' + category + '/' + name)
-    } else if (category === '6' && password === 'tamojunto') {
-      navigate('/bip/' + category + '/' + name)
-    } else if (category === '7' && password === 'tamojunto') {
-      navigate('/bip/' + category + '/' + name)
-    } else if (category === '8' && password === 'tamojunto') {
-      navigate('/bip/' + category + '/' + name)
-    } else if (category === '9' && password === 'tamojunto') {
-      navigate('/bip/' + category + '/' + name)
-    } else if (category === '10' && password === 'tamojunto') {
-      navigate('/bip/' + category + '/' + name)
-    }
+    const [name] = email.split('@')
+    navigate('/bip/' + category + '/' + name)
   }
   return (
     <AuthContext.Provider
