@@ -23,6 +23,11 @@ export const AuthProvider = ({ children }) => {
     console.log('login auth', { email, password, category })
     console.log(email)
     const [name] = email.split('@')
+    if (!category) {
+      toast.error('Dados de login ou categoria incorreta.')
+      return
+    }
+
     try {
       await api.post('/users/login', { email, password })
       const loggedUser = {
