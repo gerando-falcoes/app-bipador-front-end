@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import api from '../../services/api'
 import Post from '../List'
 import '../Bip/Bip.css'
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import { InputGroup, Button, FormControl } from 'react-bootstrap'
 const Bip = () => {
@@ -67,14 +67,13 @@ const Bip = () => {
     localStorage.setItem('Produto', JSON.stringify(posts))
   }, [posts])
 
-
   const onChangeCode = async (e) => {
     const value = e.target.value
     setIsDisabled(true)
     if (!amount) {
       setIsDisabled(false)
       setCode('')
-      toast.error("Insira a quantidade primeiro.")
+      toast.error('Insira a quantidade primeiro.')
       return
     }
     setCode(value)
@@ -86,17 +85,17 @@ const Bip = () => {
         .get(`/produtos/${value}`)
         .then((resp) => {
           const alterarQuantidade = resp.data
-          let isNewProduct = true;
-          alterarQuantidade.quantidade = amount;
-          const items = JSON.parse(localStorage.getItem('Produto') || '');
+          let isNewProduct = true
+          alterarQuantidade.quantidade = amount
+          const items = JSON.parse(localStorage.getItem('Produto') || '')
           items.map((item, index) => {
             if (item.id_produto === e.target.value) {
-              items[index].quantidade = Number(items[index].quantidade) + Number(amount);
-              setPosts(items);
-              isNewProduct = false;
+              items[index].quantidade = Number(items[index].quantidade) + Number(amount)
+              setPosts(items)
+              isNewProduct = false
             }
           })
-          isNewProduct && setPosts((dados) => [...dados, resp.data]);
+          isNewProduct && setPosts((dados) => [...dados, resp.data])
           setCode('')
         })
         .catch((err) => {
@@ -121,10 +120,10 @@ const Bip = () => {
     try {
       const resp = await api.post(`/produtos/${url}/${posts}`, posts)
       setPosts([])
-      toast.success("Arquivo salvo com sucesso!")
+      toast.success('Arquivo salvo com sucesso!')
     } catch (error) {
-        const err = { message: 'Algo deu errado!' }
-        toast.error(err.message)
+      const err = { message: 'Algo deu errado!' }
+      toast.error(err.message)
     }
   }
 
