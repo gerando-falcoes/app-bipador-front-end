@@ -83,7 +83,7 @@ const Bip = () => {
       // 12 porque o codigo de barras tem tamanho de 12 no banco
 
       await api
-        .get(`/produto/${value}`)
+        .get(`/produtos/${value}`)
         .then((resp) => {
           const alterarQuantidade = resp.data
           let isNewProduct = true;
@@ -119,7 +119,7 @@ const Bip = () => {
       return
     }
     try {
-      const resp = await api.post(`/produto/${url}/${posts}`, posts)
+      const resp = await api.post(`/produtos/${url}/${posts}`, posts)
       setPosts([])
       toast.success("Arquivo salvo com sucesso!")
     } catch (error) {
