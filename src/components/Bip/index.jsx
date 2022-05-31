@@ -7,12 +7,16 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { InputGroup, Button, FormControl } from 'react-bootstrap'
+import SaveConfirmation from '../SaveModal'
+
 const Bip = () => {
   const [amount, setAmount] = useState(1)
   const [code, setCode] = useState('')
   const [isDisabled, setIsDisabled] = useState(false)
 
   const { pathname } = window.location
+  
+  const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false)
 
   const nomeRetirar = JSON.stringify(pathname)
     .replaceAll('"', '')
@@ -53,6 +57,19 @@ const Bip = () => {
   const url = `${unidade}/${nomeFuncionario}`
 
   const [posts, setPosts] = useState([])
+
+  const startModal = () => {
+    setDisplayConfirmationModal(true)
+  }
+
+  const confirmSave = () => {
+    handleSave()
+    setDisplayConfirmationModal(false)
+  }
+
+  const hideConfirmationModal = () => {
+    setDisplayConfirmationModal(false);
+  }
 
   useEffect(() => {
     const recoverePost = localStorage.getItem('Produto')
@@ -155,20 +172,43 @@ const Bip = () => {
                 onChange={onChangeCode}
                 disabled={isDisabled}
               />
-              <Button variant="outline-secondary" onClick={handleSave} id="button-addon2">
+              <Button variant="outline-secondary" 
+                onClick={() => {
+                  if (!posts.length) {
+                    toast.error('Adicione pelo menos um produto.')
+                    return 
+                  }
+                  startModal()}}
+              id="button-addon2">
                 Salvar em .txt
               </Button>
             </InputGroup>
           </div>
           <>
-            <Post posts={posts} onDelete={handleDelete} />
-            <Button variant="outline-secondary" onClick={handleSave} id="button-addon2">
+            <Post   
+              posts={posts}            
+              onDelete={handleDelete} 
+            />
+            <Button variant="outline-secondary" 
+              onClick={() => {
+                if (!posts.length) {
+                  toast.error('Adicione pelo menos um produto.')
+                  return 
+                }
+                startModal()}}
+            id="button-addon2">
               Salvar em .txt
             </Button>
             <Button variant="outline-secondary" onClick={handleSave} id="button-addon2">
               Download
             </Button>
           </>
+          <SaveConfirmation 
+              showModal={displayConfirmationModal} 
+              confirmModal={confirmSave} 
+              hideModal={hideConfirmationModal}
+              posts={posts}
+          />
         </main>
       }
     </>
