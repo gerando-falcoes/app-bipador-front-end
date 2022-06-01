@@ -7,12 +7,16 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { InputGroup, Button, FormControl } from 'react-bootstrap'
+import SaveConfirmation from '../SaveModal'
+
 const Bip = () => {
   const [amount, setAmount] = useState(1)
   const [code, setCode] = useState('')
   const [isDisabled, setIsDisabled] = useState(false)
 
   const { pathname } = window.location
+  
+  const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false)
 
   const nomeRetirar = JSON.stringify(pathname)
     .replaceAll('"', '')
@@ -53,6 +57,23 @@ const Bip = () => {
   const url = `${unidade}/${nomeFuncionario}`
 
   const [posts, setPosts] = useState([])
+
+  const startModal = () => {
+    if (!posts.length) {
+      toast.error('Adicione pelo menos um produto.')
+      return 
+    }
+    setDisplayConfirmationModal(true)
+  }
+
+  const onHideModal = () => {
+    setDisplayConfirmationModal(false);
+  }
+  
+  const onConfirmSave = () => {
+    handleSave()
+    onHideModal()
+  }
 
   useEffect(() => {
     const recoverePost = localStorage.getItem('Produto')
@@ -155,20 +176,33 @@ const Bip = () => {
                 onChange={onChangeCode}
                 disabled={isDisabled}
               />
-              <Button variant="outline-secondary" onClick={handleSave} id="button-addon2">
+              <Button variant="outline-secondary" 
+                onClick={startModal}
+              id="button-addon2">
                 Salvar em .txt
               </Button>
             </InputGroup>
           </div>
           <>
-            <Post posts={posts} onDelete={handleDelete} />
-            <Button variant="outline-secondary" onClick={handleSave} id="button-addon2">
+            <Post   
+              posts={posts}            
+              onDelete={handleDelete} 
+            />
+            <Button variant="outline-secondary" 
+              onClick={startModal}
+            id="button-addon2">
               Salvar em .txt
             </Button>
             <Button variant="outline-secondary" onClick={handleSave} id="button-addon2">
               Download
             </Button>
           </>
+          <SaveConfirmation 
+              onShowModal={displayConfirmationModal} 
+              onConfirmModal={onConfirmSave} 
+              onHideModal={onHideModal}
+              posts={posts}
+          />
         </main>
       }
     </>

@@ -55,5 +55,6 @@
   .delete_button {
     display: flex;
     justify-content: center;
+    height: 50%;
   }
 }
