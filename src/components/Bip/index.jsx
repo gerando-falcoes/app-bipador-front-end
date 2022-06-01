@@ -16,7 +16,7 @@ const Bip = () => {
 
   const { pathname } = window.location
   
-  const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false)
+  const [onDisplayConfirmationModal, setDisplayConfirmationModal] = useState(false)
 
   const nomeRetirar = JSON.stringify(pathname)
     .replaceAll('"', '')
@@ -59,16 +59,20 @@ const Bip = () => {
   const [posts, setPosts] = useState([])
 
   const startModal = () => {
+    if (!posts.length) {
+      toast.error('Adicione pelo menos um produto.')
+      return 
+    }
     setDisplayConfirmationModal(true)
   }
 
-  const confirmSave = () => {
-    handleSave()
-    setDisplayConfirmationModal(false)
-  }
-
-  const hideConfirmationModal = () => {
+  const onHideModal = () => {
     setDisplayConfirmationModal(false);
+  }
+  
+  const onConfirmSave = () => {
+    handleSave()
+    onHideModal()
   }
 
   useEffect(() => {
@@ -173,12 +177,7 @@ const Bip = () => {
                 disabled={isDisabled}
               />
               <Button variant="outline-secondary" 
-                onClick={() => {
-                  if (!posts.length) {
-                    toast.error('Adicione pelo menos um produto.')
-                    return 
-                  }
-                  startModal()}}
+                onClick={startModal}
               id="button-addon2">
                 Salvar em .txt
               </Button>
@@ -190,12 +189,7 @@ const Bip = () => {
               onDelete={handleDelete} 
             />
             <Button variant="outline-secondary" 
-              onClick={() => {
-                if (!posts.length) {
-                  toast.error('Adicione pelo menos um produto.')
-                  return 
-                }
-                startModal()}}
+              onClick={startModal}
             id="button-addon2">
               Salvar em .txt
             </Button>
@@ -204,9 +198,9 @@ const Bip = () => {
             </Button>
           </>
           <SaveConfirmation 
-              showModal={displayConfirmationModal} 
-              confirmModal={confirmSave} 
-              hideModal={hideConfirmationModal}
+              showModal={onDisplayConfirmationModal} 
+              confirmModal={onConfirmSave} 
+              hideModal={onHideModal}
               posts={posts}
           />
         </main>
