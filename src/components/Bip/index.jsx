@@ -16,7 +16,7 @@ const Bip = () => {
 
   const { pathname } = window.location
   
-  const [onDisplayConfirmationModal, setDisplayConfirmationModal] = useState(false)
+  const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false)
 
   const nomeRetirar = JSON.stringify(pathname)
     .replaceAll('"', '')
@@ -198,9 +198,9 @@ const Bip = () => {
             </Button>
           </>
           <SaveConfirmation 
-              showModal={onDisplayConfirmationModal} 
-              confirmModal={onConfirmSave} 
-              hideModal={onHideModal}
+              onShowModal={displayConfirmationModal} 
+              onConfirmModal={onConfirmSave} 
+              onHideModal={onHideModal}
               posts={posts}
           />
         </main>
