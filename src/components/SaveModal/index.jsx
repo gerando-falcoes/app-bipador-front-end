@@ -9,7 +9,7 @@ const SaveConfirmation = ({ showModal, hideModal, confirmModal, posts }) => {
           <Modal.Title>Relatório de produtos</Modal.Title>
         </Modal.Header>
         
-        <Modal.Body><div className="">
+        <Modal.Body><div className={style.scroll}>
           <Table striped bordered>
             <thead>
               <tr>
@@ -42,7 +42,7 @@ const SaveConfirmation = ({ showModal, hideModal, confirmModal, posts }) => {
           <Button variant="default" onClick={hideModal}>
             Editar
           </Button>
-          <Button variant="primary" onClick={() => confirmModal()}>
+          <Button variant="primary" onClick={confirmModal}>
             Salvar
           </Button>
         </Modal.Footer>
