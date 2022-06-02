@@ -20,8 +20,6 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   const login = async (email, password, category) => {
-    console.log('login auth', { email, password, category })
-    console.log(email)
     const [name] = email.split('@')
     if (!category) {
       toast.error('Dados de login ou categoria incorreta.')
@@ -39,13 +37,11 @@ export const AuthProvider = ({ children }) => {
       setUser(loggedUser)
       navigate('/bip/' + category + '/' + name)
     } catch (err) {
-      console.log(err)
       toast.error(err.message && 'Dados de login ou categoria incorreta.')
     }
   }
 
   const logout = (email, password, category) => {
-    console.log('logout')
     localStorage.removeItem('user')
     localStorage.removeItem('Produto')
     // api.defaults.headers.Authorization = null

@@ -22,7 +22,6 @@ const LoginPage = () => {
     const handlersSubmit = async (e) => {
 
         e.preventDefault();
-        console.log("enviar", { email, password });
         setIsSubmitButtonDisabled(true)
         await login(email, password, categoria)
         setIsSubmitButtonDisabled(false) // integração com meu contexto/api
