@@ -10,11 +10,15 @@ const LoginPage = () => {
     const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true)
 
   
+    const validateFields = () => {
+      if (categoria && email && password) {
+        setIsSubmitButtonDisabled(false)
+      } else setIsSubmitButtonDisabled(true)
+    }
+    
     useEffect(
       () => {
-        if (categoria && email && password) {
-          setIsSubmitButtonDisabled(false)
-        } else setIsSubmitButtonDisabled(true)
+        validateFields()
       },
       [categoria, email, password],
     )
