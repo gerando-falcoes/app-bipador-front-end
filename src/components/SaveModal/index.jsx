@@ -1,7 +1,7 @@
 import { Modal, Button, Table } from "react-bootstrap";
 import style from "./save.module.css";
  
-const SaveConfirmation = ({ onShowModal, onHideModal, onConfirmModal, posts }) => {
+const SaveConfirmation = ({ onShowModal, onHideModal, onConfirmModal, posts, isSaveButtonDisabled }) => {
   let totalProducts = 0;  
   return (
       <Modal show={onShowModal} onHide={onHideModal}>
@@ -42,7 +42,7 @@ const SaveConfirmation = ({ onShowModal, onHideModal, onConfirmModal, posts }) =
           <Button variant="default" onClick={onHideModal}>
             Editar
           </Button>
-          <Button variant="primary" onClick={onConfirmModal}>
+          <Button id="save-button" variant="primary" onClick={onConfirmModal} disabled={isSaveButtonDisabled}>
             Salvar
           </Button>
         </Modal.Footer>

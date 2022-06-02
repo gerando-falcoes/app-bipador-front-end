@@ -18,6 +18,8 @@ const Bip = () => {
   
   const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false)
 
+  const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false)
+
   const nomeRetirar = JSON.stringify(pathname)
     .replaceAll('"', '')
     .replaceAll('bip', '')
@@ -139,12 +141,15 @@ const Bip = () => {
       return
     }
     try {
+      setIsSaveButtonDisabled(true)
       const resp = await api.post(`/produtos/${url}/${posts}`, posts)
       setPosts([])
       toast.success('Arquivo salvo com sucesso!')
     } catch (error) {
       const err = { message: 'Algo deu errado!' }
       toast.error(err.message)
+    } finally {
+      setIsSaveButtonDisabled(false)
     }
   }
 
@@ -195,10 +200,11 @@ const Bip = () => {
             </Button>
           </>
           <SaveConfirmation 
-              onShowModal={displayConfirmationModal} 
-              onConfirmModal={onConfirmSave} 
-              onHideModal={onHideModal}
-              posts={posts}
+            onShowModal={displayConfirmationModal} 
+            onConfirmModal={onConfirmSave} 
+            onHideModal={onHideModal}
+            posts={posts}
+            isSaveButtonDisabled={isSaveButtonDisabled}
           />
         </main>
       }
