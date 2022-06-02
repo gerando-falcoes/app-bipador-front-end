@@ -23,7 +23,7 @@ const SaveConfirmation = ({ onShowModal, onHideModal, onConfirmModal, posts, isS
             {posts.map((product) => {
               totalProducts += Number(product.quantidade)
               return (
-                  <tr>
+                  <tr key={product.id_produto}>
                     <td >{product.id_produto}</td>
                     <td>{product.nome}</td>
                     <td>{product.preco}</td>
@@ -33,7 +33,9 @@ const SaveConfirmation = ({ onShowModal, onHideModal, onConfirmModal, posts, isS
             })}
             </tbody>
             <tfoot>
-            <td className={style.footer} colspan="4"><b>Total de Produtos:</b>{totalProducts}</td>
+            <tr>
+              <td className={style.footer} colSpan="4"><b>Total de Produtos:</b>{totalProducts}</td>
+            </tr>
             </tfoot>
           </Table>
 
@@ -42,7 +44,7 @@ const SaveConfirmation = ({ onShowModal, onHideModal, onConfirmModal, posts, isS
           <Button variant="default" onClick={onHideModal}>
             Editar
           </Button>
-          <Button id="save-button" variant="primary" onClick={onConfirmModal} disabled={isSaveButtonDisabled}>
+          <Button variant="primary" onClick={onConfirmModal} disabled={isSaveButtonDisabled}>
             Salvar
           </Button>
         </Modal.Footer>
