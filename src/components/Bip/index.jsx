@@ -193,9 +193,6 @@ const Bip = () => {
             id="button-addon2">
               Salvar em .txt
             </Button>
-            <Button variant="outline-secondary" onClick={handleSave} id="button-addon2">
-              Download
-            </Button>
           </>
           <SaveConfirmation 
               onShowModal={displayConfirmationModal} 
