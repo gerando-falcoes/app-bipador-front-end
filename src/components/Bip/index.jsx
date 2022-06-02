@@ -141,8 +141,8 @@ const Bip = () => {
       return
     }
     try {
-      setIsSaveButtonDisabled(true)
-      const resp = await api.post(`/produtos/${url}/${posts}`, posts)
+      const resp = await api.post(`/produtos/${url}`, posts)
+
       setPosts([])
       toast.success('Arquivo salvo com sucesso!')
     } catch (error) {
