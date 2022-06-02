@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { AuthContext } from '../../contexts/auth'
 import './LoginPage.css'
 
@@ -7,19 +7,33 @@ const LoginPage = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [categoria, setCategoria] = useState('')
+    const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true)
 
-
-    const handlersSubmit = (e) => {
+  
+    const validateFields = () => {
+      if (categoria && email && password) {
+        setIsSubmitButtonDisabled(false)
+      } else setIsSubmitButtonDisabled(true)
+    }
+    
+    useEffect(
+      () => {
+        validateFields()
+      },
+      [categoria, email, password],
+    )
+    
+    const handlersSubmit = async (e) => {
 
         e.preventDefault();
-        console.log("enviar", { email, password });
-        login(email, password, categoria) // integração com meu contexto/api
+        setIsSubmitButtonDisabled(true)
+        await login(email, password, categoria)
+        setIsSubmitButtonDisabled(false) // integração com meu contexto/api
     }
 
     return (
         <div id="login">
             <h1 className="title">Login Do Sistema</h1>
-            <p>{String(authenticated)}</p>
             <form className="form" onSubmit={handlersSubmit}>
                 <div className="field">
                     <label htmlFor=""  className="email">Categoria</label>
@@ -53,7 +67,7 @@ const LoginPage = () => {
                     <input type="password" className="password" id="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
                 <div className="action">
-                    <button type="submit">Entrar</button>
+                    <button type="submit" disabled={isSubmitButtonDisabled}>Entrar</button>
                 </div>
 
             </form>
