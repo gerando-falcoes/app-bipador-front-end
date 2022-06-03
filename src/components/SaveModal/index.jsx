@@ -34,7 +34,7 @@ const SaveConfirmation = ({ onShowModal, onHideModal, onConfirmModal, posts, isS
             </tbody>
             <tfoot>
             <tr>
-              <td className={style.footer} colSpan="4"><b>Total de Produtos:</b>{totalProducts}</td>
+              <td className={style.footer} colSpan="4"><b>Total de Produtos: </b>{totalProducts}</td>
             </tr>
             </tfoot>
           </Table>
