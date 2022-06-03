@@ -93,7 +93,7 @@ const Bip = () => {
   const onChangeCode = async (e) => {
     const value = e.target.value
     setIsDisabled(true)
-    if (!amount) {
+    if (!amount || amount <= 0) {
       setIsDisabled(false)
       setCode('')
       toast.error('Insira a quantidade primeiro.')
