@@ -165,7 +165,16 @@ const Bip = () => {
                 type="number"
                 min="1"
                 value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                onChange={(e) => {
+                  let value = e.target.value
+                  setAmount(() => {
+                    if (!!value && Math.abs(value) > 0) {
+                      return Math.abs(value)
+                    } else if (!!value && Math.abs(value) === 0) {
+                      return value = 1
+                    } else return null
+                  })
+                }}
                 aria-describedby="basic-addon2"
               />
             </InputGroup>
