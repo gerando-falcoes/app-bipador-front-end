@@ -1,15 +1,24 @@
 import { Modal, Button, Table } from "react-bootstrap";
 import style from "./save.module.css";
- 
-const SaveConfirmation = ({ onShowModal, onHideModal, onConfirmModal, posts, isSaveButtonDisabled }) => {
+import { InputGroup, FormControl } from 'react-bootstrap'
+
+
+const SaveConfirmation = ({ onShowModal, onHideModal, onConfirmModal, posts, isSaveButtonDisabled, onChangeNote, note }) => {
+  
   let totalProducts = 0;  
+  
+  const changeNote = (e) => {
+    onChangeNote(e.target.value)
+
+  }
+  
   return (
       <Modal show={onShowModal} onHide={onHideModal}>
         <Modal.Header closeButton>
           <Modal.Title>Relatório de produtos</Modal.Title>
         </Modal.Header>
         
-        <Modal.Body><div className={style.scroll}>
+        <Modal.Body><div className={style.body}>
           <Table striped bordered>
             <thead>
               <tr>
@@ -34,20 +43,33 @@ const SaveConfirmation = ({ onShowModal, onHideModal, onConfirmModal, posts, isS
             </tbody>
             <tfoot>
             <tr>
-              <td className={style.footer} colSpan="4"><b>Total de Produtos: </b>{totalProducts}</td>
+              <td className={style.tableFooter} colSpan="4"><b>Total de Produtos: </b>{totalProducts}</td>
             </tr>
             </tfoot>
           </Table>
 
         </div></Modal.Body>
-        <Modal.Footer>
-          <Button variant="default" onClick={onHideModal}>
-            Editar
-          </Button>
-          <Button variant="primary" onClick={onConfirmModal} disabled={isSaveButtonDisabled}>
-            Salvar
-          </Button>
-        </Modal.Footer>
+        <Modal.Footer><div className={style.modalFooter}>
+            <div className={style.modalInput}>
+              <InputGroup className={style.input}>
+                <FormControl
+                  type="text"
+                  placeholder="Observação do lote"
+                  value={note}
+                  onChange={changeNote}
+                />
+              </InputGroup>
+            </div>
+            <div className={style.modalButtons}>
+              <Button variant="default" onClick={onHideModal}>
+                Editar
+              </Button>
+              <Button variant="primary" onClick={onConfirmModal} disabled={isSaveButtonDisabled}>
+                Salvar
+              </Button>
+            </div>
+          
+          </div></Modal.Footer>
       </Modal>
     )
 }
