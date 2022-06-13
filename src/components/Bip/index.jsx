@@ -151,8 +151,7 @@ const Bip = () => {
     }
 
     try {
-      const resp = await api.post(`/produtos/${url}`, note)
-
+      await api.post(`/produtos/${unidade}/${note}`, posts)
       setPosts([])
       toast.success('Arquivo salvo com sucesso!')
     } catch (error) {
