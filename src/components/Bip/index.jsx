@@ -60,6 +60,12 @@ const Bip = () => {
 
   const [posts, setPosts] = useState([])
 
+  const [note, setNote] = useState('')
+
+  const onChangeNote = (valueNote) => {
+    setNote(valueNote)
+  }
+
   const startModal = () => {
     if (!posts.length) {
       toast.error('Adicione pelo menos um produto.')
@@ -139,9 +145,13 @@ const Bip = () => {
     if (!posts.length) {
       toast.error('Adicione pelo menos um produto.')
       return
+    } else if (note=='') {
+      toast.error('Adicione a observação de lote')
+      return
     }
+
     try {
-      const resp = await api.post(`/produtos/${url}`, posts)
+      const resp = await api.post(`/produtos/${url}`, note)
 
       setPosts([])
       toast.success('Arquivo salvo com sucesso!')
@@ -150,6 +160,7 @@ const Bip = () => {
       toast.error(err.message)
     } finally {
       setIsSaveButtonDisabled(false)
+      setNote('')
     }
   }
 
@@ -214,6 +225,8 @@ const Bip = () => {
             onHideModal={onHideModal}
             posts={posts}
             isSaveButtonDisabled={isSaveButtonDisabled}
+            onChangeNote={onChangeNote}
+            note={note}
           />
         </main>
       }
