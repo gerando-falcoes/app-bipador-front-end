@@ -48,7 +48,7 @@ const LoginPage = () => {
             <option value="15">SAIDA EUCALIPTOS</option>
             <option value="16">ENTRADA PJ</option>
             <option value="17">VENDA SELLERS </option>
-            <option value="18">SAÍDA E-COMERCE</option>
+            <option value="18">SAÍDA E-COMMERCE</option>
             {/* <option value="1">INVENTÁRIO CD</option>
                         <option value="2">INVENTÁRIO LOJA POA </option>
                         <option value="3">INVENTÁRIO E_COMMERCE</option>
