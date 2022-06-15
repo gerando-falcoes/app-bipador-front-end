@@ -1,8 +1,33 @@
-.scroll{
+.body{
   height: 65vh;
   overflow: scroll;
+  align-self: center;
 }
 
-.footer {
+.modalFooter {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+
+.modalInput {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.input{
+  width: 100%;
+}
+
+.tableFooter {
   text-align: center;
 }
