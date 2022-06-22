@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import React, { useContext } from 'react';
+import { AuthContext } from '../../contexts/auth';
 import PropTypes from 'prop-types'
 import api from '../../services/api'
 import Post from '../List'
@@ -61,6 +63,12 @@ const Bip = () => {
   const [posts, setPosts] = useState([])
 
   const [note, setNote] = useState('')
+
+  const { logout } = useContext(AuthContext)
+
+  const handleLogout = () => {
+      logout()
+  }
 
   const onChangeNote = (valueNote) => {
     setNote(valueNote)
@@ -216,6 +224,11 @@ const Bip = () => {
               onClick={startModal}
             id="button-addon2">
               Salvar em .txt
+            </Button>
+            <Button variant="outline-secondary" 
+                onClick={handleLogout}
+              id="button-addon2">
+                Logout
             </Button>
           </>
           <SaveConfirmation 
