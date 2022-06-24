@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { AuthContext } from '../../contexts/auth'
 import './LoginPage.css'
+import Logo from "./logo.svg"
 
 const LoginPage = () => {
   const { authenticated, login } = useContext(AuthContext)
@@ -28,20 +29,20 @@ const LoginPage = () => {
 
   return (
     <div id="login">
-      <h1 className="title">Login Do Sistema</h1>
       <form className="form" onSubmit={handlersSubmit}>
+        <img src={Logo} alt="Logo da Gerando Falcões"/>
+        
         <div className="field">
-          <label htmlFor="" className="email">
-            Categoria
-          </label>
           <select
             value={categoria}
+            className="category"
             onChange={(e) => setCategoria(e.target.value)}
             id="Categoria"
             name="Categoria"
+            placeholder='Categoria'
           >
-            <option> </option>
-            <option value="11">ENTRADA CD</option>
+            <option value="" disabled selected>Categoria</option>
+            <option value="11" >ENTRADA CD</option>
             <option value="12">SAIDA CENTER NORTE</option>
             <option value="13">SAIDA POÁ</option>
             <option value="14">SAIDA SUZANO</option>
@@ -62,27 +63,21 @@ const LoginPage = () => {
           </select>
         </div>
         <div className="field">
-          <label htmlFor="email" className="email">
-            Email
-          </label>
           <input
             type="email"
             className="email"
             id="email"
-            placeholder="email"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="field">
-          <label htmlFor="password" className="password">
-            Senha
-          </label>
           <input
             type="password"
             className="password"
             id="password"
-            placeholder="password"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

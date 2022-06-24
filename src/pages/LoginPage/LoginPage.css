@@ -1,29 +1,69 @@
-#login{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 0 2rem;
-}
-#login .form{
-    background-color: #f1f1f1;
-    width: 100%;
-    max-width: 480px;
-    padding: 0.5rem;
-}
-#login .field{
-    padding-bottom: 0.5rem;
+#login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 0 2rem;
 }
 
-#login .form label{
-    display: block;
+#login .form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f1f1f1;
+  width: 100%;
+  max-width: 480px;
+  padding: 0.5rem;
+  gap: 8px;
 }
 
-#login .form input{
-    width: 100%;
+#login .form img {
+  width: 60%;
+  padding: 1rem 0;
 }
-#login .action{
- text-align: center;
- margin-top: 0.5rem;
+
+#login .field {
+  padding-bottom: 0.5rem;
+  width: 80%;
+}
+
+#login .field select {
+  width: 100%;
+  padding: 4px 0px;
+  text-decoration: none;
+  
+}
+
+#login .form label {
+  display: block;
+}
+
+#login .form input {
+  width: 100%;
+  padding: 4px 0px;
+  outline: none;
+}
+
+#login .action {
+  width: 80%;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+#login .action button {
+  width: 100%;
+  border: none;
+  border-radius: 2px;
+  background-color: black;
+  color: white;
+  padding: 4px 0px;
+  transition: 0.4s ease-in-out;
+}
+
+#login .action button:disabled{
+  background-color:rgba(255, 255, 255, 0);
+  border: solid 1px rgb(194, 194, 194);
+  color: rgb(194, 194, 194);
 }
