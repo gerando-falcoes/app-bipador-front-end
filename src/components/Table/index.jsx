@@ -41,8 +41,8 @@ const Table = ({posts, onDelete}) => {
               <div className={style.value}>{product.nome}</div>
             </div>
             <div className={style.section}>
-              <div className={style.title}>Categoria</div>
-              <div className={style.value}>{product.category.name}</div>
+              <div className={style.title}>Setor</div>
+              <div className={style.value}>{product.setor.name}</div>
             </div>
             <div className={style.section}>
               <div className={style.title}>Preço</div>
