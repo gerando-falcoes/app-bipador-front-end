@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react'
+import React, { useContext } from 'react';
+import { AuthContext } from '../../contexts/auth';
 import PropTypes from 'prop-types'
 import api from '../../services/api'
 import Post from '../List'
-import '../Bip/Bip.css'
+import './Bip.css'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { InputGroup, Button, FormControl } from 'react-bootstrap'
 import SaveConfirmation from '../SaveModal'
+import LogoutModal from '../LogoutModal';
 
 const Bip = () => {
   const [amount, setAmount] = useState(1)
@@ -16,9 +19,12 @@ const Bip = () => {
 
   const { pathname } = window.location
   
-  const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false)
-
+  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false)
+  const [posts, setPosts] = useState([])
+  const [note, setNote] = useState('')
+  const { logout } = useContext(AuthContext)
 
   const nomeRetirar = JSON.stringify(pathname)
     .replaceAll('"', '')
@@ -58,29 +64,43 @@ const Bip = () => {
     .replaceAll('/', '')
   const url = `${unidade}/${nomeFuncionario}`
 
-  const [posts, setPosts] = useState([])
-
-  const [note, setNote] = useState('')
+  const handleLogout = () => {
+      setIsLogoutModalOpen(false)
+      logout()
+  }
 
   const onChangeNote = (valueNote) => {
     setNote(valueNote)
   }
 
-  const startModal = () => {
+  const startSaveModal = () => {
     if (!posts.length) {
       toast.error('Adicione pelo menos um produto.')
       return 
     }
-    setDisplayConfirmationModal(true)
+    setIsSaveModalOpen(true)
   }
 
-  const onHideModal = () => {
-    setDisplayConfirmationModal(false);
+  const startLogoutModal = () => {
+    if (posts.length !== 0) {
+      setIsLogoutModalOpen(true)
+    } else if (posts.length === 0) {
+      handleLogout()
+    }
+    
+  }
+
+  const onHideSaveModal = () => {
+    setIsSaveModalOpen(false)
+  }
+
+  const onHideLogoutModal = () => {
+    setIsLogoutModalOpen(false)
   }
   
   const onConfirmSave = () => {
     handleSave()
-    onHideModal()
+    onHideSaveModal()
   }
 
   useEffect(() => {
@@ -167,10 +187,16 @@ const Bip = () => {
     <>
       {
         <main className="container mt-3">
+          <div className="logoutButton">
+            <Button variant="outline-secondary" 
+              onClick={startLogoutModal}
+              id="button-addon2">
+                Logout
+            </Button>
+          </div>
           <div className="teste">
             <label>Quantidade</label>
             <InputGroup className="mb-3">
-              <br />
               <FormControl
                 type="number"
                 min="1"
@@ -200,32 +226,33 @@ const Bip = () => {
                 onChange={onChangeCode}
                 disabled={isDisabled}
               />
-              <Button variant="outline-secondary" 
-                onClick={startModal}
-              id="button-addon2">
-                Salvar em .txt
-              </Button>
             </InputGroup>
           </div>
-          <>
-            <Post   
-              posts={posts}            
-              onDelete={handleDelete} 
-            />
+          <Post   
+            posts={posts}            
+            onDelete={handleDelete} 
+          />
+          <div className="saveButton">
             <Button variant="outline-secondary" 
-              onClick={startModal}
+              onClick={startSaveModal}
             id="button-addon2">
               Salvar em .txt
             </Button>
-          </>
+          </div>
           <SaveConfirmation 
-            onShowModal={displayConfirmationModal} 
+            onShowModal={isSaveModalOpen} 
             onConfirmModal={onConfirmSave} 
-            onHideModal={onHideModal}
+            onHideModal={onHideSaveModal}
             posts={posts}
             isSaveButtonDisabled={isSaveButtonDisabled}
             onChangeNote={onChangeNote}
             note={note}
+          />
+          <LogoutModal
+            onShowModal={isLogoutModalOpen}
+            onConfirmModal={handleLogout}
+            onHideModal={onHideLogoutModal}
+            message={'Você possui produtos que não foram salvos. Realizar o logout irá resultar na perda dos mesmos.'}        
           />
         </main>
       }
