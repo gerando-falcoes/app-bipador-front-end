@@ -15,6 +15,7 @@ import Bipador from './pages/Bipador';
 
 
 import { AuthProvider , AuthContext} from './contexts/auth';
+import ColetorNavbar from './components/Navbar/ColetorNavbar';
 
 
 const AppRouter = () => {
@@ -35,8 +36,8 @@ const AppRouter = () => {
             <AuthProvider>
                 <Routes>
                     <Route exact path="/login" element={<LoginPage />} />
-                    <Route exact path="/" element={ <Private><HomePage /></Private>} />
-                    <Route exact path="/bip/:id/:name" element={ <Private><Bipador /></Private>} />
+                    <Route exact path="/" element={ <Private><ColetorNavbar /><HomePage /></Private>} />
+                    <Route exact path="/bip/:id/:name" element={ <Private><ColetorNavbar /><Bipador /></Private>} />
                 </Routes>
             </AuthProvider>
             <ToastContainer
