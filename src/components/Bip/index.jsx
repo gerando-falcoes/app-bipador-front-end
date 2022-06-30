@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react'
-import React, { useContext } from 'react';
-import { AuthContext } from '../../contexts/auth';
 import PropTypes from 'prop-types'
 import api from '../../services/api'
 import Post from '../List'
@@ -10,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import { InputGroup, Button, FormControl } from 'react-bootstrap'
 import SaveConfirmation from '../SaveModal'
-import LogoutModal from '../LogoutModal';
 
 const Bip = () => {
   const [amount, setAmount] = useState(1)
@@ -20,11 +17,9 @@ const Bip = () => {
   const { pathname } = window.location
   
   const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
-  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false)
   const [posts, setPosts] = useState([])
   const [note, setNote] = useState('')
-  const { logout } = useContext(AuthContext)
 
   const nomeRetirar = JSON.stringify(pathname)
     .replaceAll('"', '')
@@ -64,11 +59,6 @@ const Bip = () => {
     .replaceAll('/', '')
   const url = `${unidade}/${nomeFuncionario}`
 
-  const handleLogout = () => {
-      setIsLogoutModalOpen(false)
-      logout()
-  }
-
   const onChangeNote = (valueNote) => {
     setNote(valueNote)
   }
@@ -81,21 +71,8 @@ const Bip = () => {
     setIsSaveModalOpen(true)
   }
 
-  const startLogoutModal = () => {
-    if (posts.length !== 0) {
-      setIsLogoutModalOpen(true)
-    } else if (posts.length === 0) {
-      handleLogout()
-    }
-    
-  }
-
   const onHideSaveModal = () => {
     setIsSaveModalOpen(false)
-  }
-
-  const onHideLogoutModal = () => {
-    setIsLogoutModalOpen(false)
   }
   
   const onConfirmSave = () => {
@@ -187,13 +164,6 @@ const Bip = () => {
     <>
       {
         <main className="container mt-3">
-          <div className="logoutButton">
-            <Button variant="outline-secondary" 
-              onClick={startLogoutModal}
-              id="button-addon2">
-                Logout
-            </Button>
-          </div>
           <div className="teste">
             <label>Quantidade</label>
             <InputGroup className="mb-3">
@@ -247,12 +217,6 @@ const Bip = () => {
             isSaveButtonDisabled={isSaveButtonDisabled}
             onChangeNote={onChangeNote}
             note={note}
-          />
-          <LogoutModal
-            onShowModal={isLogoutModalOpen}
-            onConfirmModal={handleLogout}
-            onHideModal={onHideLogoutModal}
-            message={'Você possui produtos que não foram salvos. Realizar o logout irá resultar na perda dos mesmos.'}        
           />
         </main>
       }

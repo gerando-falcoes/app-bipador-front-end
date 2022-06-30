@@ -1,14 +1,5 @@
-.teste-input{
-    padding-right: 3ex;
-    width: 110px;
-    box-sizing: border-box;
-    font-size: inherit;
-    padding: 0.375rem 0.75rem;
-}
-
-.logoutButton{
-    display: flex;
-    justify-content: flex-end;
+.teste{
+    margin-top: 92px;
 }
 
 .saveButton {
