@@ -59,6 +59,10 @@ const ColetorNavbar = () => {
     }
   }
 
+  const [name] = local.email.split('@')
+
+  let bipUrl = '/bip/' + local.category + '/' + name
+
   return (
     <>
       <Navbar fixed="top" bg="black" variant="dark" expand="lg">
@@ -73,16 +77,21 @@ const ColetorNavbar = () => {
             />
           </Navbar.Brand>
           
-          <Navbar.Toggle aria-controls="navbarScroll" />
-          <Navbar.Collapse id="navbarScroll">
+          <Nav>
+            <Nav.Link className="text-white me-3" disabled>{setCategoryName(local.category)}</Nav.Link>
+          </Nav>
 
-            <Nav className="me-auto ms-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
+          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Collapse className="text-white" id="navbarScroll">
+
+            <Nav className="d-flex justify-content-around ms-auto me-auto my-2 my-lg-0" style={{ maxHeight: '100px', width:'100%' }} navbarScroll>
               <Nav.Link className="text-white" href="/">Início</Nav.Link>
-              <Nav.Link className="text-white" onClick={handleVoltarParaBipagem}>Bipador</Nav.Link>
+              <Nav.Link className="text-white" href={bipUrl}>Bipador</Nav.Link>
               <Nav.Link className="text-white" href="#lotes" disabled>
                 Lotes
               </Nav.Link>
             </Nav>
+
 
             <Nav className="justify-content-end">
               <Button variant="outline-light" 
