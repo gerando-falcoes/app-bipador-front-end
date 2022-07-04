@@ -13,7 +13,7 @@ const SaveConfirmation = ({ onShowModal, onHideModal, onConfirmModal, posts, isS
   }
   
   return (
-      <Modal show={onShowModal} onHide={onHideModal}>
+      <Modal show={onShowModal} onHide={onHideModal} centered scrollable>
         <Modal.Header closeButton>
           <Modal.Title>Relatório de produtos</Modal.Title>
         </Modal.Header>
@@ -33,7 +33,7 @@ const SaveConfirmation = ({ onShowModal, onHideModal, onConfirmModal, posts, isS
               totalProducts += Number(product.quantidade)
               return (
                   <tr key={product.id_produto}>
-                    <td >{product.id_produto}</td>
+                    <td>{product.id_produto}</td>
                     <td>{product.nome}</td>
                     <td>{product.preco}</td>
                     <td>{product.quantidade}</td>

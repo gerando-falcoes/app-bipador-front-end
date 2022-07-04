@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import api from '../../services/api'
 import Post from '../List'
-import '../Bip/Bip.css'
+import './Bip.css'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -16,9 +16,10 @@ const Bip = () => {
 
   const { pathname } = window.location
   
-  const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false)
-
+  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false)
+  const [posts, setPosts] = useState([])
+  const [note, setNote] = useState('')
 
   const nomeRetirar = JSON.stringify(pathname)
     .replaceAll('"', '')
@@ -58,29 +59,25 @@ const Bip = () => {
     .replaceAll('/', '')
   const url = `${unidade}/${nomeFuncionario}`
 
-  const [posts, setPosts] = useState([])
-
-  const [note, setNote] = useState('')
-
   const onChangeNote = (valueNote) => {
     setNote(valueNote)
   }
 
-  const startModal = () => {
+  const startSaveModal = () => {
     if (!posts.length) {
       toast.error('Adicione pelo menos um produto.')
       return 
     }
-    setDisplayConfirmationModal(true)
+    setIsSaveModalOpen(true)
   }
 
-  const onHideModal = () => {
-    setDisplayConfirmationModal(false);
+  const onHideSaveModal = () => {
+    setIsSaveModalOpen(false)
   }
   
   const onConfirmSave = () => {
     handleSave()
-    onHideModal()
+    onHideSaveModal()
   }
 
   useEffect(() => {
@@ -170,7 +167,6 @@ const Bip = () => {
           <div className="teste">
             <label>Quantidade</label>
             <InputGroup className="mb-3">
-              <br />
               <FormControl
                 type="number"
                 min="1"
@@ -185,6 +181,7 @@ const Bip = () => {
                     } else return null
                   })
                 }}
+                className="shadow-none"
                 aria-describedby="basic-addon2"
               />
             </InputGroup>
@@ -195,33 +192,34 @@ const Bip = () => {
                 type="number"
                 placeholder=""
                 value={code}
+                className="shadow-none"
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
                 onChange={onChangeCode}
                 disabled={isDisabled}
               />
-              <Button variant="outline-secondary" 
-                onClick={startModal}
-              id="button-addon2">
+              <Button variant="success" 
+                onClick={startSaveModal}
+                id="button-addon2">
                 Salvar em .txt
-              </Button>
+            </Button>
             </InputGroup>
           </div>
-          <>
-            <Post   
-              posts={posts}            
-              onDelete={handleDelete} 
-            />
-            <Button variant="outline-secondary" 
-              onClick={startModal}
-            id="button-addon2">
+          <Post   
+            posts={posts}            
+            onDelete={handleDelete} 
+          />
+          <div className="saveButton">
+            <Button variant="success" 
+              onClick={startSaveModal}
+              id="button-addon2">
               Salvar em .txt
             </Button>
-          </>
+          </div>
           <SaveConfirmation 
-            onShowModal={displayConfirmationModal} 
+            onShowModal={isSaveModalOpen} 
             onConfirmModal={onConfirmSave} 
-            onHideModal={onHideModal}
+            onHideModal={onHideSaveModal}
             posts={posts}
             isSaveButtonDisabled={isSaveButtonDisabled}
             onChangeNote={onChangeNote}
