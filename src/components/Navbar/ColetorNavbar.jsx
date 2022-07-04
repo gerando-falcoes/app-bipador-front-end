@@ -4,6 +4,7 @@ import LogoutModal from '../LogoutModal';
 import { useState, useEffect } from 'react';
 import { AuthContext } from '../../contexts/auth';
 import { useContext } from 'react';
+import style from "./ColetorNavbar.module.css"
 
 
 
@@ -67,31 +68,30 @@ const ColetorNavbar = () => {
     <>
       <Navbar fixed="top" bg="black" variant="dark" expand="lg">
         <Container>
-          <Navbar.Brand href="/">
+          <Navbar.Brand className="me-0" href="/">
             <img
               src={Logo}
               width="100"
               height="30"
               className="d-inline-block align-top"
-              alt="React Bootstrap logo"
+              alt="Gerando Falcões logo"
             />
           </Navbar.Brand>
           
-          <Nav>
-            <Nav.Link className="text-white me-3" disabled>{setCategoryName(local.category)}</Nav.Link>
+          <Nav className={style.category}>
+            <Nav.Link className="text-white" disabled>{setCategoryName(local.category)}</Nav.Link>
           </Nav>
 
           <Navbar.Toggle aria-controls="navbarScroll" />
-          <Navbar.Collapse className="text-white" id="navbarScroll">
+          <Navbar.Collapse id="navbarScroll">
 
-            <Nav className="d-flex justify-content-around ms-auto me-auto my-2 my-lg-0" style={{ maxHeight: '100px', width:'100%' }} navbarScroll>
-              <Nav.Link className="text-white" href="/">Início</Nav.Link>
-              <Nav.Link className="text-white" href={bipUrl}>Bipador</Nav.Link>
-              <Nav.Link className="text-white" href="#lotes" disabled>
+            <Nav className={style.menu} style={{ maxHeight: '150px', width:'100%' }} navbarScroll>
+              <Nav.Link className={style.menuItem} href="/">Início</Nav.Link>
+              <Nav.Link className={style.menuItem} href={bipUrl}>Bipador</Nav.Link>
+              <Nav.Link className={style.menuItem} href="#lotes" disabled>
                 Lotes
               </Nav.Link>
             </Nav>
-
 
             <Nav className="justify-content-end">
               <Button variant="outline-light" 
@@ -104,37 +104,6 @@ const ColetorNavbar = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-
-
-{/*       <Navbar bg="black" variant="dark">
-        <Container fluid>
-          <Navbar.Brand href="/">
-            <img
-            src={Logo}
-            width="100"
-            height="30"
-            className="d-inline-block align-top"
-            alt="React Bootstrap logo"
-            />
-          </Navbar.Brand>
-          <Nav className="justify-content-end">
-
-            <Nav.Link href="/">Início</Nav.Link>
-
-            <Nav.Link onClick={handleVoltarParaBipagem}>Bipador</Nav.Link>
-
-            <Nav.Link href="#lotes">Lotes</Nav.Link> 
-          </Nav>
-
-          <Nav className="justify-content-end">
-            <Button variant="outline-light" 
-                onClick={startLogoutModal}
-                id="button-addon2">
-                  Logout
-            </Button>
-          </Nav>
-        </Container>
-      </Navbar> */}
 
       <LogoutModal
         onShowModal={isLogoutModalOpen}

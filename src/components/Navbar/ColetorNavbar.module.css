@@ -1,0 +1,46 @@
+.menu {
+  display: flex; 
+  justify-content: flex-end;
+  width: 100%;
+  margin-right: 36px;
+  gap: 16px;
+}
+
+.menuItem {
+  text-decoration: none;
+  color: white !important;
+  text-align: center;
+}
+
+.menuItem:hover {
+  color: gray !important;
+}
+
+.category {
+  color: white !important;
+  text-align: center;
+  margin-left: 36px;
+}
+
+
+@media screen and (max-width: 992px) {
+
+  .menu {
+    gap: 0px;
+  }
+
+  .menuItem {
+    border-top: 1px solid white;
+  }
+
+  .category {
+    margin: 0px 0px 0px 0px;
+  }
+}
+
+@media screen and (max-width: 340px) {
+  .category {
+    font-size: 12px;
+    margin: 0px 0px 0px 0px;
+  }
+}
