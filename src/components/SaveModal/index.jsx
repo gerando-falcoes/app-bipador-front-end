@@ -13,7 +13,7 @@ const SaveConfirmation = ({ onShowModal, onHideModal, onConfirmModal, posts, isS
   }
   
   return (
-      <Modal show={onShowModal} onHide={onHideModal}>
+      <Modal show={onShowModal} onHide={onHideModal} centered scrollable>
         <Modal.Header closeButton>
           <Modal.Title>Relatório de produtos</Modal.Title>
         </Modal.Header>

@@ -3,7 +3,7 @@ import { Modal, Button } from "react-bootstrap";
 const LogoutModal = ({ onShowModal, onHideModal, onConfirmModal, message }) => {
 
     return (
-        <Modal show={onShowModal} onHide={onHideModal}>
+      <Modal show={onShowModal} onHide={onHideModal} centered>
         <Modal.Header closeButton>
           <Modal.Title>Logout</Modal.Title>
         </Modal.Header>

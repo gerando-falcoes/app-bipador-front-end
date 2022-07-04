@@ -8,7 +8,7 @@ export default function Home() {
 
     return (
         <div>
-            <div className="filmes">
+            <div className="bipador">
                 <Bip />
             </div>
         </div>
