@@ -181,6 +181,7 @@ const Bip = () => {
                     } else return null
                   })
                 }}
+                className="shadow-none"
                 aria-describedby="basic-addon2"
               />
             </InputGroup>
@@ -191,11 +192,17 @@ const Bip = () => {
                 type="number"
                 placeholder=""
                 value={code}
+                className="shadow-none"
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
                 onChange={onChangeCode}
                 disabled={isDisabled}
               />
+              <Button variant="success" 
+                onClick={startSaveModal}
+                id="button-addon2">
+                Salvar em .txt
+            </Button>
             </InputGroup>
           </div>
           <Post   
@@ -203,9 +210,9 @@ const Bip = () => {
             onDelete={handleDelete} 
           />
           <div className="saveButton">
-            <Button variant="outline-secondary" 
+            <Button variant="success" 
               onClick={startSaveModal}
-            id="button-addon2">
+              id="button-addon2">
               Salvar em .txt
             </Button>
           </div>
