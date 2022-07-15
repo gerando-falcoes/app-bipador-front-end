@@ -25,39 +25,28 @@ const Bip = () => {
     .replaceAll('"', '')
     .replaceAll('bip', '')
     .replaceAll('/', '')
-    .replaceAll('2', '')
-    .replaceAll('3', '')
-    .replaceAll('4', '')
-    .replaceAll('5', '')
-    .replaceAll('6', '')
-    .replaceAll('7', '')
-    .replaceAll('8', '')
-    .replaceAll('9', '')
+    .replaceAll('02', '')
+    .replaceAll('03', '')
+    .replaceAll('04', '')
+    .replaceAll('05', '')
+    .replaceAll('06', '')
+    .replaceAll('07', '')
+    .replaceAll('08', '')
+    .replaceAll('09', '')
     .replaceAll('10', '')
-    .replaceAll('1', '')
-  const nomeFuncionario = JSON.stringify(pathname)
-    .replaceAll('"', '')
-    .replaceAll('bip', '')
-    .replaceAll('%20', ' ')
-    .replaceAll('/', '')
-    .replaceAll(' ', '-')
-    .replaceAll('2', '')
-    .replaceAll('3', '')
-    .replaceAll('4', '')
-    .replaceAll('5', '')
-    .replaceAll('6', '')
-    .replaceAll('7', '')
-    .replaceAll('8', '')
-    .replaceAll('9', '')
-    .replaceAll('10', '')
-    .replaceAll('1', '')
+    .replaceAll('11', '')
+    .replaceAll('12', '')
+    .replaceAll('13', '')
+    .replaceAll('14', '')
+    .replaceAll('15', '')
+    .replaceAll('01', '')
+    
   const unidade = JSON.stringify(pathname)
     .split(nomeRetirar)
     .join('')
     .replaceAll('"', '')
     .replaceAll('bip', '')
     .replaceAll('/', '')
-  const url = `${unidade}/${nomeFuncionario}`
 
   const onChangeNote = (valueNote) => {
     setNote(valueNote)
@@ -148,7 +137,7 @@ const Bip = () => {
     }
 
     try {
-      await api.post(`/produtos/${unidade}/${note}`, posts)
+      await api.post(`/lotes/${unidade}/${note}`, posts)
       setPosts([])
       toast.success('Arquivo salvo com sucesso!')
     } catch (error) {
@@ -202,7 +191,7 @@ const Bip = () => {
                 onClick={startSaveModal}
                 id="button-addon2">
                 Salvar em .txt
-            </Button>
+              </Button>
             </InputGroup>
           </div>
           <Post   

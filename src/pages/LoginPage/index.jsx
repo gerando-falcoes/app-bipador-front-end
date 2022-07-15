@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { AuthContext } from '../../contexts/auth'
 import './LoginPage.css'
-import Logo from "./logo.svg"
+import Logo from "../../assets/logo.svg"
 
 const LoginPage = () => {
   const { authenticated, login } = useContext(AuthContext)
@@ -42,24 +42,21 @@ const LoginPage = () => {
             placeholder='Categoria'
           >
             <option value="" disabled selected>Categoria</option>
-            <option value="11" >ENTRADA CD</option>
-            <option value="12">SAIDA CENTER NORTE</option>
-            <option value="13">SAIDA POÁ</option>
-            <option value="14">SAIDA SUZANO</option>
-            <option value="15">SAIDA EUCALIPTOS</option>
-            <option value="16">ENTRADA PJ</option>
-            <option value="17">VENDA SELLERS </option>
-            <option value="18">SAÍDA E-COMMERCE</option>
-            {/* <option value="1">INVENTÁRIO CD</option>
-                        <option value="2">INVENTÁRIO LOJA POA </option>
-                        <option value="3">INVENTÁRIO E_COMMERCE</option>
-                        <option value="4">INVENTÁRIO CN</option>
-                        <option value="6">INVENTÁRIO CD-LIVROS</option>
-                        <option value="7">INVENTÁRIO CD-ELETRO</option>
-                        <option value="8">INVENTÁRIO CD-E_COMMERCE</option>
-                        <option value="9">INVENTÁRIO CD-BRINQUEDO</option>
-                        <option value="10">INVENTÁRIO CD-MOVEIS</option> */}
-            <option value="5">TESTE</option>
+            <option value="01" >ENTRADA CD</option>
+            <option value="02">ENTRADA PJ</option>
+            <option value="03">SAÍDA CENTER NORTE</option>
+            <option value="04">SAÍDA POÁ</option>
+            <option value="05">SAÍDA SUZANO</option>
+            <option value="06">SAÍDA EUCALIPTOS</option>
+            <option value="07">SAÍDA E-COMMERCE</option>
+            <option value="08">VENDA SELLERS</option>
+{/*             <option value="09">INVENTÁRIO CD</option>
+            <option value="10">INVETÁRIO LOJA POÁ</option>
+            <option value="11">INVENTÁRIO E-COMMERCE</option>
+            <option value="12">INVENTÁRIO CN</option>
+            <option value="13">INVENTÁRIO SUZANO</option>
+            <option value="14">INVENTÁRIO EUCALIPTOS</option> */}
+            <option value="15">TESTES DEV</option>
           </select>
         </div>
         <div className="field">

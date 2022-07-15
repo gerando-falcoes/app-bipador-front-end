@@ -1,0 +1,14 @@
+.folderTitle {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.lotesPageContainer {
+  margin-top: 64px;
+}
+
+.folderTitleText {
+  margin: 0 0 0 4px;
+  font-size: 24px;
+}
