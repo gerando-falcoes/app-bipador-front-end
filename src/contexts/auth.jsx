@@ -58,9 +58,13 @@ export const AuthProvider = ({ children }) => {
     navigate('/categorias/' + categoriaId + '/' + categoriaName)
   }
 
+  const redirectCategorias = async () => {
+    navigate('/categorias/')
+  }
+
   return (
     <AuthContext.Provider
-      value={{ authenticated: !!user, user, loading, login, logout, redirectBip, redirectLotes }}
+      value={{ authenticated: !!user, user, loading, login, logout, redirectBip, redirectLotes, redirectCategorias }}
     >
       {children}
     </AuthContext.Provider>
