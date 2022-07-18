@@ -82,17 +82,16 @@ const ColetorNavbar = () => {
       <Navbar fixed="top" bg="black" variant="dark" expand="lg">
         <Container>
           <Navbar.Brand className="me-0" href="/">
-            <img
+            <img className={style.navbarLogo}
               src={Logo}
               width="100"
               height="30"
-              className="d-inline-block align-top"
               alt="Gerando Falcões logo"
             />
           </Navbar.Brand>
           
           <Nav className={style.category}>
-            <Nav.Link className="text-white" disabled>{setCategoryName(local.category)}</Nav.Link>
+            <Nav.Link className="text-white me-4" disabled>{setCategoryName(local.category)}</Nav.Link>
           </Nav>
 
           <Navbar.Toggle aria-controls="navbarScroll" />
