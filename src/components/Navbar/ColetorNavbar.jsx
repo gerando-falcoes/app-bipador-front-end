@@ -1,5 +1,5 @@
 import {Navbar, Nav, Container, Button} from 'react-bootstrap'
-import Logo from "./logo.svg"
+import Logo from "../../assets/navbarLogo.svg"
 import LogoutModal from '../LogoutModal';
 import { useState, useEffect } from 'react';
 import { AuthContext } from '../../contexts/auth';
@@ -21,26 +21,39 @@ const ColetorNavbar = () => {
   }
 
   const setCategoryName = (unidade) => {
-    if (unidade === "5") {
-      return "TESTE"
-    } else if (unidade === "11") {
+    if (unidade === "01") {
       return "ENTRADA CD"
-    } else if (unidade === "12") {
-      return "SAIDA CENTER NORTE"
-    } else if (unidade === "13") {
-      return "SAIDA POÁ"
-    } else if (unidade === "14") {
-      return "SAIDA SUZANO"
-    } else if (unidade === "15") {
-      return "SAIDA EUCALIPTOS"
-    } else if (unidade === "16") {
+    } else if (unidade === "02") {
       return "ENTRADA PJ"
-    } else if (unidade === "17") {
-      return "VENDA SELLERS"
-    } else if (unidade === "18") {
+    } else if (unidade === "03") {
+      return "SAÍDA CENTER NORTE"
+    } else if (unidade === "04") {
+      return "SAÍDA POÁ"
+    } else if (unidade === "05") {
+      return "SAÍDA SUZANO"
+    } else if (unidade === "06") {
+      return "SAÍDA EUCALIPTOS"
+    } else if (unidade === "07") {
       return "SAÍDA E-COMMERCE"
+    } else if (unidade === "08") {
+      return "VENDA SELLERS"
+    } else if (unidade === "09") {
+      return "INVENTÁRIO CD"
+    } else if (unidade === "10") {
+      return "INVETÁRIO LOJA POÁ"
+    } else if (unidade === "11") {
+      return "INVENTÁRIO E-COMMERCE"
+    } else if (unidade === "12") {
+      return "INVENTÁRIO CN"
+    } else if (unidade === "13") {
+      return "INVENTÁRIO SUZANO"
+    } else if (unidade === "14") {
+      return "INVENTÁRIO EUCALIPTOS"
+    } else if (unidade === "15") {
+      return "TESTES DEV"
     }
   }
+
 
   const handleLogout = () => {
     setIsLogoutModalOpen(false)
@@ -69,17 +82,16 @@ const ColetorNavbar = () => {
       <Navbar fixed="top" bg="black" variant="dark" expand="lg">
         <Container>
           <Navbar.Brand className="me-0" href="/">
-            <img
+            <img className={style.navbarLogo}
               src={Logo}
               width="100"
               height="30"
-              className="d-inline-block align-top"
               alt="Gerando Falcões logo"
             />
           </Navbar.Brand>
           
           <Nav className={style.category}>
-            <Nav.Link className="text-white" disabled>{setCategoryName(local.category)}</Nav.Link>
+            <Nav.Link className="text-white me-4" disabled>{setCategoryName(local.category)}</Nav.Link>
           </Nav>
 
           <Navbar.Toggle aria-controls="navbarScroll" />
@@ -88,7 +100,7 @@ const ColetorNavbar = () => {
             <Nav className={style.menu} style={{ maxHeight: '150px', width:'100%' }} navbarScroll>
               <Nav.Link className={style.menuItem} href="/">Início</Nav.Link>
               <Nav.Link className={style.menuItem} href={bipUrl}>Bipador</Nav.Link>
-              <Nav.Link className={style.menuItem} href="#lotes" disabled>
+              <Nav.Link className={style.menuItem} href="/categorias">
                 Lotes
               </Nav.Link>
             </Nav>
