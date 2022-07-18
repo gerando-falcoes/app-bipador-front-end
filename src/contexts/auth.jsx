@@ -48,13 +48,23 @@ export const AuthProvider = ({ children }) => {
     setUser(null)
     navigate('/login')
   }
+
   const redirectBip = async (email, password, category) => {
     const [name] = email.split('@')
     navigate('/bip/' + category + '/' + name)
   }
+
+  const redirectLotes = async (categoriaName, categoriaId) => {
+    navigate('/categorias/' + categoriaId + '/' + categoriaName)
+  }
+
+  const redirectCategorias = async () => {
+    navigate('/categorias/')
+  }
+
   return (
     <AuthContext.Provider
-      value={{ authenticated: !!user, user, loading, login, logout, redirectBip }}
+      value={{ authenticated: !!user, user, loading, login, logout, redirectBip, redirectLotes, redirectCategorias }}
     >
       {children}
     </AuthContext.Provider>

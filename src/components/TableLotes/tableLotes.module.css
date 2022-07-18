@@ -1,0 +1,11 @@
+.txtFileImage {
+  margin-right: 8px;
+}
+
+.downloadButton {
+  transition: 0.2s all;
+}
+
+.downloadButton:active {
+  transform: scale(0.9);
+}
