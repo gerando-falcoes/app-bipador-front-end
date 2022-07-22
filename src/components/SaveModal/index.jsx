@@ -19,7 +19,7 @@ const SaveConfirmation = ({ onShowModal, onHideModal, onConfirmModal, posts, isS
         </Modal.Header>
         
         <Modal.Body><div className={style.body}>
-          <Table striped bordered>
+          <Table bordered>
             <thead>
               <tr>
                 <th>Cod.</th>
