@@ -1,7 +1,7 @@
 .folderTitle {
   display: flex;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
 }
 
 .lotesPageContainer {
@@ -18,7 +18,7 @@
   align-items: center;
   width: 60px;
   cursor: pointer;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
 }
 
 .backToCategoriesText {

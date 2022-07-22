@@ -1,10 +1,10 @@
 import {React, useContext} from 'react'
 import { AuthContext } from '../../contexts/auth'
-import TableLotes from '../../components/TableLotes'
 import { useParams } from "react-router-dom";
 import './LotesPage.css'
 import Folder from "../../assets/folder.svg"
 import Arrow from "../../assets/arrow.svg"
+import TableLotes from '../../components/TableLotes';
 
 const LotesPage = () => {
   const { categoriaName, categoriaId } = useParams()
@@ -18,7 +18,6 @@ const LotesPage = () => {
   return (
     <main className="container mt-3">
       <div className="lotesPageContainer">
-
         <div className="backToCategories" onClick={() => handleIrParaCategorias()}>
           <img
             src={Arrow}
@@ -38,7 +37,7 @@ const LotesPage = () => {
           />
           <p className="folderTitleText">{categoriaName}</p>
         </div>
-        <TableLotes 
+        <TableLotes
           categoriaId = {categoriaId}
         />
       </div>
