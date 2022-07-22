@@ -1,15 +1,42 @@
-import {React, useEffect, useState} from "react";
-import { Modal, Button, Table } from "react-bootstrap";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from 'react';
+import { MDBDataTableV5 } from 'mdbreact';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import { toast } from 'react-toastify'
+import api from '../../services/api'
 import style from "./tableLotes.module.css";
 import DownloadButton from "../../assets/downloadButton.svg"
 import TxtImage from "../../assets/simbolo-de-arquivo-txt.svg"
-import { toast } from 'react-toastify'
-import api from '../../services/api'
+import 'bootstrap-css-only/css/bootstrap.min.css';
+//import 'mdbreact/dist/css/mdb.css';
 
-const TableLotes = ({categoriaId}) => {
+export default function Pagination({categoriaId}) {
 
   const [lotes, setLotes] = useState([])
+  const [dataTable, setDataTable] = useState({
+    columns: [
+      {
+        label: 'Nome do Lote',
+        field: 'displayName',
+        width: 180,
+        
+        attributes: {
+          'aria-controls': 'DataTable',
+          'aria-label': 'Name',
+        },
+      },
+      {
+        label: <div className="d-flex justify-content-center">Tipo</div>,
+        field: 'tipo',
+        width: 40,
+        
+      },
+      {
+        label: <div className="d-flex justify-content-center">Download</div>,
+        field: 'download',
+        width: 40,        
+      },
+    ],
+  });
 
   useEffect(() => {
     async function fetchData() {
@@ -25,68 +52,49 @@ const TableLotes = ({categoriaId}) => {
     fetchData()
   }, [])
   
-/*   const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false)
-  const [productIndex, setProductIndex] = useState('')
-  const [productName, setProductName] = useState('')
 
-  const startModal = (index) => {
-    setDisplayConfirmationModal(true)
-    setProductIndex(index)
-    setProductName(posts[index].nome)
-  }
+  useEffect(() => {
 
-  const confirmDelete = (index) => {
-    onDelete(index)
-    setDisplayConfirmationModal(false)
-  }
+    const formattedLotes = lotes.map((lote) => (
+      {
+        displayName: <div className="ml-2">{lote.name}</div>,
 
-  const hideConfirmationModal = () => {
-    setDisplayConfirmationModal(false);
-  } */
+        name: lote.name,
 
-  return (
-    <> 
-      {lotes.length === 0 ? <p>Esta pasta está vazia.</p> :
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Nome do lote</th>
-              <th>Download</th>
-            </tr>
-          </thead>
-          <tbody>
-          {lotes.map((lote, index) => {
-            return (
-                <tr key={lote.id}>
-                  <td>
-                    <img
-                      className={style.txtFileImage}
-                      src={TxtImage}
-                      width="20"
-                      height="20"
-                      alt="Txt file image"
-                    />
-                    {lote.name}
-                  </td>
-                  <td className="text-center">
-                    <a href={lote.link}>
-                      <img
-                        className={style.downloadButton}
-                        src={DownloadButton}
-                        width="20"
-                        height="20"
-                        alt="Download button image"
-                      />
-                    </a>
-                  </td>
-                </tr>             
-            )
-          })}
-          </tbody>
-        </Table>
+        tipo: 
+        <div className="d-flex justify-content-center">
+          <img
+          className={style.txtFileImage}
+          src={TxtImage}
+          width="20"
+          height="20"
+          alt="Txt file image"
+          />
+        </div>,
+
+        download:
+        <a className="d-flex justify-content-center" href={lote.link}>
+          <img
+            className={style.downloadButton}
+            src={DownloadButton}
+            width="20"
+            height="20"
+            alt="Download button image"
+          />
+        </a>
       }
-    </>
-  );
-};
 
-export default TableLotes;
+    ))
+
+    setDataTable(s => ({
+      ...s,
+      rows: formattedLotes,
+    }))
+
+  }, [lotes])
+  
+
+
+  return <MDBDataTableV5 infoLabel={["", "-", "de", ""]} noRecordsFoundLabel="Nenhum lote foi encontrado." searchLabel="Procurar" small sortable={false} entriesOptions={[7, 14, 21]} entries={10} displayEntries={false} pagesAmount={4} data={dataTable} fullPagination searchBottom barReverse striped bordered responsiveSm />;
+
+}
