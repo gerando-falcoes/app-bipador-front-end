@@ -95,6 +95,6 @@ export default function Pagination({categoriaId}) {
   
 
 
-  return <MDBDataTableV5 infoLabel={["", "-", "de", ""]} noRecordsFoundLabel="Nenhum lote foi encontrado." searchLabel="Procurar" small sortable={false} entriesOptions={[7, 14, 21]} entries={10} displayEntries={false} pagesAmount={4} data={dataTable} fullPagination searchBottom barReverse striped bordered responsiveSm />;
+  return <MDBDataTableV5 infoLabel={["", "-", "de", ""]} noRecordsFoundLabel="Nenhum lote foi encontrado." searchLabel="Procurar" small sortable={false} entriesOptions={[7, 14, 21]} entries={10} displayEntries={false} pagesAmount={4} data={dataTable} searchBottom barReverse striped bordered responsiveSm />;
 
 }
