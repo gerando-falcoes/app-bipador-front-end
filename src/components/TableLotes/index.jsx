@@ -67,7 +67,7 @@ export default function Pagination({categoriaId}) {
           className={style.txtFileImage}
           src={TxtImage}
           width="20"
-          height="20"
+          height="25"
           alt="Txt file image"
           />
         </div>,
@@ -78,7 +78,7 @@ export default function Pagination({categoriaId}) {
             className={style.downloadButton}
             src={DownloadButton}
             width="20"
-            height="20"
+            height="25"
             alt="Download button image"
           />
         </a>
