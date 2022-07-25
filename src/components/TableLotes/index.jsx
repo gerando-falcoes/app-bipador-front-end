@@ -15,7 +15,7 @@ export default function Pagination({categoriaId}) {
   const [dataTable, setDataTable] = useState({
     columns: [
       {
-        label: 'Nome do Lote',
+        label: <div className="ml-2">Nome do Lote</div>,
         field: 'displayName',
         width: 180,
         
