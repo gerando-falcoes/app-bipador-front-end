@@ -1,8 +1,10 @@
 .txtFileImage {
+  text-align: center;
   margin-right: 8px;
 }
 
 .downloadButton {
+  text-align: center;
   transition: 0.2s all;
 }
 
