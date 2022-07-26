@@ -3,11 +3,12 @@
   margin-right: 8px;
 }
 
-.downloadButton {
+.buttonsIcon {
+  cursor: pointer;
   text-align: center;
   transition: 0.2s all;
 }
 
-.downloadButton:active {
+.buttonsIcon:active {
   transform: scale(0.9);
 }

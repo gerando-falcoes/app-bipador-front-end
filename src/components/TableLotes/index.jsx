@@ -6,12 +6,14 @@ import api from '../../services/api'
 import style from "./tableLotes.module.css";
 import DownloadButton from "../../assets/downloadButton.svg"
 import TxtImage from "../../assets/simbolo-de-arquivo-txt.svg"
-import 'bootstrap-css-only/css/bootstrap.min.css';
-//import 'mdbreact/dist/css/mdb.css';
+import AddButton from "../../assets/addButton.png"
+import PreviewButton from "../../assets/previewButton.svg"
+import UpdateLoteModal from '../UpdateModal';
 
 export default function Pagination({categoriaId}) {
 
   const [lotes, setLotes] = useState([])
+  const [isUpdateModalOpen ,setIsUpdateModalOpen] = useState(false)
   const [dataTable, setDataTable] = useState({
     columns: [
       {
@@ -35,8 +37,21 @@ export default function Pagination({categoriaId}) {
         field: 'download',
         width: 40,        
       },
+      {
+        label: <div className="d-flex justify-content-center">NF</div>,
+        field: 'displayNotaFiscal',
+        width: 40,        
+      },
     ],
   });
+
+  const startUpdateModal = () => {
+    setIsUpdateModalOpen(true)
+  }
+
+  const onHideUpdateModal = () => {
+    setIsUpdateModalOpen(false)
+  }
 
   useEffect(() => {
     async function fetchData() {
@@ -75,13 +90,29 @@ export default function Pagination({categoriaId}) {
         download:
         <a className="d-flex justify-content-center" href={lote.link}>
           <img
-            className={style.downloadButton}
+            className={style.buttonsIcon}
             src={DownloadButton}
             width="20"
             height="25"
             alt="Download button image"
           />
-        </a>
+        </a>,
+
+        displayNotaFiscal:
+        lote.notaFiscal ?
+          <div className="d-flex justify-content-center">{lote.notaFiscal}</div> 
+          : 
+          <div className="d-flex justify-content-center" onClick={startUpdateModal}>
+            <img
+            className={style.buttonsIcon}
+            src={AddButton}
+            width="25"
+            height="25"
+            alt="Txt file image"
+            />
+          </div>,
+
+        notaFiscal: lote.notaFiscal
       }
 
     ))
@@ -92,9 +123,19 @@ export default function Pagination({categoriaId}) {
     }))
 
   }, [lotes])
-  
 
 
-  return <MDBDataTableV5 infoLabel={["", "-", "de", ""]} noRecordsFoundLabel="Nenhum lote foi encontrado." searchLabel="Procurar" small sortable={false} entriesOptions={[7, 14, 21]} entries={10} displayEntries={false} pagesAmount={4} data={dataTable} searchBottom barReverse striped bordered responsiveSm />;
+
+
+  return (
+    <>
+      <MDBDataTableV5 infoLabel={["", "-", "de", ""]} noRecordsFoundLabel="Nenhum lote foi encontrado." searchLabel="Procurar" small sortable={false} entriesOptions={[7, 14, 21]} entries={10} displayEntries={false} pagesAmount={4} data={dataTable} searchBottom barReverse striped bordered responsiveSm />
+      <UpdateLoteModal 
+      onShowModal={isUpdateModalOpen}
+      onHideModal={onHideUpdateModal}
+      
+      />
+    </>
+    );
 
 }
