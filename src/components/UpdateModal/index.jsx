@@ -3,13 +3,10 @@ import style from "./updateModal.module.css";
 import { InputGroup, FormControl } from 'react-bootstrap'
 
 
-const UpdateLoteModal = ({ onShowModal, onHideModal, onConfirmModal, isSaveButtonDisabled }) => {
+const UpdateLoteModal = ({ onShowModal, onHideModal, onConfirmModal, isSaveButtonDisabled, onChangeCode, code }) => {
   
-  let totalProducts = 0;  
-  
-  const changeNote = (e) => {
-    
-
+  const changeCode = (e) => {
+    onChangeCode(e.target.value)
   }
   
   return (
@@ -24,8 +21,8 @@ const UpdateLoteModal = ({ onShowModal, onHideModal, onConfirmModal, isSaveButto
                 <FormControl
                   type="text"
                   placeholder="Número da NF"
-/*                   value={note}
-                  onChange={changeNote} */
+                  value={code}
+                  onChange={changeCode}
                 />
               </InputGroup>
             </div>

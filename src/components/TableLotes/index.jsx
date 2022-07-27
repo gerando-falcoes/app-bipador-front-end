@@ -13,7 +13,10 @@ import UpdateLoteModal from '../UpdateModal';
 export default function Pagination({categoriaId}) {
 
   const [lotes, setLotes] = useState([])
+  const [code, setCode] = useState('')
   const [isUpdateModalOpen ,setIsUpdateModalOpen] = useState(false)
+  const [loteId, setLoteId] = useState('')
+  const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false)
   const [dataTable, setDataTable] = useState({
     columns: [
       {
@@ -45,13 +48,6 @@ export default function Pagination({categoriaId}) {
     ],
   });
 
-  const startUpdateModal = () => {
-    setIsUpdateModalOpen(true)
-  }
-
-  const onHideUpdateModal = () => {
-    setIsUpdateModalOpen(false)
-  }
 
   useEffect(() => {
     async function fetchData() {
@@ -67,7 +63,6 @@ export default function Pagination({categoriaId}) {
     fetchData()
   }, [])
   
-
   useEffect(() => {
 
     const formattedLotes = lotes.map((lote) => (
@@ -102,7 +97,10 @@ export default function Pagination({categoriaId}) {
         lote.notaFiscal ?
           <div className="d-flex justify-content-center">{lote.notaFiscal}</div> 
           : 
-          <div className="d-flex justify-content-center" onClick={startUpdateModal}>
+          <div className="d-flex justify-content-center" onClick={() => {
+            setLoteId(lote.id)
+            startUpdateModal() 
+          }}>
             <img
             className={style.buttonsIcon}
             src={AddButton}
@@ -124,8 +122,43 @@ export default function Pagination({categoriaId}) {
 
   }, [lotes])
 
+  const startUpdateModal = () => {
+    setIsUpdateModalOpen(true)
+  }
 
+  const onHideUpdateModal = () => {
+    setIsUpdateModalOpen(false)
+  }
 
+  const onChangeCode = (valueCode) => {
+    setCode(valueCode)
+  }
+
+  const onConfirmSave = () => {
+    handleSave()
+    onHideUpdateModal()
+  }
+
+  const handleSave = async (e) => {
+
+    console.log("CODE->", code)
+
+    if (code==='') {
+      toast.error('Insira o código da NF')
+      return
+    }
+
+    try {
+      await api.patch(`/lotes/${loteId}/${code}`)
+      document.location.reload()
+    } catch (error) {
+      const err = { message: 'Algo deu errado!' }
+      toast.error(err.message)
+    } finally {
+      setIsSaveButtonDisabled(false)
+      setCode('')
+    }
+  }
 
   return (
     <>
@@ -133,6 +166,10 @@ export default function Pagination({categoriaId}) {
       <UpdateLoteModal 
       onShowModal={isUpdateModalOpen}
       onHideModal={onHideUpdateModal}
+      onConfirmModal={onConfirmSave}
+      isSaveButtonDisabled={isSaveButtonDisabled}
+      onChangeCode={onChangeCode}
+      code={code}
       
       />
     </>
