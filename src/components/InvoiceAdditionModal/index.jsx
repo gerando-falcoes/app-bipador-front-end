@@ -1,9 +1,9 @@
 import { Modal, Button, Table } from "react-bootstrap";
-import style from "./updateModal.module.css";
+import style from "./InvoiceAdditionModal.module.css";
 import { InputGroup, FormControl } from 'react-bootstrap'
 
 
-const UpdateLoteModal = ({ onShowModal, onHideModal, onConfirmModal, isSaveButtonDisabled, onChangeCode, code }) => {
+const InvoiceAdditionModal = ({ onShowModal, onHideModal, onConfirmModal, isSaveButtonDisabled, onChangeCode, code }) => {
   
   const changeCode = (e) => {
     onChangeCode(e.target.value)
@@ -43,4 +43,4 @@ const UpdateLoteModal = ({ onShowModal, onHideModal, onConfirmModal, isSaveButto
     )
 }
  
-export default UpdateLoteModal;
+export default InvoiceAdditionModal;

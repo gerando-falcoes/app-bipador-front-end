@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { InputGroup, Button, FormControl } from 'react-bootstrap'
-import SaveConfirmation from '../SaveModal'
+import BatchSaveModal from '../BatchSaveModal'
 
 const Bip = () => {
   const [amount, setAmount] = useState(1)
@@ -135,9 +135,11 @@ const Bip = () => {
       toast.error('Adicione a observação de lote')
       return
     }
+    
+    const user = JSON.parse(localStorage.getItem('user'))
 
     try {
-      await api.post(`/lotes/${unidade}/${note}`, posts)
+      await api.post(`/lotes/${unidade}/${note}/${user.email}`, posts)
       setPosts([])
       toast.success('Arquivo salvo com sucesso!')
     } catch (error) {
@@ -205,7 +207,7 @@ const Bip = () => {
               Salvar em .txt
             </Button>
           </div>
-          <SaveConfirmation 
+          <BatchSaveModal 
             onShowModal={isSaveModalOpen} 
             onConfirmModal={onConfirmSave} 
             onHideModal={onHideSaveModal}
