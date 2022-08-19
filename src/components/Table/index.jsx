@@ -1,7 +1,7 @@
 import {React, useState} from "react";
 import PropTypes from "prop-types";
 import style from "./table.module.css";
-import DeleteModal from "../DeleteModal";
+import ProductDeleteModal from "../ProductDeleteModal";
 
 
 const Table = ({posts, onDelete}) => {
@@ -11,9 +11,9 @@ const Table = ({posts, onDelete}) => {
   const [productName, setProductName] = useState('')
 
   const startModal = (index) => {
-    setDisplayConfirmationModal(true)
     setProductIndex(index)
     setProductName(posts[index].nome)
+    setDisplayConfirmationModal(true)
   }
 
   const confirmDelete = (index) => {
@@ -72,12 +72,12 @@ const Table = ({posts, onDelete}) => {
             <div className={`${style.total_products} text-center`}>Total de Produtos: {totalProducts}</div>
           </div>
         </div>
-        <DeleteModal
+        <ProductDeleteModal
           showModal={displayConfirmationModal} 
           confirmModal={confirmDelete} 
           hideModal={hideConfirmationModal}
           index={productIndex}
-          message={'Você está excluindo o produto ' + productName + '. Tem certeza?'}
+          message={(<p className="text-justify mb-0">Você está excluindo o produto <b>{productName}</b>. Tem certeza?</p>)}
         />
     </>
   );
