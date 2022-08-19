@@ -50,19 +50,20 @@ export default function Pagination({ categoriaId }) {
     ],
   })
 
+  async function fetchData() {
+    await api
+      .get(`/lotes/folder/${categoriaId}`)
+      .then((resp) => {
+        setLotes(resp.data)
+      })
+      .catch((err) => {
+        toast.error('Nenhum lote encontrado.')
+      })
+  }
+
   useEffect(() => {
-    async function fetchData() {
-      await api
-        .get(`/lotes/folder/${categoriaId}`)
-        .then((resp) => {
-          setLotes(resp.data)
-        })
-        .catch((err) => {
-          toast.error('Nenhum lote encontrado.')
-        })
-    }
     fetchData()
-  }, [categoriaId])
+  }, [])
 
   // FUNÇÕES DO MODAL DE CONFIRMAÇÃO PARA GERAR ARQUIVO TXT
 
@@ -76,8 +77,9 @@ export default function Pagination({ categoriaId }) {
     setIsGenerateTxtModalOpen(false)
   }
 
-  const onConfirmGenerateTxt = (loteIndex) => {
-    handleGenerateTxT(loteIndex)
+  const onConfirmGenerateTxt = async (loteIndex) => {
+    await handleGenerateTxt(loteIndex)
+    fetchData()
     onHideGenerateTxtModal()
   }
 
@@ -95,8 +97,9 @@ export default function Pagination({ categoriaId }) {
     setCode(valueCode)
   }
 
-  const onConfirmSave = () => {
-    handleSave()
+  const onConfirmSave = async () => {
+    await handleSave()
+    fetchData()
     onHideInvoiceAdditionModal()
   }
 
@@ -179,7 +182,7 @@ export default function Pagination({ categoriaId }) {
 
     try {
       await api.patch(`/lotes/nota-fiscal/${loteId}/${code}`)
-      document.location.reload()
+      toast.success('Nota fiscal adicionada com sucesso.')
     } catch (error) {
       const err = { message: 'Algo deu errado!' }
       toast.error(err.message)
@@ -189,20 +192,19 @@ export default function Pagination({ categoriaId }) {
     }
   }
 
-  const handleGenerateTxT = async (index) => {
+  const handleGenerateTxt = async (index) => {
     const user = JSON.parse(localStorage.getItem('user'))
-
     try {
       await api.patch(
         `/lotes/generate-txt/${lotes[index].id}/${lotes[index].categoriaId}/${lotes[index].name}/${user.email}`,
         lotes[index].content
       )
-      document.location.reload()
+      toast.success('Arquivo gerado com sucesso.')
     } catch (error) {
       const err = { message: 'Algo deu errado!' }
       toast.error(err.message)
     } finally {
-      setLoteId('')
+      setLoteIndex('')
     }
   }
 
