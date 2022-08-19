@@ -1,4 +1,4 @@
-import { Modal, Button, Table } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import style from "./InvoiceAdditionModal.module.css";
 import { InputGroup, FormControl } from 'react-bootstrap'
 

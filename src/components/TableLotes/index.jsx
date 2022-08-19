@@ -9,6 +9,7 @@ import TxtImage from '../../assets/simbolo-de-arquivo-txt.svg'
 import AddButton from '../../assets/addButton.svg'
 import InvoiceAdditionModal from '../InvoiceAdditionModal'
 import GenerateTxtModal from '../GenerateTxtModal'
+import { useCallback } from 'react'
 
 export default function Pagination({ categoriaId }) {
   const [lotes, setLotes] = useState([])
@@ -61,7 +62,43 @@ export default function Pagination({ categoriaId }) {
         })
     }
     fetchData()
-  }, [])
+  }, [categoriaId])
+
+  // FUNÇÕES DO MODAL DE CONFIRMAÇÃO PARA GERAR ARQUIVO TXT
+
+  const startGenerateTxtModal = useCallback((index) => {
+    setLoteIndex(index)
+    setLoteName(lotes[index].name)
+    setIsGenerateTxtModalOpen(true)
+  }, [lotes])
+
+  const onHideGenerateTxtModal = () => {
+    setIsGenerateTxtModalOpen(false)
+  }
+
+  const onConfirmGenerateTxt = (loteIndex) => {
+    handleGenerateTxT(loteIndex)
+    onHideGenerateTxtModal()
+  }
+
+// FUNÇÕES DO MODAL PARA ADICIONAR NOTA FISCAL AO LOTE
+
+  const startInvoiceAdditionModal = () => {
+    setIsInvoiceAdditionModalOpen(true)
+  }
+
+  const onHideInvoiceAdditionModal = () => {
+    setIsInvoiceAdditionModalOpen(false)
+  }
+
+  const onChangeCode = (valueCode) => {
+    setCode(valueCode)
+  }
+
+  const onConfirmSave = () => {
+    handleSave()
+    onHideInvoiceAdditionModal()
+  }
 
   useEffect(() => {
     const formattedLotes = lotes.map((lote, index) => ({
@@ -131,43 +168,7 @@ export default function Pagination({ categoriaId }) {
       ...s,
       rows: formattedLotes,
     }))
-  }, [lotes])
-
-// FUNÇÕES DO MODAL DE CONFIRMAÇÃO PARA GERAR ARQUIVO TXT
-
-  const startGenerateTxtModal = (index) => {
-    setLoteIndex(index)
-    setLoteName(lotes[index].name)
-    setIsGenerateTxtModalOpen(true)
-  }
-
-  const onHideGenerateTxtModal = () => {
-    setIsGenerateTxtModalOpen(false)
-  }
-
-  const onConfirmGenerateTxt = (loteIndex) => {
-    handleGenerateTxT(loteIndex)
-    onHideGenerateTxtModal()
-  }
-
-// FUNÇÕES DO MODAL PARA ADICIONAR NOTA FISCAL AO LOTE
-
-  const startInvoiceAdditionModal = () => {
-    setIsInvoiceAdditionModalOpen(true)
-  }
-
-  const onHideInvoiceAdditionModal = () => {
-    setIsInvoiceAdditionModalOpen(false)
-  }
-
-  const onChangeCode = (valueCode) => {
-    setCode(valueCode)
-  }
-
-  const onConfirmSave = () => {
-    handleSave()
-    onHideInvoiceAdditionModal()
-  }
+  }, [lotes, startGenerateTxtModal])
 
 
   const handleSave = async () => {

@@ -103,7 +103,7 @@ const Bip = () => {
           let isNewProduct = true
           alterarQuantidade.quantidade = amount
           const items = JSON.parse(localStorage.getItem('Produto') || '')
-          items.map((item, index) => {
+          items.forEach((item, index) => {
             if (item.id_produto === e.target.value) {
               items[index].quantidade = Number(items[index].quantidade) + Number(amount)
               setPosts(items)
@@ -131,7 +131,7 @@ const Bip = () => {
     if (!posts.length) {
       toast.error('Adicione pelo menos um produto.')
       return
-    } else if (note=='') {
+    } else if (note==='') {
       toast.error('Adicione a observação de lote')
       return
     }
