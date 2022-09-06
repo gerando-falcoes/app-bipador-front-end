@@ -33,7 +33,7 @@ const InvoiceAdditionModal = ({ onShowModal, onHideModal, onConfirmModal, isSave
               <Button variant="default" onClick={onHideModal}>
                 Cancelar
               </Button>
-              <Button variant="primary" onClick={onConfirmModal} disabled={isSaveButtonDisabled}>
+              <Button variant="success" onClick={onConfirmModal} disabled={isSaveButtonDisabled}>
                 Salvar
               </Button>
             </div>

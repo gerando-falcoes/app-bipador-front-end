@@ -7,18 +7,24 @@ import style from './TableLotes.module.css'
 import DownloadButton from '../../assets/downloadButton.svg'
 import TxtImage from '../../assets/simbolo-de-arquivo-txt.svg'
 import AddButton from '../../assets/addButton.svg'
+import CheckButton from '../../assets/lista-de-verificacao2.png'
+import CheckMark from '../../assets/check-mark.png'
 import InvoiceAdditionModal from '../InvoiceAdditionModal'
 import GenerateTxtModal from '../GenerateTxtModal'
+import BatchCheckModal from '../BatchCheckModal'
 import { useCallback } from 'react'
 
 export default function Pagination({ categoriaId }) {
   const [lotes, setLotes] = useState([])
   const [code, setCode] = useState('')
   const [isInvoiceAdditionModalOpen, setIsInvoiceAdditionModalOpen] = useState(false)
+  const [isBatchCheckModalOpen, setIsBatchCheckModalOpen] = useState(false)
   const [isGenerateTxtModalOpen, setIsGenerateTxtModalOpen] = useState(false)
   const [loteIndex, setLoteIndex] = useState('')
   const [loteName, setLoteName] = useState('')
   const [loteId, setLoteId] = useState('')
+  const [loteContent, setLoteContent] = useState('')
+  const [currentTotalProducts, setCurrentTotalProducts] = useState(0)
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false)
   const [dataTable, setDataTable] = useState({
     columns: [
@@ -33,8 +39,8 @@ export default function Pagination({ categoriaId }) {
         },
       },
       {
-        label: <div className="d-flex justify-content-center">Tipo</div>,
-        field: 'tipo',
+        label: <div className="d-flex justify-content-center">Verificação</div>,
+        field: 'verify',
         width: 40,
       },
       {
@@ -65,132 +71,73 @@ export default function Pagination({ categoriaId }) {
     fetchData()
   }, [])
 
-  // FUNÇÕES DO MODAL DE CONFIRMAÇÃO PARA GERAR ARQUIVO TXT
-
-  const startGenerateTxtModal = useCallback((index) => {
-    setLoteIndex(index)
-    setLoteName(lotes[index].name)
-    setIsGenerateTxtModalOpen(true)
-  }, [lotes])
-
-  const onHideGenerateTxtModal = () => {
-    setIsGenerateTxtModalOpen(false)
-  }
-
-  const onConfirmGenerateTxt = async (loteIndex) => {
-    await handleGenerateTxt(loteIndex)
-    fetchData()
-    onHideGenerateTxtModal()
-  }
-
-// FUNÇÕES DO MODAL PARA ADICIONAR NOTA FISCAL AO LOTE
-
-  const startInvoiceAdditionModal = () => {
-    setIsInvoiceAdditionModalOpen(true)
-  }
-
-  const onHideInvoiceAdditionModal = () => {
-    setIsInvoiceAdditionModalOpen(false)
-  }
-
-  const onChangeCode = (valueCode) => {
-    setCode(valueCode)
-  }
-
-  const onConfirmSave = async () => {
-    await handleSave()
-    fetchData()
-    onHideInvoiceAdditionModal()
-  }
-
-  useEffect(() => {
-    const formattedLotes = lotes.map((lote, index) => ({
-      displayName: <div className="ml-2">{lote.name}</div>,
-
-      name: lote.name,
-
-      tipo: (
-        <div className="d-flex justify-content-center">
-          <img
-            className={style.txtFileImage}
-            src={TxtImage}
-            width="20"
-            height="25"
-            alt="Txt file"
-          />
-        </div>
-      ),
-
-      download: lote.link ? (
-        <div className="d-flex justify-content-center">
-          <a href={lote.link}>
-            <img
-              className={style.buttonsIcon}
-              src={DownloadButton}
-              width="20"
-              height="25"
-              alt="Download button"
-            />
-          </a>
-        </div>
-      ) : (
-        <div className="d-flex justify-content-center">
-          <img
-            className={style.buttonsIcon}
-            src={AddButton}
-            width="20"
-            height="25"
-            onClick={() => startGenerateTxtModal(index)}
-            alt="add txt file"
-          />
-        </div>
-      ),
-
-      displayNotaFiscal: lote.notaFiscal ? (
-        <div className="d-flex justify-content-center">{lote.notaFiscal}</div>
-      ) : (
-        <div className="d-flex justify-content-center">
-          <img
-            className={style.buttonsIcon}
-            src={AddButton}
-            width="20"
-            height="25"
-            onClick={() => {
-              setLoteId(lote.id)
-              startInvoiceAdditionModal()
-            }}
-            alt="add nf file"
-          />
-        </div>
-      ),
-
-      notaFiscal: lote.notaFiscal,
-    }))
-
-    setDataTable((s) => ({
-      ...s,
-      rows: formattedLotes,
-    }))
-  }, [lotes, startGenerateTxtModal])
 
 
-  const handleSave = async () => {
-    if (code === '') {
-      toast.error('Insira o código da NF')
-      return
-    }
+  //FUNÇÕES DO MODAL DE VERIFICAÇÃO DE LOTE
 
+/*   const handleSaveBatchCheck = async () => {
     try {
-      await api.patch(`/lotes/nota-fiscal/${loteId}/${code}`)
-      toast.success('Nota fiscal adicionada com sucesso.')
+      await api.patch(`/lotes/lote-check/${loteId}/true`)
+      toast.success('Verificação realizada com sucesso. O arquivo pode ser gerado.')
     } catch (error) {
       const err = { message: 'Algo deu errado!' }
       toast.error(err.message)
     } finally {
       setIsSaveButtonDisabled(false)
-      setCode('')
+      setLoteId('')
     }
+  } */
+
+  const startVerificationModal = (checkerUser, content) => {
+    let sumTotalProducts = 0
+    if (checkerUser) {
+      const user = checkerUser.split('@')
+      toast.error('Lote já possui um arquivo gerado pelo usuário ' + user[0] + '.') 
+      return
+    }
+    content.forEach((product) => {
+      sumTotalProducts += Number(product.quantidade)
+    })
+    setCurrentTotalProducts(sumTotalProducts)
+    setLoteContent(content)
+    setIsBatchCheckModalOpen(true)
   }
+
+  const onHideBatchCheckModal = () => {
+    setIsBatchCheckModalOpen(false)
+  }
+
+/*   const onConfirmBatchCheckModal = async (checkerContent) => {
+    let checkResult = true
+
+    if (!checkerContent.length) {
+      return toast.error('Adicione pelo menos um produto para realizar a verificação.')
+    }
+    
+    if (loteContent.length === checkerContent.length) {
+      loteContent.forEach((content, index) => {
+        const res = checkerContent.find((element) => {
+          return (element.id_produto === content.id_produto && element.quantidade === content.quantidade)
+        })
+        console.log("RESULTADO", res, content.id_produto)
+        if (!res) checkResult = false
+      })
+  
+      if (checkResult) {
+        await handleSaveBatchCheck()
+        fetchData()
+        onHideBatchCheckModal()
+      } else {
+        toast.error('Verificação falhou.')
+        //onHideModal()
+      }
+    } else {
+      toast.error('Verificação falhou.')
+    }
+
+  } */
+
+  // FUNÇÕES DO MODAL DE CONFIRMAÇÃO PARA GERAR ARQUIVO TXT
 
   const handleGenerateTxt = async (index) => {
     const user = JSON.parse(localStorage.getItem('user'))
@@ -207,6 +154,169 @@ export default function Pagination({ categoriaId }) {
       setLoteIndex('')
     }
   }
+
+  const startGenerateTxtModal = useCallback(
+    (index) => {
+      setLoteIndex(index)
+      setLoteName(lotes[index].name)
+      setIsGenerateTxtModalOpen(true)
+    },
+    [lotes]
+  )
+
+  const onHideGenerateTxtModal = () => {
+    setIsGenerateTxtModalOpen(false)
+  }
+
+  const onConfirmGenerateTxt = async (loteIndex) => {
+    await handleGenerateTxt(loteIndex)
+    fetchData()
+    onHideGenerateTxtModal()
+  }
+
+  // FUNÇÕES DO MODAL PARA ADICIONAR NOTA FISCAL AO LOTE
+
+  const handleSave = async () => {
+    if (code === '') {
+      toast.error('Insira o código da NF')
+      return
+    }
+
+    try {
+      await api.patch(`/lotes/nota-fiscal/${loteId}/${code}`)
+      toast.success('Nota fiscal adicionada com sucesso.')
+    } catch (error) {
+      const err = { message: 'Algo deu errado!' }
+      toast.error(err.message)
+    } finally {
+      setIsSaveButtonDisabled(false)
+      setCode('')
+      setLoteId('')
+    }
+  }
+
+
+  const startInvoiceAdditionModal = () => {
+    setIsInvoiceAdditionModalOpen(true)
+  }
+
+  const onHideInvoiceAdditionModal = () => {
+    setIsInvoiceAdditionModalOpen(false)
+  }
+
+  const onChangeCode = (valueCode) => {
+    setCode(valueCode)
+  }
+
+  const onConfirmSave = async () => {
+    setIsSaveButtonDisabled(true)
+    await handleSave()
+    fetchData()
+    onHideInvoiceAdditionModal()
+  }
+
+  useEffect(() => {
+    const formattedLotes = lotes.map((lote, index) => ({
+      displayName: (
+        <div className="d-flex align-items-center ml-2 gap-2">
+          <img
+            className={style.txtFileImage}
+            src={TxtImage}
+            width="20"
+            height="25"
+            alt="Txt file"
+          />
+
+          <p className="mb-0">{lote.name}</p>
+        </div>
+      ),
+
+      name: lote.name,
+
+      verify:
+        lote.check == 1 ? (
+          <div className="d-flex justify-content-center">
+            <img
+              src={CheckMark}
+              width="22"
+              height="22"
+              alt="Check mark"
+              title="Lote verificado"
+            />
+          </div>
+        ) : (
+          <div className="d-flex justify-content-center align-items-center">
+            <img
+              className={style.buttonsIcon}
+              src={CheckButton}
+              width="25"
+              height="25"
+              alt="Check button"
+              title="Verificar lote"
+              onClick={() => {
+                setLoteId(lote.id)
+                startVerificationModal(lote.checkerUser, lote.content)
+              }}
+            />
+          </div>
+        ),
+
+      download: lote.link ? (
+        <div className="d-flex justify-content-center">
+          <a href={lote.link}>
+            <img
+              className={style.buttonsIcon}
+              src={DownloadButton}
+              width="20"
+              height="25"
+              alt="Download button"
+              title="Baixar"
+            />
+          </a>
+        </div>
+      ) : (
+        <div className="d-flex justify-content-center">
+          <img
+            className={style.buttonsIcon}
+            src={AddButton}
+            width="20"
+            height="25"
+            onClick={() => startGenerateTxtModal(index)}
+            alt="add txt file"
+            title="Gerar arquivo"
+          />
+        </div>
+      ),
+
+      displayNotaFiscal: lote.notaFiscal ? (
+        <div className="d-flex justify-content-center" title="Nota Fiscal">
+          {lote.notaFiscal}
+        </div>
+      ) : (
+        <div className="d-flex justify-content-center">
+          <img
+            className={style.buttonsIcon}
+            src={AddButton}
+            width="20"
+            height="25"
+            onClick={() => {
+              setLoteId(lote.id)
+              startInvoiceAdditionModal()
+            }}
+            alt="add nf file"
+            title="Adicionar nota fiscal"
+          />
+        </div>
+      ),
+
+      notaFiscal: lote.notaFiscal,
+    }))
+
+    setDataTable((s) => ({
+      ...s,
+      rows: formattedLotes,
+    }))
+  }, [lotes, startGenerateTxtModal])
 
   return (
     <>
@@ -240,9 +350,21 @@ export default function Pagination({ categoriaId }) {
         onHideModal={onHideGenerateTxtModal}
         onConfirmModal={onConfirmGenerateTxt}
         loteIndex={loteIndex}
-        message={(<p className="text-justify mb-0">Você está gerando um arquivo txt para o lote <b>{loteName}</b>. Ao confirmar, você assume a responsabilidade por ter realizado ou não a verificação do lote.</p>)}
-      />     
-      
+        message={
+          <p className="text-justify mb-0">
+            Você está gerando um arquivo txt para o lote <b>{loteName}</b>. Ao confirmar, você
+            assume a responsabilidade por ter realizado ou não a verificação do lote.
+          </p>
+        }
+      />
+      <BatchCheckModal
+        onShowModal={isBatchCheckModalOpen}
+        onHideModal={onHideBatchCheckModal}
+        loteContent={loteContent}
+        fetchData={fetchData}
+        loteId={loteId}
+        currentTotalProducts={currentTotalProducts}
+      />
     </>
   )
 }

@@ -6,7 +6,7 @@ const ProductDeleteModal = ({ showModal, hideModal, confirmModal, index, message
         <Modal.Header closeButton>
           <Modal.Title>Confirmação de Exclusão</Modal.Title>
         </Modal.Header>
-        <Modal.Body><div className="alert alert-danger">{message}</div></Modal.Body>
+        <Modal.Body><div className="alert alert-danger mb-0">{message}</div></Modal.Body>
         <Modal.Footer>
           <Button variant="default" onClick={hideModal}>
             Cancelar
