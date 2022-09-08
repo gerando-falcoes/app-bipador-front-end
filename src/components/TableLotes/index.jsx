@@ -49,7 +49,7 @@ export default function Pagination({ categoriaId }) {
         width: 40,
       },
       {
-        label: <div className="d-flex justify-content-center">NF</div>,
+        label: <div className="d-flex justify-content-center mr-2">NF</div>,
         field: 'displayNotaFiscal',
         width: 40,
       },
@@ -88,7 +88,10 @@ export default function Pagination({ categoriaId }) {
     }
   } */
 
-  const startVerificationModal = (checkerUser, content) => {
+  const startVerificationModal = (checkerUser, content, loteName) => {
+
+    setLoteName(loteName)
+
     let sumTotalProducts = 0
     if (checkerUser) {
       const user = checkerUser.split('@')
@@ -255,7 +258,7 @@ export default function Pagination({ categoriaId }) {
               title="Verificar lote"
               onClick={() => {
                 setLoteId(lote.id)
-                startVerificationModal(lote.checkerUser, lote.content)
+                startVerificationModal(lote.checkerUser, lote.content, lote.name)
               }}
             />
           </div>
@@ -289,11 +292,11 @@ export default function Pagination({ categoriaId }) {
       ),
 
       displayNotaFiscal: lote.notaFiscal ? (
-        <div className="d-flex justify-content-center" title="Nota Fiscal">
+        <div className="d-flex justify-content-center mr-2" title="Nota Fiscal">
           {lote.notaFiscal}
         </div>
       ) : (
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center mr-2">
           <img
             className={style.buttonsIcon}
             src={AddButton}
@@ -364,6 +367,7 @@ export default function Pagination({ categoriaId }) {
         fetchData={fetchData}
         loteId={loteId}
         currentTotalProducts={currentTotalProducts}
+        loteName={loteName}
       />
     </>
   )

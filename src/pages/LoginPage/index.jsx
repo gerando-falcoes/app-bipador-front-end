@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { AuthContext } from '../../contexts/auth'
 import './LoginPage.css'
-import Logo from "../../assets/logo.svg"
+import Logo from '../../assets/logo.svg'
 
 const LoginPage = () => {
   const { authenticated, login } = useContext(AuthContext)
@@ -30,8 +30,8 @@ const LoginPage = () => {
   return (
     <div id="login">
       <form className="form" onSubmit={handlersSubmit}>
-        <img src={Logo} alt="Logo da Gerando Falcões"/>
-        
+        <img src={Logo} alt="Logo da Gerando Falcões" />
+
         <div className="field">
           <select
             value={categoria}
@@ -39,10 +39,12 @@ const LoginPage = () => {
             onChange={(e) => setCategoria(e.target.value)}
             id="Categoria"
             name="Categoria"
-            placeholder='Categoria'
+            placeholder="Categoria"
           >
-            <option value="" disabled selected>Categoria</option>
-            <option value="01" >ENTRADA CD</option>
+            <option value="" disabled selected>
+              Categoria
+            </option>
+            <option value="01">ENTRADA CD</option>
             <option value="02">ENTRADA PJ</option>
             <option value="03">SAÍDA CENTER NORTE</option>
             <option value="04">SAÍDA POÁ</option>
@@ -50,12 +52,12 @@ const LoginPage = () => {
             <option value="06">SAÍDA EUCALIPTOS</option>
             <option value="07">SAÍDA E-COMMERCE</option>
             <option value="08">VENDA SELLERS</option>
-{/*             <option value="09">INVENTÁRIO CD</option>
+            <option value="09">INVENTÁRIO CD</option>
             <option value="10">INVETÁRIO LOJA POÁ</option>
             <option value="11">INVENTÁRIO E-COMMERCE</option>
             <option value="12">INVENTÁRIO CN</option>
             <option value="13">INVENTÁRIO SUZANO</option>
-            <option value="14">INVENTÁRIO EUCALIPTOS</option> */}
+            <option value="14">INVENTÁRIO EUCALIPTOS</option>
             <option value="15">TESTES DEV</option>
           </select>
         </div>

@@ -33,3 +33,10 @@
 .tableFooter {
   text-align: start;
 }
+
+.containerLoteName {
+  display: inline-block;
+  background-color: rgb(238, 238, 238);
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}

@@ -7,14 +7,21 @@ import { toast } from 'react-toastify'
 
 import api from '../../services/api'
 
-const BatchCheckModal = ({ onShowModal, onHideModal, loteContent, fetchData, loteId, currentTotalProducts}) => {
+const BatchCheckModal = ({
+  onShowModal,
+  onHideModal,
+  loteContent,
+  fetchData,
+  loteId,
+  currentTotalProducts,
+  loteName,
+}) => {
   const [amount, setAmount] = useState(1)
   const [code, setCode] = useState('')
   const [checkerContent, setCheckerContent] = useState([])
   const [isDisabled, setIsDisabled] = useState(false)
   const [isVerifyButtonDisabled, setIsVerifyButtonDisabled] = useState()
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true)
-
 
   useEffect(() => {
     const recovereContent = localStorage.getItem('CheckerContent')
@@ -29,9 +36,7 @@ const BatchCheckModal = ({ onShowModal, onHideModal, loteContent, fetchData, lot
     localStorage.setItem('CheckerContent', JSON.stringify(checkerContent))
   }, [checkerContent])
 
-
   const handleUpdateBatchContent = async () => {
-
     setIsSaveButtonDisabled(true)
 
     try {
@@ -40,13 +45,12 @@ const BatchCheckModal = ({ onShowModal, onHideModal, loteContent, fetchData, lot
       fetchData()
       onHideModal()
     } catch (error) {
-      const err = { message: 'Algo deu errado!'}
+      const err = { message: 'Algo deu errado!' }
       toast.error(err.message)
     } finally {
       setIsVerifyButtonDisabled(false)
     }
   }
-
 
   const handleSaveBatchCheck = async () => {
     try {
@@ -67,17 +71,41 @@ const BatchCheckModal = ({ onShowModal, onHideModal, loteContent, fetchData, lot
     if (!checkerContent.length) {
       return toast.error('Adicione pelo menos um produto para realizar a verificação.')
     }
-    
-    if (loteContent.length === checkerContent.length) {
-      checkerContent.forEach((element, index) => {
-        const res = loteContent.find((content) => {
-          return (element.id_produto === content.id_produto && element.quantidade === content.quantidade)
-        })
-        console.log("RESULTADO", res, element.id_produto)
-        if (!res) checkResult = false
 
+    checkerContent.forEach((element, index) => {
+      const res = loteContent.find((content) => {
+        return (
+          element.id_produto === content.id_produto && element.quantidade === content.quantidade
+        )
       })
-  
+      if (!res) {
+        toast.warning('Verifique o produto ' + element.id_produto + ' - ' + element.nome, {
+          autoClose: false,
+        })
+        console.log('Confira o produto', element.id_produto, element.nome)
+        checkResult = false
+      }
+    })
+
+    loteContent.forEach((content, index) => {
+      const res = checkerContent.find((element) => {
+        return content.id_produto === element.id_produto
+      })
+      if (!res) {
+        toast.error(
+          'O produto ' +
+            content.id_produto +
+            ' - ' +
+            content.nome +
+            ' está no lote salvo mas não está no lote verificador',
+          {
+            autoClose: false,
+          }
+        )
+      }
+    })
+
+    if (loteContent.length === checkerContent.length) {
       if (checkResult) {
         setIsVerifyButtonDisabled(true)
         await handleSaveBatchCheck()
@@ -91,9 +119,7 @@ const BatchCheckModal = ({ onShowModal, onHideModal, loteContent, fetchData, lot
       setIsSaveButtonDisabled(false)
       toast.error('Verificação falhou.')
     }
-
   }
-
 
   const onChangeCode = async (e) => {
     const value = e.target.value
@@ -107,7 +133,6 @@ const BatchCheckModal = ({ onShowModal, onHideModal, loteContent, fetchData, lot
     setCode(value)
 
     if (value?.length === 12) {
-
       await api
         .get(`/produtos/${value}`)
         .then((resp) => {
@@ -149,6 +174,9 @@ const BatchCheckModal = ({ onShowModal, onHideModal, loteContent, fetchData, lot
 
         <Modal.Body className={style.modalBody}>
           <div className={style.body}>
+            <div className={style.containerLoteName}>
+              <p className="text-start p-2 m-0"><b>LOTE:</b> {loteName}</p>
+            </div>
             <div>
               <label>Quantidade</label>
               <InputGroup className="mb-3">
@@ -185,7 +213,7 @@ const BatchCheckModal = ({ onShowModal, onHideModal, loteContent, fetchData, lot
                 />
               </InputGroup>
             </div>
-            <Table bordered>
+            <Table className="mb-0" bordered>
               <thead>
                 <tr>
                   <th>Cod.</th>
@@ -219,9 +247,8 @@ const BatchCheckModal = ({ onShowModal, onHideModal, loteContent, fetchData, lot
                 <tr>
                   <td className={style.tableFooter} colSpan="4">
                     <p className="mb-0">
-                      <b>Tipos de Produtos: </b>
+                      <b>Códigos de Produtos: </b>
                       Lote salvo: {loteContent.length} | Lote atual: {checkerContent.length}
-
                     </p>
                   </td>
                 </tr>
@@ -243,10 +270,18 @@ const BatchCheckModal = ({ onShowModal, onHideModal, loteContent, fetchData, lot
               <Button variant="default" onClick={onHideModal}>
                 Cancelar
               </Button>
-              <Button variant="primary" onClick={() => onConfirmBatchCheckModal()} disabled={isVerifyButtonDisabled}>
+              <Button
+                variant="primary"
+                onClick={() => onConfirmBatchCheckModal()}
+                disabled={isVerifyButtonDisabled}
+              >
                 Verificar
               </Button>
-              <Button variant="success" onClick={() => handleUpdateBatchContent()} disabled={isSaveButtonDisabled}>
+              <Button
+                variant="success"
+                onClick={() => handleUpdateBatchContent()}
+                disabled={isSaveButtonDisabled}
+              >
                 Salvar
               </Button>
             </div>
