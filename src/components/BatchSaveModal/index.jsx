@@ -1,9 +1,9 @@
 import { Modal, Button, Table } from "react-bootstrap";
-import style from "./save.module.css";
+import style from "./BatchSaveModal.module.css";
 import { InputGroup, FormControl } from 'react-bootstrap'
 
 
-const SaveConfirmation = ({ onShowModal, onHideModal, onConfirmModal, posts, isSaveButtonDisabled, onChangeNote, note }) => {
+const BatchSaveModal = ({ onShowModal, onHideModal, onConfirmModal, posts, isSaveButtonDisabled, onChangeNote, note }) => {
   
   let totalProducts = 0;  
   
@@ -18,7 +18,7 @@ const SaveConfirmation = ({ onShowModal, onHideModal, onConfirmModal, posts, isS
           <Modal.Title>Relatório de produtos</Modal.Title>
         </Modal.Header>
         
-        <Modal.Body><div className={style.body}>
+        <Modal.Body className={style.modalBody}><div className={style.body}>
           <Table bordered>
             <thead>
               <tr>
@@ -74,4 +74,4 @@ const SaveConfirmation = ({ onShowModal, onHideModal, onConfirmModal, posts, isS
     )
 }
  
-export default SaveConfirmation;
+export default BatchSaveModal;

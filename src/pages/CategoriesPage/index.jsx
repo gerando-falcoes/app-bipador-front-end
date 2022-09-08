@@ -35,9 +35,9 @@ const LotesPage = () => {
     <main className="container mt-3">
       <div className="categoriesPageContainer">
         <div className="grid">
-          {categorias.map((categorias, index) => {
+          {categorias.map((categoria) => {
             return (
-              <div className="item">
+              <div key = {categoria.id} className="item">
                 <img
                   className="folderImage"
                   src={Folder}
@@ -45,10 +45,10 @@ const LotesPage = () => {
                   height="120"
                   alt="Folder image"
                   onClick={() => {
-                    handleIrParaLotes(categorias.name, categorias.id)}
+                    handleIrParaLotes(categoria.name, categoria.id)}
                   }
                 />
-                <p>{categorias.name}</p>
+                <p>{categoria.name}</p>
               </div>
             )
           }

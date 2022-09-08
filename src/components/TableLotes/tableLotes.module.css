@@ -11,3 +11,7 @@
 .buttonsIcon:active {
   transform: scale(0.9);
 }
+
+td {
+  vertical-align: middle !important;
+}
