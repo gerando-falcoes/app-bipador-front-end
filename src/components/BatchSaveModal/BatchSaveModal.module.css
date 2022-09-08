@@ -1,6 +1,9 @@
-.body{
-  height: 65vh;
+.body {
   align-self: center;
+}
+
+.modalBody{
+  height: 65vh;
 }
 
 .modalFooter {
