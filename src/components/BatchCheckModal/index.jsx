@@ -19,7 +19,7 @@ const BatchCheckModal = ({
   const [amount, setAmount] = useState(1)
   const [code, setCode] = useState('')
   const [checkerContent, setCheckerContent] = useState([])
-  const [isDisabled, setIsDisabled] = useState(false)
+  /* const [isDisabled, setIsDisabled] = useState(false) */
   const [isVerifyButtonDisabled, setIsVerifyButtonDisabled] = useState()
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true)
 
@@ -123,9 +123,9 @@ const BatchCheckModal = ({
 
   const onChangeCode = async (e) => {
     const value = e.target.value
-    setIsDisabled(true)
+    /* setIsDisabled(true) */
     if (!amount || amount <= 0) {
-      setIsDisabled(false)
+      /* setIsDisabled(false) */
       setCode('')
       toast.error('Insira a quantidade primeiro.')
       return
@@ -155,7 +155,7 @@ const BatchCheckModal = ({
           toast.error('Produto não encontrado.')
         })
     }
-    setIsDisabled(false)
+    /* setIsDisabled(false) */
   }
 
   const handleDelete = (index) => {
@@ -209,7 +209,7 @@ const BatchCheckModal = ({
                   aria-label="Recipient's username"
                   aria-describedby="basic-addon2"
                   onChange={onChangeCode}
-                  disabled={isDisabled}
+                  /* disabled={isDisabled} */
                 />
               </InputGroup>
             </div>
