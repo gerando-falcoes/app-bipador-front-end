@@ -12,7 +12,7 @@ import BatchSaveModal from '../BatchSaveModal'
 const Bip = () => {
   const [amount, setAmount] = useState(1)
   const [code, setCode] = useState('')
-  const [isDisabled, setIsDisabled] = useState(false)
+  /* const [isDisabled, setIsDisabled] = useState(false) */
 
   const { pathname } = window.location
   
@@ -84,9 +84,9 @@ const Bip = () => {
 
   const onChangeCode = async (e) => {
     const value = e.target.value
-    setIsDisabled(true)
+    /* setIsDisabled(true) */
     if (!amount || amount <= 0) {
-      setIsDisabled(false)
+      /* setIsDisabled(false) */
       setCode('')
       toast.error('Insira a quantidade primeiro.')
       return
@@ -118,7 +118,7 @@ const Bip = () => {
           toast.error('Produto não encontrado.')
         })
     }
-    setIsDisabled(false)
+    /* setIsDisabled(false) */
   }
 
   const handleDelete = (index) => {
@@ -187,7 +187,7 @@ const Bip = () => {
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
                 onChange={onChangeCode}
-                disabled={isDisabled}
+                /* disabled={isDisabled} */
               />
               <Button variant="success" 
                 onClick={startSaveModal}
