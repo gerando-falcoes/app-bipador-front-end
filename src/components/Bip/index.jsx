@@ -39,6 +39,7 @@ const Bip = () => {
     .replaceAll('13', '')
     .replaceAll('14', '')
     .replaceAll('15', '')
+    .replaceAll('16', '')
     .replaceAll('01', '')
     
   const unidade = JSON.stringify(pathname)

@@ -51,6 +51,8 @@ const ColetorNavbar = () => {
       return "INVENTÁRIO EUCALIPTOS"
     } else if (unidade === "15") {
       return "TESTES DEV"
+    } else if (unidade === "16") {
+      return "SAÍDA CD"
     }
   }
 

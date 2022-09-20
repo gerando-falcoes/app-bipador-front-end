@@ -46,6 +46,7 @@ const LoginPage = () => {
             </option>
             <option value="01">ENTRADA CD</option>
             <option value="02">ENTRADA PJ</option>
+            <option value="16">SAÍDA CD</option>
             <option value="03">SAÍDA CENTER NORTE</option>
             <option value="04">SAÍDA POÁ</option>
             <option value="05">SAÍDA SUZANO</option>
