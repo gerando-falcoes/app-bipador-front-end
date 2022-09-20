@@ -3,7 +3,7 @@ import { MDBDataTableV5 } from 'mdbreact'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import { toast } from 'react-toastify'
 import api from '../../services/api'
-import style from './TableLotes.module.css'
+import style from './tableLotes.module.css'
 import DownloadButton from '../../assets/downloadButton.svg'
 import TxtImage from '../../assets/simbolo-de-arquivo-txt.svg'
 import AddButton from '../../assets/addButton.svg'
@@ -75,29 +75,21 @@ export default function Pagination({ categoriaId }) {
 
   //FUNÇÕES DO MODAL DE VERIFICAÇÃO DE LOTE
 
-/*   const handleSaveBatchCheck = async () => {
-    try {
-      await api.patch(`/lotes/lote-check/${loteId}/true`)
-      toast.success('Verificação realizada com sucesso. O arquivo pode ser gerado.')
-    } catch (error) {
-      const err = { message: 'Algo deu errado!' }
-      toast.error(err.message)
-    } finally {
-      setIsSaveButtonDisabled(false)
-      setLoteId('')
-    }
-  } */
-
   const startVerificationModal = (checkerUser, content, loteName) => {
 
     setLoteName(loteName)
 
     let sumTotalProducts = 0
+
     if (checkerUser) {
       const user = checkerUser.split('@')
-      toast.error('Lote já possui um arquivo gerado pelo usuário ' + user[0] + '.') 
-      return
+      return toast.error('Lote já possui um arquivo gerado pelo usuário ' + user[0] + '.') 
     }
+
+    if (!content) {
+      return toast.error('Lote não possui verificação disponível.')
+    }
+
     content.forEach((product) => {
       sumTotalProducts += Number(product.quantidade)
     })
@@ -109,36 +101,6 @@ export default function Pagination({ categoriaId }) {
   const onHideBatchCheckModal = () => {
     setIsBatchCheckModalOpen(false)
   }
-
-/*   const onConfirmBatchCheckModal = async (checkerContent) => {
-    let checkResult = true
-
-    if (!checkerContent.length) {
-      return toast.error('Adicione pelo menos um produto para realizar a verificação.')
-    }
-    
-    if (loteContent.length === checkerContent.length) {
-      loteContent.forEach((content, index) => {
-        const res = checkerContent.find((element) => {
-          return (element.id_produto === content.id_produto && element.quantidade === content.quantidade)
-        })
-        console.log("RESULTADO", res, content.id_produto)
-        if (!res) checkResult = false
-      })
-  
-      if (checkResult) {
-        await handleSaveBatchCheck()
-        fetchData()
-        onHideBatchCheckModal()
-      } else {
-        toast.error('Verificação falhou.')
-        //onHideModal()
-      }
-    } else {
-      toast.error('Verificação falhou.')
-    }
-
-  } */
 
   // FUNÇÕES DO MODAL DE CONFIRMAÇÃO PARA GERAR ARQUIVO TXT
 
