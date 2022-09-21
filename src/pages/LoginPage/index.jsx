@@ -2,13 +2,16 @@ import React, { useEffect, useState, useContext } from 'react'
 import { AuthContext } from '../../contexts/auth'
 import './LoginPage.css'
 import Logo from '../../assets/logo.svg'
+import ShowPasswordTrue from '../../assets/showPasswordTrue.svg'
+import ShowPasswordFalse from '../../assets/showPasswordFalse.svg'
 
 const LoginPage = () => {
-  const { authenticated, login } = useContext(AuthContext)
+  const { login } = useContext(AuthContext)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [categoria, setCategoria] = useState('')
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true)
+  const [passwordShown, setPasswordShown] = useState(false);
 
   const validateFields = () => {
     if (categoria && email && password) {
@@ -25,6 +28,10 @@ const LoginPage = () => {
     setIsSubmitButtonDisabled(true)
     await login(email, password, categoria)
     setIsSubmitButtonDisabled(false) // integração com meu contexto/api
+  }
+
+  const togglePassword = () => {
+    setPasswordShown(!passwordShown);
   }
 
   return (
@@ -74,13 +81,30 @@ const LoginPage = () => {
         </div>
         <div className="field">
           <input
-            type="password"
+            type={passwordShown ? "text" : "password"}
             className="password"
             id="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          {passwordShown ?           
+            <img
+              className="show-password"
+              onClick={togglePassword}
+              src={ShowPasswordTrue}
+              alt="open eye"
+              title="Ocultar senha"
+            />
+          :
+            <img
+              className="show-password"
+              onClick={togglePassword}
+              src={ShowPasswordFalse}
+              alt="closed eye"
+              title="Mostrar senha"
+            />
+          }
         </div>
         <div className="action">
           <button type="submit" disabled={isSubmitButtonDisabled}>
