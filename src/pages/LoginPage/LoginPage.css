@@ -24,7 +24,18 @@
   padding: 1rem 0;
 }
 
+.show-password {
+  width: 25px !important;
+  height: 20px !important;
+  padding: 0 !important;
+  cursor: pointer;
+  margin-left: -35px; 
+}
+
 #login .field {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   padding-bottom: 0.5rem;
   width: 80%;
 }
