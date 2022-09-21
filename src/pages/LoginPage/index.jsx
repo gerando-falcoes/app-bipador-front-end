@@ -94,13 +94,15 @@ const LoginPage = () => {
               onClick={togglePassword}
               src={ShowPasswordTrue}
               alt="open eye"
+              title="Ocultar senha"
             />
           :
             <img
-            className="show-password"
-            onClick={togglePassword}
-            src={ShowPasswordFalse}
-            alt="closed eye"
+              className="show-password"
+              onClick={togglePassword}
+              src={ShowPasswordFalse}
+              alt="closed eye"
+              title="Mostrar senha"
             />
           }
         </div>
