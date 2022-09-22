@@ -121,8 +121,21 @@ const BatchCheckModal = ({
     }
   }
 
-  const onChangeCode = async (e) => {
-    const value = e.target.value
+  const formatProductCode = () => {
+    const value = Array.from(code)
+    
+    if (code.length < 12) {
+      for (let i = 0; i < (12 - code.length); i++) {
+        value.unshift('0')
+      }
+    }
+    
+    onChangeCode(value.toString().replace(/,/g,""))
+    
+  }
+
+  const onChangeCode = async (targetValue) => {
+    const value = targetValue
     /* setIsDisabled(true) */
     if (!amount || amount <= 0) {
       /* setIsDisabled(false) */
@@ -141,7 +154,7 @@ const BatchCheckModal = ({
           alterarQuantidade.quantidade = amount
           const items = JSON.parse(localStorage.getItem('CheckerContent') || '')
           items.map((item, index) => {
-            if (item.id_produto === e.target.value) {
+            if (item.id_produto === targetValue) {
               items[index].quantidade = Number(items[index].quantidade) + Number(amount)
               setCheckerContent(items)
               isNewProduct = false
@@ -208,9 +221,15 @@ const BatchCheckModal = ({
                   className="shadow-none"
                   aria-label="Recipient's username"
                   aria-describedby="basic-addon2"
-                  onChange={onChangeCode}
+                  onChange={(e) => {onChangeCode(e.target.value)}}
                   /* disabled={isDisabled} */
                 />
+                <Button variant="primary" 
+                onClick={formatProductCode}
+                id="button-addon2"
+                className="shadow-none">
+                  Formatar
+                </Button>
               </InputGroup>
             </div>
             <Table className="mb-0" bordered>
