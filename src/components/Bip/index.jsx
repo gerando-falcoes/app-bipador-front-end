@@ -41,6 +41,21 @@ const Bip = () => {
     .replaceAll('15', '')
     .replaceAll('16', '')
     .replaceAll('01', '')
+
+
+  const formatProductCode = () => {
+
+    const value = Array.from(code)
+    
+    if (code.length < 12) {
+      for (let i = 0; i < (12 - code.length); i++) {
+        value.unshift('0')
+      }
+    }
+    
+    onChangeCode(value.toString().replace(/,/g,""))
+    
+  }
     
   const unidade = JSON.stringify(pathname)
     .split(nomeRetirar)
@@ -83,8 +98,8 @@ const Bip = () => {
     localStorage.setItem('Produto', JSON.stringify(posts))
   }, [posts])
 
-  const onChangeCode = async (e) => {
-    const value = e.target.value
+  const onChangeCode = async (targetValue) => {
+    const value = targetValue
     /* setIsDisabled(true) */
     if (!amount || amount <= 0) {
       /* setIsDisabled(false) */
@@ -105,7 +120,7 @@ const Bip = () => {
           alterarQuantidade.quantidade = amount
           const items = JSON.parse(localStorage.getItem('Produto') || '')
           items.forEach((item, index) => {
-            if (item.id_produto === e.target.value) {
+            if (item.id_produto === targetValue) {
               items[index].quantidade = Number(items[index].quantidade) + Number(amount)
               setPosts(items)
               isNewProduct = false
@@ -187,13 +202,14 @@ const Bip = () => {
                 className="shadow-none"
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
-                onChange={onChangeCode}
+                onChange={(e) => onChangeCode(e.target.value)}
                 /* disabled={isDisabled} */
               />
-              <Button variant="success" 
-                onClick={startSaveModal}
-                id="button-addon2">
-                Salvar em .txt
+              <Button variant="primary" 
+                onClick={formatProductCode}
+                id="button-addon2"
+                className="shadow-none">
+                Formatar
               </Button>
             </InputGroup>
           </div>
@@ -204,7 +220,8 @@ const Bip = () => {
           <div className="saveButton">
             <Button variant="success" 
               onClick={startSaveModal}
-              id="button-addon2">
+              id="button-addon2"
+              className="shadow-none">
               Salvar em .txt
             </Button>
           </div>
