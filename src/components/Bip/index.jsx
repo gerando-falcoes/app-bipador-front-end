@@ -68,12 +68,27 @@ const Bip = () => {
     setNote(valueNote)
   }
 
+  const handleUpdateProductQuantity = (index, quantity) => {
+    let value = quantity
+    const postsCopy = [...posts]
+    postsCopy[index].quantidade = Math.abs(Number(value))
+
+    setPosts(postsCopy)
+  }
+
   const startSaveModal = () => {
     if (!posts.length) {
       toast.error('Adicione pelo menos um produto.')
       return 
     }
-    setIsSaveModalOpen(true)
+
+    posts.forEach((produto) => {
+      if (produto.quantidade <= 0) {
+        toast.error('Você possui produto(s) com quantidade inválida.')
+        return
+      } else setIsSaveModalOpen(true)
+    })
+
   }
 
   const onHideSaveModal = () => {
@@ -216,6 +231,7 @@ const Bip = () => {
           <Post   
             posts={posts}            
             onDelete={handleDelete} 
+            handleUpdateProductQuantity={handleUpdateProductQuantity}
           />
           <div className="saveButton">
             <Button variant="success" 
