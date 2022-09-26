@@ -37,19 +37,32 @@ const BatchCheckModal = ({
   }, [checkerContent])
 
   const handleUpdateBatchContent = async () => {
-    setIsSaveButtonDisabled(true)
 
-    try {
-      await api.patch(`/lotes/content-update/${loteId}`, checkerContent)
-      await handleSaveBatchCheck()
-      fetchData()
-      onHideModal()
-    } catch (error) {
-      const err = { message: 'Algo deu errado!' }
-      toast.error(err.message)
-    } finally {
-      setIsVerifyButtonDisabled(false)
+    if (!checkerContent.length) {
+      toast.error('Adicione pelo menos um produto.')
+      return 
     }
+
+    await checkerContent.forEach(async (produto) => {
+      if (produto.quantidade <= 0) {
+        toast.error('Você possui produto(s) com quantidade inválida.')
+        return
+      } else {
+        setIsSaveButtonDisabled(true)
+        try {
+          await api.patch(`/lotes/content-update/${loteId}`, checkerContent)
+          await handleSaveBatchCheck()
+          fetchData()
+          onHideModal()
+        } catch (error) {
+          const err = { message: 'Algo deu errado!' }
+          toast.error(err.message)
+        } finally {
+          setIsVerifyButtonDisabled(false)
+        }
+      }
+    })
+
   }
 
   const handleSaveBatchCheck = async () => {
@@ -163,6 +176,12 @@ const BatchCheckModal = ({
     setCheckerContent(list)
   }
 
+  const handleUpdateProductQuantity = (index, quantity) => {
+    const checkerContentCopy = [...checkerContent]
+    checkerContentCopy[index].quantidade = Math.abs(Number(quantity))
+    setCheckerContent(checkerContentCopy)
+  }
+
   let totalProducts = 0
 
   return (
@@ -229,7 +248,7 @@ const BatchCheckModal = ({
                     <tr key={product.id_produto}>
                       <td className="align-middle">{product.id_produto}</td>
                       <td className="align-middle">{product.nome}</td>
-                      <td className="align-middle">{product.quantidade}</td>
+                      <td className="align-middle"><input className={style.quantityInput} min="1" type="number" value={product.quantidade != 0 ? product.quantidade : ''} onChange={(event) => handleUpdateProductQuantity(index, event.target.value)}/></td>
                       <td>
                         <button
                           type="button"

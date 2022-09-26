@@ -4,7 +4,7 @@ import style from "./table.module.css";
 import ProductDeleteModal from "../ProductDeleteModal";
 
 
-const Table = ({posts, onDelete}) => {
+const Table = ({posts, onDelete, handleUpdateProductQuantity}) => {
   
   const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false)
   const [productIndex, setProductIndex] = useState('')
@@ -50,7 +50,7 @@ const Table = ({posts, onDelete}) => {
             </div>
             <div className={style.section}>
               <div className={style.title}>Quantidade</div>
-              <div className={style.value}>{product.quantidade}</div>
+              <div className={style.value}><input min="1" type="number" className={style.quantityInput} value={product.quantidade != 0 ? product.quantidade : ''} onChange={(event) => handleUpdateProductQuantity(index, event.target.value)}/></div>
             </div>
             <div className={style.section}>
               <div className={style.title}>Deletar</div>
