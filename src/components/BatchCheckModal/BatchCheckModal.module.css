@@ -30,6 +30,12 @@
   width: 100%;
 }
 
+.quantityInput {
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
 .tableFooter {
   text-align: start;
 }
