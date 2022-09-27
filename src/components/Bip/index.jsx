@@ -148,6 +148,8 @@ const Bip = () => {
           setCode('')
           toast.error('Produto não encontrado.')
         })
+        .finally(setAmount(1))
+  
     }
     /* setIsDisabled(false) */
   }
