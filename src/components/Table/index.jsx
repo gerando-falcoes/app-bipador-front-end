@@ -41,16 +41,16 @@ const Table = ({posts, onDelete, handleUpdateProductQuantity}) => {
               <div className={style.value}>{product.nome}</div>
             </div>
             <div className={style.section}>
+              <div className={style.title}>Quantidade</div>
+              <div className={style.value}><input min="1" type="number" className={style.quantityInput} value={product.quantidade != 0 ? product.quantidade : ''} onChange={(event) => handleUpdateProductQuantity(index, event.target.value)}/></div>
+            </div>
+            <div className={style.section}>
               <div className={style.title}>Setor</div>
               <div className={style.value}>{product.setor.name}</div>
             </div>
             <div className={style.section}>
               <div className={style.title}>Preço</div>
               <div className={style.value}>{product.preco}</div>
-            </div>
-            <div className={style.section}>
-              <div className={style.title}>Quantidade</div>
-              <div className={style.value}><input min="1" type="number" className={style.quantityInput} value={product.quantidade != 0 ? product.quantidade : ''} onChange={(event) => handleUpdateProductQuantity(index, event.target.value)}/></div>
             </div>
             <div className={style.section}>
               <div className={style.title}>Deletar</div>

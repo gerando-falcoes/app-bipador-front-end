@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import api from '../../services/api'
 import Post from '../List'
@@ -54,6 +54,8 @@ const Bip = () => {
     }
     
     onChangeCode(value.toString().replace(/,/g,""))
+
+    ref.current.focus();
     
   }
     
@@ -141,13 +143,15 @@ const Bip = () => {
               isNewProduct = false
             }
           })
-          isNewProduct && setPosts((dados) => [...dados, resp.data])
+          isNewProduct && setPosts((dados) => [resp.data, ...dados])
           setCode('')
         })
         .catch((err) => {
           setCode('')
           toast.error('Produto não encontrado.')
         })
+        .finally(setAmount(1))
+  
     }
     /* setIsDisabled(false) */
   }
@@ -182,6 +186,8 @@ const Bip = () => {
     }
   }
 
+  const ref = useRef(null)
+
   return (
     <>
       {
@@ -210,6 +216,7 @@ const Bip = () => {
             <label>Código do Produto</label>
             <InputGroup className="mb-3">
               <FormControl
+                ref={ref}
                 id="code"
                 type="number"
                 placeholder=""
@@ -218,6 +225,7 @@ const Bip = () => {
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
                 onChange={(e) => onChangeCode(e.target.value)}
+                autoFocus
                 /* disabled={isDisabled} */
               />
               <Button variant="primary" 

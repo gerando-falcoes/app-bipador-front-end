@@ -1,7 +1,7 @@
 import { Modal, Button, Table } from 'react-bootstrap'
 import style from './BatchCheckModal.module.css'
 import { InputGroup, FormControl } from 'react-bootstrap'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import { toast } from 'react-toastify'
 
@@ -144,6 +144,8 @@ const BatchCheckModal = ({
     }
     
     onChangeCode(value.toString().replace(/,/g,""))
+
+    ref.current.focus();
     
   }
 
@@ -173,13 +175,14 @@ const BatchCheckModal = ({
               isNewProduct = false
             }
           })
-          isNewProduct && setCheckerContent((dados) => [...dados, resp.data])
+          isNewProduct && setCheckerContent((dados) => [resp.data, ...dados])
           setCode('')
         })
         .catch((err) => {
           setCode('')
           toast.error('Produto não encontrado.')
         })
+        .finally(setAmount(1))
     }
     /* setIsDisabled(false) */
   }
@@ -196,6 +199,8 @@ const BatchCheckModal = ({
   }
 
   let totalProducts = 0
+
+  const ref = useRef(null)
 
   return (
     <>
@@ -233,6 +238,7 @@ const BatchCheckModal = ({
               <label>Código do Produto</label>
               <InputGroup className="mb-3">
                 <FormControl
+                  ref={ref}
                   id="code"
                   type="number"
                   placeholder=""
@@ -241,6 +247,7 @@ const BatchCheckModal = ({
                   aria-label="Recipient's username"
                   aria-describedby="basic-addon2"
                   onChange={(e) => {onChangeCode(e.target.value)}}
+                  autoFocus
                   /* disabled={isDisabled} */
                 />
                 <Button variant="primary" 
