@@ -15,7 +15,7 @@ const Bip = () => {
   /* const [isDisabled, setIsDisabled] = useState(false) */
 
   const { pathname } = window.location
-  
+
   const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false)
   const [posts, setPosts] = useState([])
@@ -40,25 +40,23 @@ const Bip = () => {
     .replaceAll('14', '')
     .replaceAll('15', '')
     .replaceAll('16', '')
+    .replaceAll('17', '')
     .replaceAll('01', '')
 
-
   const formatProductCode = () => {
-
     const value = Array.from(code)
-    
+
     if (code.length < 12) {
-      for (let i = 0; i < (12 - code.length); i++) {
+      for (let i = 0; i < 12 - code.length; i++) {
         value.unshift('0')
       }
     }
-    
-    onChangeCode(value.toString().replace(/,/g,""))
 
-    ref.current.focus();
-    
+    onChangeCode(value.toString().replace(/,/g, ''))
+
+    ref.current.focus()
   }
-    
+
   const unidade = JSON.stringify(pathname)
     .split(nomeRetirar)
     .join('')
@@ -81,7 +79,7 @@ const Bip = () => {
   const startSaveModal = () => {
     if (!posts.length) {
       toast.error('Adicione pelo menos um produto.')
-      return 
+      return
     }
 
     posts.forEach((produto) => {
@@ -90,13 +88,12 @@ const Bip = () => {
         return
       } else setIsSaveModalOpen(true)
     })
-
   }
 
   const onHideSaveModal = () => {
     setIsSaveModalOpen(false)
   }
-  
+
   const onConfirmSave = () => {
     handleSave()
     onHideSaveModal()
@@ -151,7 +148,6 @@ const Bip = () => {
           toast.error('Produto não encontrado.')
         })
         .finally(setAmount(1))
-  
     }
     /* setIsDisabled(false) */
   }
@@ -166,11 +162,11 @@ const Bip = () => {
     if (!posts.length) {
       toast.error('Adicione pelo menos um produto.')
       return
-    } else if (note==='') {
+    } else if (note === '') {
       toast.error('Adicione a observação de lote')
       return
     }
-    
+
     const user = JSON.parse(localStorage.getItem('user'))
 
     try {
@@ -205,7 +201,7 @@ const Bip = () => {
                     if (!!value && Math.abs(value) > 0) {
                       return Math.abs(value)
                     } else if (!!value && Math.abs(value) === 0) {
-                      return value = 1
+                      return (value = 1)
                     } else return null
                   })
                 }}
@@ -228,30 +224,34 @@ const Bip = () => {
                 autoFocus
                 /* disabled={isDisabled} */
               />
-              <Button variant="primary" 
+              <Button
+                variant="primary"
                 onClick={formatProductCode}
                 id="button-addon2"
-                className="shadow-none">
+                className="shadow-none"
+              >
                 Formatar
               </Button>
             </InputGroup>
           </div>
-          <Post   
-            posts={posts}            
-            onDelete={handleDelete} 
+          <Post
+            posts={posts}
+            onDelete={handleDelete}
             handleUpdateProductQuantity={handleUpdateProductQuantity}
           />
           <div className="saveButton">
-            <Button variant="success" 
+            <Button
+              variant="success"
               onClick={startSaveModal}
               id="button-addon2"
-              className="shadow-none">
+              className="shadow-none"
+            >
               Salvar em .txt
             </Button>
           </div>
-          <BatchSaveModal 
-            onShowModal={isSaveModalOpen} 
-            onConfirmModal={onConfirmSave} 
+          <BatchSaveModal
+            onShowModal={isSaveModalOpen}
+            onConfirmModal={onConfirmSave}
             onHideModal={onHideSaveModal}
             posts={posts}
             isSaveButtonDisabled={isSaveButtonDisabled}
