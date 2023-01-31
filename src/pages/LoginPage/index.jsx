@@ -11,7 +11,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('')
   const [categoria, setCategoria] = useState('')
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true)
-  const [passwordShown, setPasswordShown] = useState(false);
+  const [passwordShown, setPasswordShown] = useState(false)
 
   const validateFields = () => {
     if (categoria && email && password) {
@@ -31,7 +31,7 @@ const LoginPage = () => {
   }
 
   const togglePassword = () => {
-    setPasswordShown(!passwordShown);
+    setPasswordShown(!passwordShown)
   }
 
   return (
@@ -59,6 +59,7 @@ const LoginPage = () => {
             <option value="05">SAÍDA SUZANO</option>
             <option value="06">SAÍDA EUCALIPTOS</option>
             <option value="07">SAÍDA E-COMMERCE</option>
+            <option value="17">SAÍDA CAMPO LIMPO</option>
             <option value="08">VENDA SELLERS</option>
             <option value="09">INVENTÁRIO CD</option>
             <option value="10">INVETÁRIO LOJA POÁ</option>
@@ -81,14 +82,14 @@ const LoginPage = () => {
         </div>
         <div className="field">
           <input
-            type={passwordShown ? "text" : "password"}
+            type={passwordShown ? 'text' : 'password'}
             className="password"
             id="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          {passwordShown ?           
+          {passwordShown ? (
             <img
               className="show-password"
               onClick={togglePassword}
@@ -96,7 +97,7 @@ const LoginPage = () => {
               alt="open eye"
               title="Ocultar senha"
             />
-          :
+          ) : (
             <img
               className="show-password"
               onClick={togglePassword}
@@ -104,7 +105,7 @@ const LoginPage = () => {
               alt="closed eye"
               title="Mostrar senha"
             />
-          }
+          )}
         </div>
         <div className="action">
           <button type="submit" disabled={isSubmitButtonDisabled}>
