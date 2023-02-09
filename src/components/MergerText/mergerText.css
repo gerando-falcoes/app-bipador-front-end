@@ -1,0 +1,106 @@
+.imputFiles {
+  box-shadow: 0px 10px 14px -7px #f1f1f1;
+  background: linear-gradient(to bottom, #f1f1f1 5%, #f1f1f1 100%);
+  background-color: #f1f1f1;
+  border-radius: 10px;
+  border-style: dashed;
+  border-width: 2px;
+  border-color: #bbb8b8;
+  display: inline-block;
+  cursor: pointer;
+  color: #000;
+  font-size: 20px;
+  padding: 42px 140px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #f1f1f1;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* .imputFiles::before {
+  content: 'Selecionar Arquivos';
+  display: inline-block;
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+
+.imputFiles::-webkit-file-upload-button {
+  visibility: hidden;
+} */
+
+.imputFiles:hover {
+  background: linear-gradient(to bottom, #ececec 5%, #ececec 100%);
+  background-color: #ececec;
+}
+.imputFiles:active {
+  position: relative;
+  top: 1px;
+}
+
+.lista {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  align-items: center;
+  list-style-type: none;
+}
+
+.inputFiles[type='file']::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+.mergerElements {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+input[type='file'] {
+  display: none;
+}
+
+label {
+  padding: 40px 20px;
+  width: 32rem;
+  background-color: #f1f1f1;
+  color: #000;
+  font-size: 20px;
+
+  text-transform: uppercase;
+  text-align: center;
+  border-radius: 10px;
+  border-style: dashed;
+  border-width: 2px;
+  border-color: #bbb8b8;
+  display: block;
+  margin-top: 10px;
+  cursor: pointer;
+  box-shadow: 0px 10px 14px -7px #bbb8b89c;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 12px;
+}
+
+.fileName {
+  margin: 5px 5px;
+  padding: 2px;
+  border: 1px solid #007bff;;
+  border-radius: 5px;
+	display: inline;
+	display: inline-flex;
+ 
+}

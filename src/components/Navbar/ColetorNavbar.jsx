@@ -105,6 +105,7 @@ const ColetorNavbar = () => {
               <Nav.Link className={style.menuItem} href="/categorias">
                 Lotes
               </Nav.Link>
+              <Nav.Link className={style.menuItem} href="/mesclador">Mesclador</Nav.Link>
             </Nav>
 
             <Nav className="justify-content-end">
