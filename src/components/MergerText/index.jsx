@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './mergerText.css';
+import style from "./mergerText.module.css";
 import { Button } from "react-bootstrap";
 
 const FileUploader = () => {
@@ -52,17 +52,16 @@ const FileUploader = () => {
   };
 
    return (
-    <div class="mergerElements"  >
-      <label for="file">Escolher arquivos TXT</label>
-      <input accept = ".txt" class="imputFiles" type="file" name="file" id='file' multiple onChange={handleFileUpload} />
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <ul class="lista"  >
+    <div className={style.mergerElements}   >
+      <label  className={style.labelStyle}   for="file">Escolher arquivos TXT</label>
+      <input accept = ".txt" className={style.inputFiles} type="file" name="file" id='file' multiple onChange={handleFileUpload} />
+      {error && <p className={style.msgErro} >{error}</p>}
+      <ul className={style.lista}>
         {fileList.map(file => (
-          <li key={file.name}  class="fileName"    >{file.name}</li>
+          <li key={file.name}  className={style.fileName} >{file.name}</li>
         ))}
       </ul>
-
-      <div class="buttons">
+      <div className={style.buttons}>
       <button class="shadow-none btn btn-primary" onClick={mergeFiles}>Mesclar</button>
       <button class="btn btn-danger" onClick={reset}>Resetar</button>
       {downloadLink && fileList.length > 1  && (
@@ -70,9 +69,7 @@ const FileUploader = () => {
           Download
         </a>
       )}
-      </div>
-      
-
+      </div>     
     </div>
   );
 };
