@@ -62,9 +62,13 @@ export const AuthProvider = ({ children }) => {
     navigate('/categorias/')
   }
 
+  const redirectMesclador = async () => {
+    navigate('/mesclador/')
+  }
+
   return (
     <AuthContext.Provider
-      value={{ authenticated: !!user, user, loading, login, logout, redirectBip, redirectLotes, redirectCategorias }}
+      value={{ authenticated: !!user, user, loading, login, logout, redirectBip, redirectLotes, redirectCategorias, redirectMesclador}}
     >
       {children}
     </AuthContext.Provider>
