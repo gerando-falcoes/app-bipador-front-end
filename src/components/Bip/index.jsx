@@ -136,6 +136,9 @@ const Bip = () => {
           items.forEach((item, index) => {
             if (item.id_produto === targetValue) {
               items[index].quantidade = Number(items[index].quantidade) + Number(amount)
+              const targetItem = items[index]
+              items.splice(index, 1)
+              items.splice(0, 0, targetItem)
               setPosts(items)
               isNewProduct = false
             }
