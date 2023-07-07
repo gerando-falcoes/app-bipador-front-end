@@ -37,32 +37,37 @@ const BatchCheckModal = ({
   }, [checkerContent])
 
   const handleUpdateBatchContent = async () => {
+    let invalidAmount = false
 
     if (!checkerContent.length) {
       toast.error('Adicione pelo menos um produto.')
-      return 
+      return
     }
 
-    await checkerContent.forEach(async (produto) => {
+    checkerContent.forEach(async (produto) => {
       if (produto.quantidade <= 0) {
-        toast.error('Você possui produto(s) com quantidade inválida.')
+        invalidAmount = true
         return
-      } else {
-        setIsSaveButtonDisabled(true)
-        try {
-          await api.patch(`/lotes/content-update/${loteId}`, checkerContent)
-          await handleSaveBatchCheck()
-          fetchData()
-          onHideModal()
-        } catch (error) {
-          const err = { message: 'Algo deu errado!' }
-          toast.error(err.message)
-        } finally {
-          setIsVerifyButtonDisabled(false)
-        }
       }
     })
 
+    if (!invalidAmount) {
+      setIsSaveButtonDisabled(true)
+      try {
+        await api.patch(`/lotes/content-update/${loteId}`, checkerContent)
+        await handleSaveBatchCheck()
+        fetchData()
+        onHideModal()
+      } catch (error) {
+        const err = { message: 'Algo deu errado!' }
+        toast.error(err.message)
+      } finally {
+        setIsVerifyButtonDisabled(false)
+      }
+    } else {
+      toast.error('Você possui produto(s) com quantidade inválida.')
+      return
+    }
   }
 
   const handleSaveBatchCheck = async () => {
@@ -136,17 +141,16 @@ const BatchCheckModal = ({
 
   const formatProductCode = () => {
     const value = Array.from(code)
-    
+
     if (code.length < 12) {
-      for (let i = 0; i < (12 - code.length); i++) {
+      for (let i = 0; i < 12 - code.length; i++) {
         value.unshift('0')
       }
     }
-    
-    onChangeCode(value.toString().replace(/,/g,""))
 
-    ref.current.focus();
-    
+    onChangeCode(value.toString().replace(/,/g, ''))
+
+    ref.current.focus()
   }
 
   const onChangeCode = async (targetValue) => {
@@ -171,6 +175,9 @@ const BatchCheckModal = ({
           items.map((item, index) => {
             if (item.id_produto === targetValue) {
               items[index].quantidade = Number(items[index].quantidade) + Number(amount)
+              const targetItem = items[index]
+              items.splice(index, 1)
+              items.splice(0, 0, targetItem)
               setCheckerContent(items)
               isNewProduct = false
             }
@@ -212,7 +219,9 @@ const BatchCheckModal = ({
         <Modal.Body className={style.modalBody}>
           <div className={style.body}>
             <div className={style.containerLoteName}>
-              <p className="text-start p-2 m-0"><b>LOTE:</b> {loteName}</p>
+              <p className="text-start p-2 m-0">
+                <b>LOTE:</b> {loteName}
+              </p>
             </div>
             <div>
               <label>Quantidade</label>
@@ -246,14 +255,18 @@ const BatchCheckModal = ({
                   className="shadow-none"
                   aria-label="Recipient's username"
                   aria-describedby="basic-addon2"
-                  onChange={(e) => {onChangeCode(e.target.value)}}
+                  onChange={(e) => {
+                    onChangeCode(e.target.value)
+                  }}
                   autoFocus
                   /* disabled={isDisabled} */
                 />
-                <Button variant="primary" 
-                onClick={formatProductCode}
-                id="button-addon2"
-                className="shadow-none">
+                <Button
+                  variant="primary"
+                  onClick={formatProductCode}
+                  id="button-addon2"
+                  className="shadow-none"
+                >
                   Formatar
                 </Button>
               </InputGroup>
@@ -274,7 +287,17 @@ const BatchCheckModal = ({
                     <tr key={product.id_produto}>
                       <td className="align-middle">{product.id_produto}</td>
                       <td className="align-middle">{product.nome}</td>
-                      <td className="align-middle"><input className={style.quantityInput} min="1" type="number" value={product.quantidade != 0 ? product.quantidade : ''} onChange={(event) => handleUpdateProductQuantity(index, event.target.value)}/></td>
+                      <td className="align-middle">
+                        <input
+                          className={style.quantityInput}
+                          min="1"
+                          type="number"
+                          value={product.quantidade != 0 ? product.quantidade : ''}
+                          onChange={(event) =>
+                            handleUpdateProductQuantity(index, event.target.value)
+                          }
+                        />
+                      </td>
                       <td>
                         <button
                           type="button"
