@@ -1,6 +1,6 @@
 import axios from 'axios'
 const baseURL =
-  process.env.NODE_ENV === 'development'
+  process.env.REACT_APP_ENV === 'development'
     ? 'https://dev-coletor-api.azurewebsites.net/'
     : 'https://coletor-api.azurewebsites.net/'
 
