@@ -4,6 +4,7 @@ const baseURL =
     ? 'https://dev-coletor-api.azurewebsites.net/'
     : 'https://coletor-api.azurewebsites.net/'
 
+console.log('ENV ->', process.env.NODE_ENV)
 const api = axios.create({
   baseURL,
 })
