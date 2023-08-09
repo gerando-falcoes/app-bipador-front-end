@@ -1,15 +1,16 @@
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'gcr.io/${PROJECT_ID}/rede-excelencia-fe:$SHORT_SHA', '.' ]
-- name: 'gcr.io/cloud-builders/docker'
-  args: [ 'push', 'gcr.io/${PROJECT_ID}/rede-excelencia-fe:$SHORT_SHA']
-- name: 'gcr.io/cloud-builders/gcloud'
-  args:
-    - 'run'
-    - 'deploy'
-    - 'rede-excelencia-fe'
-    - '--region=${_REGION}'
-    - '--platform=managed'
-    - '--allow-unauthenticated'
-    - '--service-account=${_SERVICE_ACCOUNT_EMAIL}'
-    - '--image=gcr.io/${PROJECT_ID}/rede-excelencia-fe:$SHORT_SHA'
+- id: 'Build image'
+  name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-f', '.\.devops\Dockerfile.prod', '-t', 'us-east4-docker.pkg.dev\prj-hml-excelencia\coletor\coletor-fe:$SHORT_SHA', '.' ]
+
+- id: 'Push image'
+  name: 'gcr.io/cloud-builders/docker'
+  args: [ 'push', 'us-east4-docker.pkg.dev\prj-hml-excelencia\coletor\coletor-fe:$SHORT_SHA']
+
+steps:
+- id: 'Deploy image'
+  name: 'us-east4-docker.pkg.dev/prj-hml-excelencia/deploy/helm:latest'
+  args: ['upgrade', '--install', 'coletor-fe', './.devops/coletor-fe', '--namespace', 'coletor', '--create-namespace']
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-east4'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=gf_gcloud'

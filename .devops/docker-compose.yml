@@ -1,15 +1,13 @@
-version: '3.7'
+version: '3.8'
 
 services:
-
   coletor-fe:
-    container_name: coletor-frontend
+    container_name: coletor-fe
     build:
       context: ..
-      dockerfile: "Dockerfile.dev"
+      dockerfile: "./.devops/Dockerfile.prod"
     ports:
       - 3001:80
     environment:
-      - CHOKIDAR_USEPOLLING=true
       - REACT_APP_BASE_URL=/
       - REACT_APP_URL=https://rede-api-hml.gerandofalcoes.com/graphql
