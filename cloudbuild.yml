@@ -1,11 +1,11 @@
 steps:
 - id: 'Build image'
   name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-f', '.\.devops\Dockerfile.prod', '-t', 'us-east4-docker.pkg.dev\prj-hml-excelencia\coletor\coletor-fe:$SHORT_SHA', '.' ]
+  args: [ 'build', '-f', './.devops/Dockerfile.prod', '-t', 'us-east4-docker.pkg.dev/prj-hml-excelencia/coletor/coletor-fe:$SHORT_SHA', '.' ]
 
 - id: 'Push image'
   name: 'gcr.io/cloud-builders/docker'
-  args: [ 'push', 'us-east4-docker.pkg.dev\prj-hml-excelencia\coletor\coletor-fe:$SHORT_SHA']
+  args: [ 'push', 'us-east4-docker.pkg.dev/prj-hml-excelencia/coletor/coletor-fe:$SHORT_SHA']
 
 steps:
 - id: 'Deploy image'

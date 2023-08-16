@@ -5,12 +5,13 @@
 replicaCount: 1
 
 image:
-  repository: us-east4-docker.pkg.dev/prj-hml-excelencia/coletor-fe/coletor-fe-fe
+  repository: us-east4-docker.pkg.dev/prj-hml-excelencia/coletor/coletor-fe
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
-imagePullSecrets: []
+imagePullSecrets: 
+- name: gcr-json-key
 nameOverride: ""
 fullnameOverride: ""
 
@@ -37,16 +38,17 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  annotations:
-    cloud.google.com/neg: '{"ingress": true}'
+  annotations: {}
   labels: {}
   clusterIP: ""
-  externalIPs: []
+  externalIPs:
+  externalTrafficPolicy: Cluster
   loadBalancerIP: ""
   loadBalancerSourceRanges: []
-  servicePort: 3000
+  servicePort: 3001
+  port: 3001
   sessionAffinity: None
-  type: NodePort
+  type: LoadBalancer
 
 ingress:
   enabled: false
