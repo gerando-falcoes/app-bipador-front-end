@@ -1,16 +1,36 @@
 steps:
 - id: 'Build image'
   name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-f', './.devops/Dockerfile.prod', '-t', 'us-east4-docker.pkg.dev/prj-hml-excelencia/coletor/coletor-fe:$SHORT_SHA', '.' ]
+  args: [ 'build', '--tag=us-east4-docker.pkg.dev/prj-hml-excelencia/coletor/coletor-fe:$SHORT_SHA', '--tag=us-east4-docker.pkg.dev/prj-hml-excelencia/coletor/coletor-fe:latest','-f', './.devops/Dockerfile.prod', '.' ]
 
 - id: 'Push image'
   name: 'gcr.io/cloud-builders/docker'
   args: [ 'push', 'us-east4-docker.pkg.dev/prj-hml-excelencia/coletor/coletor-fe:$SHORT_SHA']
 
-steps:
-- id: 'Deploy image'
-  name: 'us-east4-docker.pkg.dev/prj-hml-excelencia/deploy/helm:latest'
-  args: ['upgrade', '--install', 'coletor-fe', './.devops/coletor-fe', '--namespace', 'coletor', '--create-namespace']
+- id: Configure kubectl
+  name: gcr.io/cloud-builders/kubectl
+  args:
+    - cluster-info
   env:
-  - 'CLOUDSDK_COMPUTE_ZONE=us-east4'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=gf_gcloud'
+    - PROJECT=prj-hml-excelencia
+    - KUBECONFIG=/workspace/.kube/config     
+    - CLOUDSDK_COMPUTE_REGION=us-east4
+    - CLOUDSDK_COMPUTE_ZONE=us-east4
+    - CLOUDSDK_CONTAINER_CLUSTER=gf-gcloud-hml
+
+- id: Deploy K8s
+  name: 'gcr.io/prj-hml-excelencia/helm'
+  args:
+    - 'upgrade'
+    - '--install'
+    - 'coletor-fe'
+    - './.devops/coletor-fe'
+    - '--set=image.tag=$SHORT_SHA'
+    - '--namespace=coletor'
+    - '--wait'
+  env:
+    - HELM_HOME=/workspace
+    - KUBECONFIG=/workspace/.kube/config
+    - CLOUDSDK_COMPUTE_REGION=us-east4
+    - CLOUDSDK_COMPUTE_ZONE=us-east4
+    - CLOUDSDK_CONTAINER_CLUSTER=gf-gcloud-hml
