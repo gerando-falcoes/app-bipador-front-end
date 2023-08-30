@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: us-east4-docker.pkg.dev/prj-hml-excelencia/coletor/coletor-fe
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
@@ -48,7 +48,7 @@ service:
   servicePort: 3001
   port: 3001
   sessionAffinity: None
-  type: LoadBalancer
+  type: NodePort
 
 ingress:
   enabled: false
