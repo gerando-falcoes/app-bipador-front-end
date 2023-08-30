@@ -1,13 +1,13 @@
 steps:
-- id: Set Env File
-  name: 'gcr.io/cloud-builders/docker'
-  entrypoint: bash
-  args:
-    - '-e'
-    - '-c'
-    - |
-      echo "$$APP_ENV" > .env
-  secretEnv: ['APP_ENV']
+# - id: Set Env File
+#   name: 'gcr.io/cloud-builders/docker'
+#   entrypoint: bash
+#   args:
+#     - '-e'
+#     - '-c'
+#     - |
+#       echo "$$APP_ENV" > .env
+#   secretEnv: ['APP_ENV']
 
 - id: 'Build image'
   name: 'gcr.io/cloud-builders/docker'
@@ -47,8 +47,8 @@ steps:
     - CLOUDSDK_COMPUTE_ZONE=us-east4
     - CLOUDSDK_CONTAINER_CLUSTER=gf-gcloud-hml
 
-timeout: 1200s
-availableSecrets:
-  secretManager:
-  - versionName: projects/1051142902254/secrets/coletor-fe/versions/latest
-    env: 'APP_ENV'
+# timeout: 1200s
+# availableSecrets:
+#   secretManager:
+#   - versionName: projects/1051142902254/secrets/coletor-fe/versions/latest
+#     env: 'APP_ENV'
