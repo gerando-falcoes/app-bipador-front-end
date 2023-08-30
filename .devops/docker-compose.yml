@@ -5,7 +5,7 @@ services:
     container_name: coletor-fe
     build:
       context: ..
-      dockerfile: "./.devops/Dockerfile.prod"
+      dockerfile: "./.devops/Dockerfile.dev"
     ports:
       - 3001:80
     environment:
