@@ -35,18 +35,23 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 3001
+              containerPort: {{ .Values.service.port }}
               protocol: TCP
           readinessProbe:
             tcpSocket:
-              port: 3001
-            initialDelaySeconds: 15
-            periodSeconds: 20
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 20   
           livenessProbe:
             tcpSocket:
               port: 3001
-            initialDelaySeconds: 15 
-            periodSeconds: 30     
+            initialDelaySeconds: 5 
+            periodSeconds: 20     
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
