@@ -15,7 +15,7 @@ steps:
 
 - id: 'Push image'
   name: 'gcr.io/cloud-builders/docker'
-  args: [ 'push', 'us-east4-docker.pkg.dev/prj-hml-excelencia/coletor/coletor-fe:$SHORT_SHA', 'us-east4-docker.pkg.dev/prj-hml-excelencia/coletor/coletor-fe:latest']
+  args: [ 'push', 'us-east4-docker.pkg.dev/prj-hml-excelencia/coletor/coletor-fe:$SHORT_SHA']
 
 - id: 'Push latest image'
   name: 'gcr.io/cloud-builders/docker'
