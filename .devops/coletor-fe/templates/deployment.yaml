@@ -40,13 +40,13 @@ spec:
           readinessProbe:
             tcpSocket:
               port: 3001
-            initialDelaySeconds: 5
-            periodSeconds: 10
+            initialDelaySeconds: 15
+            periodSeconds: 20
           livenessProbe:
             tcpSocket:
               port: 3001
-            initialDelaySeconds: 5 
-            periodSeconds: 20     
+            initialDelaySeconds: 15 
+            periodSeconds: 30     
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
