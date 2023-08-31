@@ -45,8 +45,8 @@ service:
   externalTrafficPolicy: Cluster
   loadBalancerIP: ""
   loadBalancerSourceRanges: []
-  servicePort: 3001
-  port: 3001
+  servicePort: 3000
+  port: 3000
   sessionAffinity: None
   type: NodePort
 
