@@ -1,0 +1,9 @@
+env:
+  - APP_NAME: Gerando Falcões
+  - JWT_SECRET: bb7d7f5fb5c36497e74018e92dc0837e
+  - ENVIRONMENT: DEV
+  - port: 3337
+  - CMS_ADMIN_EMAIL: "api@gf.com"
+  - CMS_ADMIN_PASSWORD: gxHY9xRXA%SW
+  - MYSQL_USE_SSL: true
+  - CMS_HOST_DEV: http://34.145.203.61:1337/graphql  
