@@ -11,26 +11,26 @@ steps:
 
 - id: 'Build image'
   name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-f', './.devops/Dockerfile.prod', '--tag=us-east4-docker.pkg.dev/prj-hml-excelencia/coletor/coletor-fe:$SHORT_SHA', '--tag=us-east4-docker.pkg.dev/prj-hml-excelencia/coletor/coletor-fe:latest', '.' ]
+  args: [ 'build', '-f', './.devops/Dockerfile.prod', '--tag=${_ARTIFACT}/$PROJECT_ID/coletor/coletor-fe:$SHORT_SHA', '--tag=${_ARTIFACT}/$PROJECT_ID/coletor/coletor-fe:latest', '.' ]
 
 - id: 'Push image'
   name: 'gcr.io/cloud-builders/docker'
-  args: [ 'push', 'us-east4-docker.pkg.dev/prj-hml-excelencia/coletor/coletor-fe:$SHORT_SHA']
+  args: [ 'push', '${_ARTIFACT}/$PROJECT_ID/coletor/coletor-fe:$SHORT_SHA']
 
 - id: 'Push latest image'
   name: 'gcr.io/cloud-builders/docker'
-  args: [ 'push', 'us-east4-docker.pkg.dev/prj-hml-excelencia/coletor/coletor-fe:latest']
+  args: [ 'push', '${_ARTIFACT}/$PROJECT_ID/coletor/coletor-fe:latest']
 
 - id: Configure kubectl
   name: gcr.io/cloud-builders/kubectl
   args:
     - cluster-info
   env:
-    - PROJECT=prj-hml-excelencia
-    - KUBECONFIG=/workspace/.kube/config     
-    - CLOUDSDK_COMPUTE_REGION=us-east4
-    - CLOUDSDK_COMPUTE_ZONE=us-east4
-    - CLOUDSDK_CONTAINER_CLUSTER=gf-gcloud-hml
+    - PROJECT=$PROJECT_ID
+    - KUBECONFIG=${_KUBECONFIG}   
+    - CLOUDSDK_COMPUTE_REGION=${_REGION}
+    - CLOUDSDK_COMPUTE_ZONE=${_ZONE}
+    - CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_NAME}
 
 - id: Deploy K8s
   name: 'gcr.io/prj-hml-excelencia/helm'
@@ -42,17 +42,20 @@ steps:
     - '--set=image.tag=$SHORT_SHA'
     - '--namespace=coletor'
     - '--values=./.devops/coletor-fe/values.yaml'
-    - '--values=./.devops/coletor-fe/env/dev/values.yaml' 
+    - '--values=${_VALUES}' 
     # - '--wait'
   env:
-    - HELM_HOME=/workspace
-    - KUBECONFIG=/workspace/.kube/config
-    - CLOUDSDK_COMPUTE_REGION=us-east4
-    - CLOUDSDK_COMPUTE_ZONE=us-east4
-    - CLOUDSDK_CONTAINER_CLUSTER=gf-gcloud-hml
+    - HELM_HOME=${_HELM_HOME}
+    - KUBECONFIG=${_KUBECONFIG}
+    - CLOUDSDK_COMPUTE_REGION=${_REGION}
+    - CLOUDSDK_COMPUTE_ZONE=${_ZONE}
+    - CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_NAME}
 
 timeout: 1200s
 availableSecrets:
   secretManager:
-  - versionName: projects/1051142902254/secrets/coletor-fe/versions/latest
-    env: 'APP_ENV'    
+  - versionName: ${_VERSION_NAME}
+    env: 'APP_ENV'        
+
+options:
+  logging: CLOUD_LOGGING_ONLY    
