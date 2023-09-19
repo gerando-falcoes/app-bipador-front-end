@@ -33,7 +33,7 @@ steps:
     - CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_NAME}
 
 - id: Deploy K8s
-  name: 'gcr.io/prj-hml-excelencia/helm'
+  name: 'gcr.io/$PROJECT_ID/helm'
   args:
     - 'upgrade'
     - '--install'
