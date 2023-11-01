@@ -1,37 +1,61 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { AuthContext } from '../../contexts/auth'
 import './LoginPage.css'
+import api from '../../services/api'
 import Logo from '../../assets/logo.svg'
 import ShowPasswordTrue from '../../assets/showPasswordTrue.svg'
 import ShowPasswordFalse from '../../assets/showPasswordFalse.svg'
+import { toast } from 'react-toastify'
 
 const LoginPage = () => {
   const { login } = useContext(AuthContext)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [categoria, setCategoria] = useState('')
+  const [categoryId, setCategoryId] = useState('')
+  const [categoryName, setCategoryName] = useState('')
+  const [categories, setCategories] = useState([])
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true)
   const [passwordShown, setPasswordShown] = useState(false)
 
   const validateFields = () => {
-    if (categoria && email && password) {
+    if (email && password && categoryId && categoryName) {
       setIsSubmitButtonDisabled(false)
     } else setIsSubmitButtonDisabled(true)
   }
 
   useEffect(() => {
     validateFields()
-  }, [categoria, email, password])
+  }, [email, password, categoryId, categoryName])
 
   const handlersSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitButtonDisabled(true)
-    await login(email, password, categoria)
-    setIsSubmitButtonDisabled(false) // integração com meu contexto/api
+    await login(email, password, categoryId, categoryName)
+    setIsSubmitButtonDisabled(false)
   }
 
   const togglePassword = () => {
     setPasswordShown(!passwordShown)
+  }
+
+  useEffect(() => {
+    async function fetchCategoriesData() {
+      try {
+        const response = await api.get('/categorias')
+        const categoriesData = await response.data
+        setCategories(categoriesData)
+      } catch (error) {
+        toast.error('Nenhuma categoria encontrada.')
+      }
+    }
+    fetchCategoriesData()
+  }, [])
+
+  const handleSelectCategoryChange = (event) => {
+    const category = categories.find((category) => category.id === event.target.value)
+
+    setCategoryId(event.target.value)
+    setCategoryName(category.name)
   }
 
   return (
@@ -41,33 +65,23 @@ const LoginPage = () => {
 
         <div className="field">
           <select
-            value={categoria}
+            value={categoryId}
             className="category"
-            onChange={(e) => setCategoria(e.target.value)}
+            onChange={handleSelectCategoryChange}
             id="Categoria"
             name="Categoria"
             placeholder="Categoria"
           >
-            <option value="" disabled selected>
-              Categoria
+            <option value="" disabled>
+              Selecione a Categoria
             </option>
-            <option value="01">ENTRADA CD</option>
-            <option value="02">ENTRADA PJ</option>
-            <option value="16">SAÍDA CD</option>
-            <option value="03">SAÍDA CENTER NORTE</option>
-            <option value="04">SAÍDA POÁ</option>
-            <option value="05">SAÍDA SUZANO</option>
-            <option value="06">SAÍDA EUCALIPTOS</option>
-            <option value="07">SAÍDA E-COMMERCE</option>
-            <option value="17">SAÍDA CAMPO LIMPO</option>
-            <option value="08">VENDA SELLERS</option>
-            <option value="09">INVENTÁRIO CD</option>
-            <option value="10">INVETÁRIO LOJA POÁ</option>
-            <option value="11">INVENTÁRIO E-COMMERCE</option>
-            <option value="12">INVENTÁRIO CN</option>
-            <option value="13">INVENTÁRIO SUZANO</option>
-            <option value="14">INVENTÁRIO EUCALIPTOS</option>
-            <option value="15">TESTES DEV</option>
+            {categories.map((category) => {
+              return (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              )
+            })}
           </select>
         </div>
         <div className="field">
