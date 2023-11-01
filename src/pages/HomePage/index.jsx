@@ -8,7 +8,6 @@ import LogoutModal from '../../components/LogoutModal'
 
 const HomePage = () => {
   const local = JSON.parse(localStorage.getItem('user'))
-  console.log(local.category)
 
   const { logout, redirectBip } = useContext(AuthContext)
 
@@ -33,7 +32,7 @@ const HomePage = () => {
   }
 
   const handleVoltarParaBipagem = () => {
-    redirectBip(local.email, local.password, local.category)
+    redirectBip(local.email, local.password, local.categoryId)
   }
 
   return (
