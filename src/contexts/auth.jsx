@@ -19,9 +19,9 @@ export const AuthProvider = ({ children }) => {
     setLoading(false)
   }, [])
 
-  const login = async (email, password, category) => {
+  const login = async (email, password, categoryId, categoryName) => {
     const [name] = email.split('@')
-    if (!category) {
+    if (!categoryId || !categoryName) {
       toast.error('Dados de login ou categoria incorreta.')
       return
     }
@@ -31,17 +31,18 @@ export const AuthProvider = ({ children }) => {
       const loggedUser = {
         email,
         password,
-        category,
+        categoryId,
+        categoryName
       }
       localStorage.setItem('user', JSON.stringify(loggedUser))
       setUser(loggedUser)
-      navigate('/bip/' + category + '/' + name)
+      navigate('/bip/' + categoryId + '/' + name)
     } catch (err) {
       toast.error(err.message && 'Dados de login ou categoria incorreta.')
     }
   }
 
-  const logout = (email, password, category) => {
+  const logout = () => {
     localStorage.removeItem('user')
     localStorage.removeItem('Produto')
     // api.defaults.headers.Authorization = null
@@ -49,13 +50,13 @@ export const AuthProvider = ({ children }) => {
     navigate('/login')
   }
 
-  const redirectBip = async (email, password, category) => {
+  const redirectBip = async (email, password, categoryId, categoryName) => {
     const [name] = email.split('@')
-    navigate('/bip/' + category + '/' + name)
+    navigate('/bip/' + categoryId + '/' + name)
   }
 
-  const redirectLotes = async (categoriaName, categoriaId) => {
-    navigate('/categorias/' + categoriaId + '/' + categoriaName)
+  const redirectLotes = async (categoryName, categoryId) => {
+    navigate('/categorias/' + categoryId + '/' + categoryName)
   }
 
   const redirectCategorias = async () => {

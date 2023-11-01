@@ -39,7 +39,9 @@
   }
 
   .category {
+    max-width: 160px;
     margin: 0px 0px 0px 0px;
+    font-size: 0.8em;
   }
 }
 

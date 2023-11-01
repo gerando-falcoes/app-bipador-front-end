@@ -1,7 +1,7 @@
 import { Navbar, Nav, Container, Button } from 'react-bootstrap'
 import Logo from '../../assets/navbarLogo.svg'
 import LogoutModal from '../LogoutModal'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { AuthContext } from '../../contexts/auth'
 import { useContext } from 'react'
 import style from './ColetorNavbar.module.css'
@@ -14,45 +14,7 @@ const ColetorNavbar = () => {
   const local = JSON.parse(localStorage.getItem('user'))
 
   const handleVoltarParaBipagem = () => {
-    redirectBip(local.email, local.password, local.category)
-  }
-
-  const setCategoryName = (unidade) => {
-    if (unidade === '01') {
-      return 'ENTRADA CD'
-    } else if (unidade === '02') {
-      return 'ENTRADA PJ'
-    } else if (unidade === '03') {
-      return 'SAÍDA CENTER NORTE'
-    } else if (unidade === '04') {
-      return 'SAÍDA POÁ'
-    } else if (unidade === '05') {
-      return 'SAÍDA SUZANO'
-    } else if (unidade === '06') {
-      return 'SAÍDA EUCALIPTOS'
-    } else if (unidade === '07') {
-      return 'SAÍDA E-COMMERCE'
-    } else if (unidade === '17') {
-      return 'SAÍDA CAMPO LIMPO'
-    } else if (unidade === '08') {
-      return 'VENDA SELLERS'
-    } else if (unidade === '09') {
-      return 'INVENTÁRIO CD'
-    } else if (unidade === '10') {
-      return 'INVETÁRIO LOJA POÁ'
-    } else if (unidade === '11') {
-      return 'INVENTÁRIO E-COMMERCE'
-    } else if (unidade === '12') {
-      return 'INVENTÁRIO CN'
-    } else if (unidade === '13') {
-      return 'INVENTÁRIO SUZANO'
-    } else if (unidade === '14') {
-      return 'INVENTÁRIO EUCALIPTOS'
-    } else if (unidade === '15') {
-      return 'TESTES DEV'
-    } else if (unidade === '16') {
-      return 'SAÍDA CD'
-    }
+    redirectBip(local.email, local.password, local.categoryId)
   }
 
   const handleLogout = () => {
@@ -75,7 +37,7 @@ const ColetorNavbar = () => {
 
   const [name] = local.email.split('@')
 
-  let bipUrl = '/bip/' + local.category + '/' + name
+  let bipUrl = '/bip/' + local.categoryId + '/' + name
 
   return (
     <>
@@ -93,7 +55,7 @@ const ColetorNavbar = () => {
 
           <Nav className={style.category}>
             <Nav.Link className="text-white me-4" disabled>
-              {setCategoryName(local.category)}
+              {local.categoryName}
             </Nav.Link>
           </Nav>
 

@@ -7,7 +7,7 @@ import Arrow from "../../assets/arrow.svg"
 import TableLotes from '../../components/TableLotes';
 
 const LotesPage = () => {
-  const { categoriaName, categoriaId } = useParams()
+  const { categoryName, categoryId } = useParams()
 
   const { redirectCategorias } = useContext(AuthContext)
 
@@ -23,7 +23,7 @@ const LotesPage = () => {
             src={Arrow}
             width="15"
             height="15"
-            alt="Back arrow image"
+            alt="Back arrow"
           />
           <p className="backToCategoriesText">Voltar</p>
         </div>
@@ -33,12 +33,12 @@ const LotesPage = () => {
             src={Folder}
             width="40"
             height="40"
-            alt="Folder image"
+            alt="Folder"
           />
-          <p className="folderTitleText">{categoriaName}</p>
+          <p className="folderTitleText">{categoryName}</p>
         </div>
         <TableLotes
-          categoriaId = {categoriaId}
+          categoryId = {categoryId}
         />
       </div>
     </main>

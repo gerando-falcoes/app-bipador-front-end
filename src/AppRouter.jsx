@@ -42,7 +42,7 @@ const AppRouter = () => {
                     <Route exact path="/" element={ <Private><ColetorNavbar /><HomePage /></Private>} />
                     <Route exact path="/bip/:id/:name" element={ <Private><ColetorNavbar /><Bipador /></Private>} />
                     <Route exact path="/categorias" element={ <Private><ColetorNavbar /><CategoriesPage /></Private>} />
-                    <Route exact path="/categorias/:categoriaId/:categoriaName" element={ <Private><ColetorNavbar /><LotesPage /></Private>} />
+                    <Route exact path="/categorias/:categoryId/:categoryName" element={ <Private><ColetorNavbar /><LotesPage /></Private>} />
                     <Route exact path="/mesclador" element={ <Private><ColetorNavbar /><MergerPage /></Private>} />
 
                 </Routes>
