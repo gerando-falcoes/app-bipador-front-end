@@ -14,7 +14,7 @@ import GenerateTxtModal from '../GenerateTxtModal'
 import BatchCheckModal from '../BatchCheckModal'
 import { useCallback } from 'react'
 
-export default function Pagination({ categoriaId }) {
+export default function Pagination({ categoryId }) {
   const [lotes, setLotes] = useState([])
   const [code, setCode] = useState('')
   const [isInvoiceAdditionModalOpen, setIsInvoiceAdditionModalOpen] = useState(false)
@@ -58,7 +58,7 @@ export default function Pagination({ categoriaId }) {
 
   async function fetchData() {
     await api
-      .get(`/lotes/folder/${categoriaId}`)
+      .get(`/lotes/folder/${categoryId}`)
       .then((resp) => {
         setLotes(resp.data)
       })
