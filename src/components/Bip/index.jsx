@@ -21,27 +21,7 @@ const Bip = () => {
   const [posts, setPosts] = useState([])
   const [note, setNote] = useState('')
 
-  const nomeRetirar = JSON.stringify(pathname)
-    .replaceAll('"', '')
-    .replaceAll('bip', '')
-    .replaceAll('/', '')
-    .replaceAll('02', '')
-    .replaceAll('03', '')
-    .replaceAll('04', '')
-    .replaceAll('05', '')
-    .replaceAll('06', '')
-    .replaceAll('07', '')
-    .replaceAll('08', '')
-    .replaceAll('09', '')
-    .replaceAll('10', '')
-    .replaceAll('11', '')
-    .replaceAll('12', '')
-    .replaceAll('13', '')
-    .replaceAll('14', '')
-    .replaceAll('15', '')
-    .replaceAll('16', '')
-    .replaceAll('17', '')
-    .replaceAll('01', '')
+  const local = JSON.parse(localStorage.getItem('user'))
 
   const formatProductCode = () => {
     const value = Array.from(code)
@@ -57,12 +37,7 @@ const Bip = () => {
     ref.current.focus()
   }
 
-  const unidade = JSON.stringify(pathname)
-    .split(nomeRetirar)
-    .join('')
-    .replaceAll('"', '')
-    .replaceAll('bip', '')
-    .replaceAll('/', '')
+  const unidade = local.categoryId
 
   const onChangeNote = (valueNote) => {
     setNote(valueNote)
