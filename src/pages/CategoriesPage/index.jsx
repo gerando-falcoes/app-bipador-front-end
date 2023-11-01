@@ -11,14 +11,14 @@ const LotesPage = () => {
 
   const { redirectLotes } = useContext(AuthContext)
 
-  const [categorias, setCategorias] = useState([])
+  const [categories, setCategories] = useState([])
 
   useEffect(() => {
     async function fetchData() {
       await api
       .get(`/categorias`)
       .then((resp) => {
-        setCategorias(resp.data)
+        setCategories(resp.data)
       })
       .catch((err) => {
         toast.error('Nenhuma categoria encontrada.')
@@ -27,28 +27,28 @@ const LotesPage = () => {
     fetchData()
   }, [])
 
-  const handleIrParaLotes = (categoriaName, categoriaId) => {
-    redirectLotes(categoriaName, categoriaId)
+  const handleIrParaLotes = (categoryName, categoryId) => {
+    redirectLotes(categoryName, categoryId)
   }
 
   return (
     <main className="container mt-3">
       <div className="categoriesPageContainer">
         <div className="grid">
-          {categorias.map((categoria) => {
+          {categories.map((category) => {
             return (
-              <div key = {categoria.id} className="item">
+              <div key = {category.id} className="item">
                 <img
                   className="folderImage"
                   src={Folder}
                   width="120"
                   height="120"
-                  alt="Folder image"
+                  alt="Folder"
                   onClick={() => {
-                    handleIrParaLotes(categoria.name, categoria.id)}
+                    handleIrParaLotes(category.name, category.id)}
                   }
                 />
-                <p>{categoria.name}</p>
+                <p>{category.name}</p>
               </div>
             )
           }
