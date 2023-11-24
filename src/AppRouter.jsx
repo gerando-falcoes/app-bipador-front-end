@@ -19,6 +19,7 @@ import MergerPage from './pages/MergerPage';
 
 import { AuthProvider , AuthContext} from './contexts/auth';
 import ColetorNavbar from './components/Navbar/ColetorNavbar';
+import ProductReturnCheckPage from './pages/ProductReturnCheckPage';
 
 
 const AppRouter = () => {
@@ -44,6 +45,7 @@ const AppRouter = () => {
                     <Route exact path="/categorias" element={ <Private><ColetorNavbar /><CategoriesPage /></Private>} />
                     <Route exact path="/categorias/:categoryId/:categoryName" element={ <Private><ColetorNavbar /><LotesPage /></Private>} />
                     <Route exact path="/mesclador" element={ <Private><ColetorNavbar /><MergerPage /></Private>} />
+                    <Route exact path="/checagem-de-retorno-de-produtos" element={ <Private><ColetorNavbar /><ProductReturnCheckPage /></Private>} />
 
                 </Routes>
             </AuthProvider>
