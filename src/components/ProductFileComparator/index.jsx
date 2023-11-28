@@ -9,6 +9,7 @@ const ProductFileComparator = () => {
   const [returnProductFile, setReturnProductFile] = useState(null)
   const [productDifferencesTxt, setProductDifferencesTxt] = useState([])
   const [productDifferences, setProductDifferences] = useState([])
+  const [isSelectInputDisabled, setIsSelectInputDisabled] = useState(false)
 
   const outputProductFileRef = useRef(null)
   const returnProductFileRef = useRef(null)
@@ -65,6 +66,8 @@ const ProductFileComparator = () => {
       return
     }
 
+    setIsSelectInputDisabled(true)
+
     const promises = productDiff.map((product) => {
       const productCode = product.split(' ')[0]
       return api.get(`/produtos/${productCode}`)
@@ -114,13 +117,29 @@ const ProductFileComparator = () => {
 
     outputProductFileRef.current.value = null
     returnProductFileRef.current.value = null
+
+    setIsSelectInputDisabled(false)
   }
 
   return (
     <div className={style.productFileComparatorContainer}>
       <div className={style.inputFileContainer}>
-        <div className={style.inputFileName}>{outputProductFile ? <p>{outputProductFile.name}</p> : <p  className={style.inputFilePlaceholder}>Selecione o arquivo de saída</p>}</div>
-        <label htmlFor="outputProductFile" className={style.inputFileLabel}>
+        <div className={style.inputFileName}>
+          {outputProductFile ? (
+            <p>{outputProductFile.name}</p>
+          ) : (
+            <p className={style.inputFilePlaceholder}>Selecione o arquivo de saída</p>
+          )}
+        </div>
+        <label
+          htmlFor="outputProductFile"
+          className={style.inputFileLabel}
+          style={{
+            backgroundColor: isSelectInputDisabled ? '#d7d7d7' : 'black',
+            cursor: isSelectInputDisabled ? 'default' : 'pointer',
+            borderColor: isSelectInputDisabled ? '#d7d7d7' : 'black',
+          }}
+        >
           Selecionar
         </label>
         <input
@@ -130,21 +149,37 @@ const ProductFileComparator = () => {
           onChange={handleOutputProductChange}
           ref={outputProductFileRef}
           className={style.inputFile}
+          disabled={isSelectInputDisabled}
         />
       </div>
       <div className={style.inputFileContainer}>
-        <div className={style.inputFileName}>{returnProductFile ? <p>{returnProductFile.name}</p> : <p className={style.inputFilePlaceholder}>Selecione o arquivo de retorno</p>}</div>
-        <label htmlFor="returnProductFile" className={style.inputFileLabel}>
-            Selecionar
-          </label>
-          <input
-            type="file"
-            id="returnProductFile"
-            accept=".txt"
-            onChange={handleReturnProductChange}
-            ref={returnProductFileRef}
-            className={style.inputFile}
-          />
+        <div className={style.inputFileName}>
+          {returnProductFile ? (
+            <p>{returnProductFile.name}</p>
+          ) : (
+            <p className={style.inputFilePlaceholder}>Selecione o arquivo de retorno</p>
+          )}
+        </div>
+        <label
+          htmlFor="returnProductFile"
+          className={style.inputFileLabel}
+          style={{
+            backgroundColor: isSelectInputDisabled ? '#d7d7d7' : 'black',
+            cursor: isSelectInputDisabled ? 'default' : 'pointer',
+            borderColor: isSelectInputDisabled ? '#d7d7d7' : 'black',
+          }}
+        >
+          Selecionar
+        </label>
+        <input
+          type="file"
+          id="returnProductFile"
+          accept=".txt"
+          onChange={handleReturnProductChange}
+          ref={returnProductFileRef}
+          className={style.inputFile}
+          disabled={isSelectInputDisabled}
+        />
       </div>
       {productDifferences.length > 0 ? (
         <>
