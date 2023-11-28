@@ -60,6 +60,11 @@ const ProductFileComparator = () => {
       }
     })
 
+    if (productDiff.length === 0) {
+      toast.success('Não há produtos faltantes')
+      return
+    }
+
     const promises = productDiff.map((product) => {
       const productCode = product.split(' ')[0]
       return api.get(`/produtos/${productCode}`)
@@ -84,6 +89,8 @@ const ProductFileComparator = () => {
     }
 
     setProductDifferencesTxt(productDiff)
+
+    toast.success('Relatório gerado com sucesso')
   }
 
   const downloadProductDifferencesTxt = () => {
@@ -93,7 +100,7 @@ const ProductFileComparator = () => {
 
     const a = document.createElement('a')
     a.href = url
-    a.download = 'Produtos Divergentes.txt'
+    a.download = 'Produtos Faltantes.txt'
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -141,8 +148,7 @@ const ProductFileComparator = () => {
       </div>
       {productDifferences.length > 0 ? (
         <>
-          <div>
-            <h5>Produtos Divergentes:</h5>
+          <div className={style.productDifferencesTable}>
             <Table bordered>
               <thead>
                 <tr>

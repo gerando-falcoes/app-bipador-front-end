@@ -9,7 +9,6 @@ const ProductReturnCheckPage = () => {
   return (
     <main className="container mt-3">
       <div className="productReturnCheckPageContainer">
-      <h5>Selecione os arquivos clicando nas caixas abaixo:</h5>
       <ProductFileComparator />
       </div>
     </main>
