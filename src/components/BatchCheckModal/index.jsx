@@ -22,6 +22,7 @@ const BatchCheckModal = ({
   /* const [isDisabled, setIsDisabled] = useState(false) */
   const [isVerifyButtonDisabled, setIsVerifyButtonDisabled] = useState()
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true)
+  const [totalProducts, setTotalProducts] = useState(0)
 
   useEffect(() => {
     const recovereContent = localStorage.getItem('CheckerContent')
@@ -34,6 +35,13 @@ const BatchCheckModal = ({
 
   useEffect(() => {
     localStorage.setItem('CheckerContent', JSON.stringify(checkerContent))
+
+    const calculatedTotalProducts = checkerContent.reduce((total, product) => {
+      return total + Number(product.quantidade)
+    }, 0)
+
+    setTotalProducts(calculatedTotalProducts)
+
   }, [checkerContent])
 
   const handleUpdateBatchContent = async () => {
@@ -205,8 +213,6 @@ const BatchCheckModal = ({
     setCheckerContent(checkerContentCopy)
   }
 
-  let totalProducts = 0
-
   const ref = useRef(null)
 
   return (
@@ -272,6 +278,24 @@ const BatchCheckModal = ({
               </InputGroup>
             </div>
             <Table className="mb-0" bordered>
+            <thead>
+                <tr>
+                  <td className={style.tableFooter} colSpan="4">
+                    <p className="mb-0">
+                      <b>Códigos de Produtos: </b>
+                      Lote salvo: {loteContent.length} | Lote atual: {checkerContent.length}
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td className={style.tableFooter} colSpan="4">
+                    <p className="mb-0">
+                      <b>Total de Produtos: </b>
+                      Lote salvo: {currentTotalProducts} | Lote atual: {totalProducts}
+                    </p>
+                  </td>
+                </tr>
+              </thead>
               <thead>
                 <tr>
                   <th>Cod.</th>
@@ -282,7 +306,6 @@ const BatchCheckModal = ({
               </thead>
               <tbody>
                 {checkerContent.map((product, index) => {
-                  totalProducts += Number(product.quantidade)
                   return (
                     <tr key={product.id_produto}>
                       <td className="align-middle">{product.id_produto}</td>
@@ -311,24 +334,6 @@ const BatchCheckModal = ({
                   )
                 })}
               </tbody>
-              <tfoot>
-                <tr>
-                  <td className={style.tableFooter} colSpan="4">
-                    <p className="mb-0">
-                      <b>Códigos de Produtos: </b>
-                      Lote salvo: {loteContent.length} | Lote atual: {checkerContent.length}
-                    </p>
-                  </td>
-                </tr>
-                <tr>
-                  <td className={style.tableFooter} colSpan="4">
-                    <p className="mb-0">
-                      <b>Total de Produtos: </b>
-                      Lote salvo: {currentTotalProducts} | Lote atual: {totalProducts}
-                    </p>
-                  </td>
-                </tr>
-              </tfoot>
             </Table>
           </div>
         </Modal.Body>

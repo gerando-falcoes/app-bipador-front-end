@@ -62,8 +62,3 @@
   margin: -12px 0px 24px 0px;
 }
 
-@media only screen and (max-width: 600px) {
-  td, th {
-    padding: 0.5rem !important;
-  }
-}

@@ -1,4 +1,4 @@
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import style from './table.module.css'
 import ProductDeleteModal from '../ProductDeleteModal'
@@ -7,6 +7,7 @@ const Table = ({ posts, onDelete, handleUpdateProductQuantity }) => {
   const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false)
   const [productIndex, setProductIndex] = useState('')
   const [productName, setProductName] = useState('')
+  const [totalProducts, setTotalProducts] = useState(0)
 
   const startModal = (index) => {
     setProductIndex(index)
@@ -23,11 +24,24 @@ const Table = ({ posts, onDelete, handleUpdateProductQuantity }) => {
     setDisplayConfirmationModal(false)
   }
 
-  let totalProducts = 0
+  useEffect(() => {
+    const calculatedTotalProducts = posts.reduce((total, product) => {
+      return total + Number(product.quantidade)
+    }, 0)
+
+    setTotalProducts(calculatedTotalProducts)
+  }, [posts])
+
   return (
     <>
+      <div className={style.table}>
+        <div className={style.section}>
+          <div className={`${style.total_products} text-center`}>
+            Total de Produtos: {totalProducts}
+          </div>
+        </div>
+      </div>
       {posts.map((product, index) => {
-        totalProducts += Number(product.quantidade)
         return (
           <div className={style.table} key={product.id_produto}>
             <div className={style.section}>
@@ -69,13 +83,6 @@ const Table = ({ posts, onDelete, handleUpdateProductQuantity }) => {
           </div>
         )
       })}
-      <div className={style.table}>
-        <div className={style.section}>
-          <div className={`${style.total_products} text-center`}>
-            Total de Produtos: {totalProducts}
-          </div>
-        </div>
-      </div>
       <ProductDeleteModal
         showModal={displayConfirmationModal}
         confirmModal={confirmDelete}
