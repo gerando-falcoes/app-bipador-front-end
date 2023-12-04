@@ -1,0 +1,64 @@
+.productFileComparatorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 24px;
+  gap: 24px;
+}
+
+.inputFileContainer {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inputFileName {
+  width: 90%;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inputFileName p {
+  padding: 8px 6px;
+  margin: 0 auto;
+  text-align: left;
+  font-size: 1rem;
+}
+
+.inputFilePlaceholder {
+  color: #c5c4c4;
+}
+
+.inputFileLabel {
+  padding: 8px 6px;
+  width: 10%;
+  min-width: 102px;
+  color: white;
+  font-size: 1rem;
+  text-align: center;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  border: 1px solid black;
+  display: block;
+  cursor: pointer;
+  margin: 0 0 0 -4px;
+}
+
+.productDifferencesTable {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.downloadAndClearButtons {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  gap: 16px;
+  margin: -12px 0px 24px 0px;
+}
+

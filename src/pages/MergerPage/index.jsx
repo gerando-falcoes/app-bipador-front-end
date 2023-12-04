@@ -9,7 +9,7 @@ const MergerPage = () => {
   return (
     <main className="container mt-3">
       <div className="mergerPageContainer">
-      <h5>Clique na caixa abaixo para selecionar os arquivos:</h5>
+      <h5>Clique na caixa abaixo para selecionar os arquivos que deseja mesclar:</h5>
       <FileUploader />
       </div>
     </main>

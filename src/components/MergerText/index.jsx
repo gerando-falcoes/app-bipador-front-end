@@ -62,10 +62,10 @@ const FileUploader = () => {
         ))}
       </ul>
       <div className={style.buttons}>
-      <button class="shadow-none btn btn-primary" onClick={mergeFiles}>Mesclar</button>
-      <button class="btn btn-danger" onClick={reset}>Resetar</button>
+      <button className="shadow-none btn btn-primary" onClick={mergeFiles}>Mesclar</button>
+      <button className="btn btn-danger" onClick={reset}>Limpar</button>
       {downloadLink && fileList.length > 1  && (
-        <a class="shadow-none btn btn-success"  href={downloadLink} download="merged.txt">
+        <a className="shadow-none btn btn-success"  href={downloadLink} download="merged.txt">
           Download
         </a>
       )}

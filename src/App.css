@@ -5,8 +5,29 @@
   text-decoration: none;
 }
 
+.row {
+  --bs-gutter-x: 0 !important;
+}
+
+.row .mr-3 {
+  margin-right: 0 !important;
+}
+
 .appContainer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+@media only screen and (max-width: 600px) {
+  td, th {
+    padding: 0.5rem !important;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  td, th {
+    font-size: 14px !important;
+    padding: 0.2rem !important;
+  }
 }
