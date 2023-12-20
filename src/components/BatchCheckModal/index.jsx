@@ -23,6 +23,7 @@ const BatchCheckModal = ({
   const [isVerifyButtonDisabled, setIsVerifyButtonDisabled] = useState()
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true)
   const [totalProducts, setTotalProducts] = useState(0)
+  const [isDeviceSwitcherChecked, setIsDeviceSwitcherChecked] = useState(false)
 
   useEffect(() => {
     const recovereContent = localStorage.getItem('CheckerContent')
@@ -41,7 +42,6 @@ const BatchCheckModal = ({
     }, 0)
 
     setTotalProducts(calculatedTotalProducts)
-
   }, [checkerContent])
 
   const handleUpdateBatchContent = async () => {
@@ -162,7 +162,7 @@ const BatchCheckModal = ({
   }
 
   const onChangeCode = async (targetValue) => {
-    const value = targetValue
+    let value = targetValue
     /* setIsDisabled(true) */
     if (!amount || amount <= 0) {
       /* setIsDisabled(false) */
@@ -170,6 +170,15 @@ const BatchCheckModal = ({
       toast.error('Insira a quantidade primeiro.')
       return
     }
+
+    if (!isDeviceSwitcherChecked && targetValue.length < 12) {
+      value = Array.from(targetValue)
+      for (let i = 0; i < 12 - targetValue.length; i++) {
+        value.unshift('0')
+      }
+      value = value.toString().replace(/,/g, '')
+    }
+
     setCode(value)
 
     if (value?.length === 12) {
@@ -213,6 +222,10 @@ const BatchCheckModal = ({
     setCheckerContent(checkerContentCopy)
   }
 
+  const handleDeviceSwitcherChange = () => {
+    setIsDeviceSwitcherChecked(!isDeviceSwitcherChecked)
+  }
+
   const ref = useRef(null)
 
   return (
@@ -230,6 +243,19 @@ const BatchCheckModal = ({
               </p>
             </div>
             <div>
+            <div className="custom-control custom-switch device-switcher-container">
+              <input
+                type="checkbox"
+                className="custom-control-input"
+                id="customSwitches"
+                checked={isDeviceSwitcherChecked}
+                onChange={handleDeviceSwitcherChange}
+                readOnly
+              />
+              <label className="custom-control-label" htmlFor="customSwitches">
+                Estou utilizando teclado
+              </label>
+            </div>
               <label>Quantidade</label>
               <InputGroup className="mb-3">
                 <FormControl
@@ -278,7 +304,7 @@ const BatchCheckModal = ({
               </InputGroup>
             </div>
             <Table className="mb-0" bordered>
-            <thead>
+              <thead>
                 <tr>
                   <td className={style.tableFooter} colSpan="4">
                     <p className="mb-0">
