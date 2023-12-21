@@ -20,6 +20,7 @@ const Bip = () => {
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false)
   const [posts, setPosts] = useState([])
   const [note, setNote] = useState('')
+  const [isDeviceSwitcherChecked, setIsDeviceSwitcherChecked] = useState(false)
 
   const local = JSON.parse(localStorage.getItem('user'))
 
@@ -88,7 +89,7 @@ const Bip = () => {
   }, [posts])
 
   const onChangeCode = async (targetValue) => {
-    const value = targetValue
+    let value = targetValue
     /* setIsDisabled(true) */
     if (!amount || amount <= 0) {
       /* setIsDisabled(false) */
@@ -96,6 +97,15 @@ const Bip = () => {
       toast.error('Insira a quantidade primeiro.')
       return
     }
+
+    if (!isDeviceSwitcherChecked && targetValue.length < 12) {
+      value = Array.from(targetValue)
+      for (let i = 0; i < 12 - targetValue.length; i++) {
+        value.unshift('0')
+      }
+      value = value.toString().replace(/,/g, '')
+    }
+
     setCode(value)
 
     if (value?.length === 12) {
@@ -160,6 +170,10 @@ const Bip = () => {
     }
   }
 
+  const handleDeviceSwitcherChange = () => {
+    setIsDeviceSwitcherChecked(!isDeviceSwitcherChecked)
+  }
+
   const ref = useRef(null)
 
   return (
@@ -167,6 +181,19 @@ const Bip = () => {
       {
         <main className="container mt-3">
           <div className="teste">
+            <div className="custom-control custom-switch device-switcher-container">
+              <input
+                type="checkbox"
+                className="custom-control-input"
+                id="customSwitches"
+                checked={isDeviceSwitcherChecked}
+                onChange={handleDeviceSwitcherChange}
+                readOnly
+              />
+              <label className="custom-control-label" htmlFor="customSwitches">
+                Estou utilizando teclado
+              </label>
+            </div>
             <label>Quantidade</label>
             <InputGroup className="mb-3">
               <FormControl
