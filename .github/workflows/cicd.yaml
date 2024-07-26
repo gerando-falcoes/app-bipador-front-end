@@ -2,8 +2,9 @@ name: Deploy to Cloud Run
 
 env:
   SERVICE_NAME: coletor-fe
-  PROJECT_ID: ${{ env.PROJECT_ID }}
-  DOCKER_IMAGE_URL: us-central1-docker.pkg.dev/prj-hml-excelencia/coletor/coletor-fe
+  PROJECT_ID: ${{ vars.PROJECT_ID }}
+  REGION: southamerica-east1
+  DOCKER_IMAGE_URL: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/coletor/coletor-fe
 
 on:
   push:
@@ -29,7 +30,7 @@ jobs:
 
       - name: Configure Docker
         run: |
-          gcloud auth configure-docker us-central1-docker.pkg.dev
+          gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
 
       - name: Build and Push Docker Image
         run: |
