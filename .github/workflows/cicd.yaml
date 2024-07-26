@@ -51,4 +51,4 @@ jobs:
             --memory 1Gi \
             --cpu 2 \
             --no-cpu-throttling \
-            --set-vars REACT_APP_URL=${{ secrets.REACT_APP_URL }}
+            --set-env-vars REACT_APP_URL=${{ secrets.REACT_APP_URL }}
