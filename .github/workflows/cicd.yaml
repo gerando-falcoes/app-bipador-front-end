@@ -46,4 +46,9 @@ jobs:
             --image ${{ env.DOCKER_IMAGE_URL }}:latest \
             --platform managed \
             --region ${{ env.REGION }} \
-            --allow-unauthenticated
+            --allow-unauthenticated \
+            --port 80 \
+            --memory 1Gi \
+            --cpu 2 \
+            --no-cpu-throttling \
+            --set-secrets REACT_APP_URL=projects/${{ env.PROJECT_ID }}/secrets/coletor-fe/versions/latest
