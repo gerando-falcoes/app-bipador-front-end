@@ -51,4 +51,4 @@ jobs:
             --memory 1Gi \
             --cpu 2 \
             --no-cpu-throttling \
-            --set-secrets REACT_APP_URL=projects/${{ env.PROJECT_ID }}/secrets/coletor-fe/versions/latest
+            --set-secrets REACT_APP_URL=projects/${{ env.PROJECT_ID }}/secrets/coletor-fe:latest
