@@ -3,8 +3,8 @@ name: Deploy to Cloud Run
 env:
   SERVICE_NAME: coletor-fe
   PROJECT_ID: ${{ vars.PROJECT_ID }}
-  REGION: southamerica-east1
-  DOCKER_IMAGE_URL: southamerica-east1-docker.pkg.dev/${{ vars.PROJECT_ID }}/coletor/coletor-fe
+  REGION: us-east4
+  DOCKER_IMAGE_URL: us-east4-docker.pkg.dev/${{ vars.PROJECT_ID }}/coletor/coletor-fe
 
 on:
   push:
