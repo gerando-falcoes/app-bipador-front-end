@@ -48,7 +48,7 @@ jobs:
 
       - name: Deploy to Cloud Run
         run: |
-          if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
+          if [ "${{ github.ref }}" == "refs/heads/master" ]; then
             echo "Deploying to production with production settings"
             gcloud run deploy ${{ env.SERVICE_NAME }} \
               --image ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/coletor/coletor-fe:latest \
@@ -56,10 +56,10 @@ jobs:
               --region ${{ vars.REGION }} \
               --allow-unauthenticated \
               --port 80 \
-              --memory 2Gi \    # Parâmetro específico para production
-              --cpu 4 \         # Parâmetro específico para production
+              --memory 2Gi \
+              --cpu 4 \
               --no-cpu-throttling \
-              --set-env-vars REACT_APP_URL=${{ secrets.REACT_APP_URL }}
+              --set-env-vars REACT_APP_URL=${{ secrets.REACT_APP_URL_PROD }}
           else
             echo "Deploying to staging with development settings"
             gcloud run deploy ${{ env.SERVICE_NAME }} \
@@ -68,8 +68,8 @@ jobs:
               --region ${{ vars.REGION }} \
               --allow-unauthenticated \
               --port 80 \
-              --memory 1Gi \    # Parâmetro específico para development
-              --cpu 2 \         # Parâmetro específico para development
+              --memory 1Gi \
+              --cpu 2 \
               --no-cpu-throttling \
-              --set-env-vars REACT_APP_URL=${{ secrets.REACT_APP_URL }}
+              --set-env-vars REACT_APP_URL=${{ secrets.REACT_APP_URL_DEV }}
           fi
