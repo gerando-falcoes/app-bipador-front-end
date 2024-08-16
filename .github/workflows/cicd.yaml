@@ -56,10 +56,11 @@ jobs:
               --region ${{ vars.REGION }} \
               --allow-unauthenticated \
               --port 80 \
-              --memory 2Gi \
-              --cpu 4 \
+              --memory 1Gi \
+              --cpu 2 \
               --no-cpu-throttling \
-              --set-env-vars REACT_APP_URL=${{ secrets.REACT_APP_URL_PROD }}
+              --min-instances 1 \
+              --set-env-vars REACT_APP_URL=${{ secrets.REACT_APP_URL }}
           else
             echo "Deploying to staging with development settings"
             gcloud run deploy ${{ env.SERVICE_NAME }} \
@@ -71,5 +72,5 @@ jobs:
               --memory 1Gi \
               --cpu 2 \
               --no-cpu-throttling \
-              --set-env-vars REACT_APP_URL=${{ secrets.REACT_APP_URL_DEV }}
+              --set-env-vars REACT_APP_URL=${{ secrets.REACT_APP_URL }}
           fi
