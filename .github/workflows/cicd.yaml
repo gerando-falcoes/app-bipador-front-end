@@ -2,53 +2,74 @@ name: Deploy to Cloud Run
 
 env:
   SERVICE_NAME: coletor-fe
-  PROJECT_ID: ${{ vars.PROJECT_ID }}
-  REGION: us-east4
-  DOCKER_IMAGE_URL: us-east4-docker.pkg.dev/${{ vars.PROJECT_ID }}/coletor/coletor-fe
 
 on:
   push:
     branches:
+      - master
       - development
 
 jobs:
   build:
-    name: Build
+    name: Build and Deploy
     runs-on: ubuntu-latest
-    environment: staging
+
+    # Definindo o environment com base na branch
+    environment: ${{ github.ref == 'refs/heads/master' && 'production' || 'staging' }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      # Google Cloud Auth usando as variáveis do environment correto
       - name: Google Cloud Auth
         uses: 'google-github-actions/auth@v2'
         with:
           credentials_json: '${{ secrets.GCP_SA_KEY }}'
-          project_id: ${{ env.PROJECT_ID }}
+          project_id: ${{ vars.PROJECT_ID }}  # Usa a variável PROJECT_ID do environment
 
       - name: Set up Cloud SDK
         uses: 'google-github-actions/setup-gcloud@v2'
 
+      # Definir a região dinamicamente com base no environment
+      - name: Set region dynamically
+        run: |
+          echo "Using region from environment"
+          echo "REGION=${{ vars.REGION }}" >> $GITHUB_ENV
+
       - name: Configure Docker
         run: |
-          gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
+          gcloud auth configure-docker ${{ vars.REGION }}-docker.pkg.dev  # Usa vars para a região
 
       - name: Build and Push Docker Image
         run: |
-          docker build -t ${{ env.DOCKER_IMAGE_URL }}:latest -f Dockerfile.dev .
-          docker push ${{ env.DOCKER_IMAGE_URL }}:latest
+          docker build -t ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/coletor/coletor-fe:latest -f Dockerfile.dev .
+          docker push ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/coletor/coletor-fe:latest
 
       - name: Deploy to Cloud Run
         run: |
-          echo SERVICE_NAME $SERVICE_NAME
-          gcloud run deploy $SERVICE_NAME \
-            --image ${{ env.DOCKER_IMAGE_URL }}:latest \
-            --platform managed \
-            --region ${{ env.REGION }} \
-            --allow-unauthenticated \
-            --port 80 \
-            --memory 1Gi \
-            --cpu 2 \
-            --no-cpu-throttling \
-            --set-env-vars REACT_APP_URL=${{ secrets.REACT_APP_URL }}
+          if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
+            echo "Deploying to production with production settings"
+            gcloud run deploy ${{ env.SERVICE_NAME }} \
+              --image ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/coletor/coletor-fe:latest \
+              --platform managed \
+              --region ${{ vars.REGION }} \
+              --allow-unauthenticated \
+              --port 80 \
+              --memory 2Gi \    # Parâmetro específico para production
+              --cpu 4 \         # Parâmetro específico para production
+              --no-cpu-throttling \
+              --set-env-vars REACT_APP_URL=${{ secrets.REACT_APP_URL }}
+          else
+            echo "Deploying to staging with development settings"
+            gcloud run deploy ${{ env.SERVICE_NAME }} \
+              --image ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/coletor/coletor-fe:latest \
+              --platform managed \
+              --region ${{ vars.REGION }} \
+              --allow-unauthenticated \
+              --port 80 \
+              --memory 1Gi \    # Parâmetro específico para development
+              --cpu 2 \         # Parâmetro específico para development
+              --no-cpu-throttling \
+              --set-env-vars REACT_APP_URL=${{ secrets.REACT_APP_URL }}
+          fi
