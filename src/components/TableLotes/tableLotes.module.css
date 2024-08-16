@@ -14,4 +14,12 @@
 
 td {
   vertical-align: middle !important;
+  text-align: center;
+}
+
+.customMaxWidth {
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-right: 0.5rem;
 }
