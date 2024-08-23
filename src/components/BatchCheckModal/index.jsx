@@ -19,11 +19,9 @@ const BatchCheckModal = ({
   const [amount, setAmount] = useState(1)
   const [code, setCode] = useState('')
   const [checkerContent, setCheckerContent] = useState([])
-  /* const [isDisabled, setIsDisabled] = useState(false) */
   const [isVerifyButtonDisabled, setIsVerifyButtonDisabled] = useState()
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true)
   const [totalProducts, setTotalProducts] = useState(0)
-  const [isDeviceSwitcherChecked, setIsDeviceSwitcherChecked] = useState(false)
 
   useEffect(() => {
     const recovereContent = localStorage.getItem('CheckerContent')
@@ -156,27 +154,30 @@ const BatchCheckModal = ({
       }
     }
 
-    onChangeCode(value.toString().replace(/,/g, ''))
+    handleBarCodeChange(value.toString().replace(/,/g, ''))
 
     ref.current.focus()
   }
-
-  const onChangeCode = async (targetValue) => {
-    let value = targetValue
-    /* setIsDisabled(true) */
-    if (!amount || amount <= 0) {
-      /* setIsDisabled(false) */
-      setCode('')
-      toast.error('Insira a quantidade primeiro.')
-      return
-    }
-
-    if (!isDeviceSwitcherChecked && targetValue.length < 12) {
-      value = Array.from(targetValue)
-      for (let i = 0; i < 12 - targetValue.length; i++) {
+ 
+  const handleEnterKeyDown = (event) => {
+    let value
+    if (event.key === 'Enter' && code.length < 12) {
+      value = Array.from(code)
+      for (let i = 0; i < 12 - code.length; i++) {
         value.unshift('0')
       }
       value = value.toString().replace(/,/g, '')
+      setCode(value)
+      handleBarCodeChange(value)
+    }
+  };
+  
+  const handleBarCodeChange = async (targetValue) => {
+    let value = targetValue
+    if (!amount || amount <= 0) {
+      setCode('')
+      toast.error('Insira a quantidade primeiro.')
+      return
     }
 
     setCode(value)
@@ -208,7 +209,6 @@ const BatchCheckModal = ({
         })
         .finally(setAmount(1))
     }
-    /* setIsDisabled(false) */
   }
 
   const handleDelete = (index) => {
@@ -220,10 +220,6 @@ const BatchCheckModal = ({
     const checkerContentCopy = [...checkerContent]
     checkerContentCopy[index].quantidade = Math.abs(Number(quantity))
     setCheckerContent(checkerContentCopy)
-  }
-
-  const handleDeviceSwitcherChange = () => {
-    setIsDeviceSwitcherChecked(!isDeviceSwitcherChecked)
   }
 
   const ref = useRef(null)
@@ -243,19 +239,6 @@ const BatchCheckModal = ({
               </p>
             </div>
             <div>
-            <div className="custom-control custom-switch device-switcher-container">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                id="customSwitches"
-                checked={isDeviceSwitcherChecked}
-                onChange={handleDeviceSwitcherChange}
-                readOnly
-              />
-              <label className="custom-control-label" htmlFor="customSwitches">
-                Estou utilizando teclado
-              </label>
-            </div>
               <label>Quantidade</label>
               <InputGroup className="mb-3">
                 <FormControl
@@ -288,10 +271,10 @@ const BatchCheckModal = ({
                   aria-label="Recipient's username"
                   aria-describedby="basic-addon2"
                   onChange={(e) => {
-                    onChangeCode(e.target.value)
+                    handleBarCodeChange(e.target.value)
                   }}
+                  onKeyDown={handleEnterKeyDown}
                   autoFocus
-                  /* disabled={isDisabled} */
                 />
                 <Button
                   variant="primary"

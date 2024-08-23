@@ -12,15 +12,11 @@ import BatchSaveModal from '../BatchSaveModal'
 const Bip = () => {
   const [amount, setAmount] = useState(1)
   const [code, setCode] = useState('')
-  /* const [isDisabled, setIsDisabled] = useState(false) */
-
-  const { pathname } = window.location
 
   const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false)
   const [posts, setPosts] = useState([])
   const [note, setNote] = useState('')
-  const [isDeviceSwitcherChecked, setIsDeviceSwitcherChecked] = useState(false)
 
   const local = JSON.parse(localStorage.getItem('user'))
 
@@ -33,7 +29,7 @@ const Bip = () => {
       }
     }
 
-    onChangeCode(value.toString().replace(/,/g, ''))
+    handleBarCodeChange(value.toString().replace(/,/g, ''))
 
     ref.current.focus()
   }
@@ -82,35 +78,38 @@ const Bip = () => {
       setPosts(JSON.parse(recoverePost))
     }
   }, [])
-  const list = [...posts] //list eu uso para fazer alteração no post de produtos quero fazer um delete
+  const list = [...posts]
 
   useEffect(() => {
     localStorage.setItem('Produto', JSON.stringify(posts))
   }, [posts])
 
-  const onChangeCode = async (targetValue) => {
+  
+  const handleEnterKeyDown = (event) => {
+    let value
+    if (event.key === 'Enter' && code.length < 12) {
+      value = Array.from(code)
+      for (let i = 0; i < 12 - code.length; i++) {
+        value.unshift('0')
+      }
+      value = value.toString().replace(/,/g, '')
+      setCode(value)
+      handleBarCodeChange(value)
+    }
+  };
+
+  const handleBarCodeChange = async (targetValue) => {
     let value = targetValue
-    /* setIsDisabled(true) */
     if (!amount || amount <= 0) {
-      /* setIsDisabled(false) */
       setCode('')
       toast.error('Insira a quantidade primeiro.')
       return
     }
 
-    if (!isDeviceSwitcherChecked && targetValue.length < 12) {
-      value = Array.from(targetValue)
-      for (let i = 0; i < 12 - targetValue.length; i++) {
-        value.unshift('0')
-      }
-      value = value.toString().replace(/,/g, '')
-    }
-
     setCode(value)
 
     if (value?.length === 12) {
-      // 12 porque o codigo de barras tem tamanho de 12 no banco
-
+      // Por padrão, os códigos de barras possuem 12 dígitos no banco
       await api
         .get(`/produtos/${value}`)
         .then((resp) => {
@@ -137,7 +136,6 @@ const Bip = () => {
         })
         .finally(setAmount(1))
     }
-    /* setIsDisabled(false) */
   }
 
   const handleDelete = (index) => {
@@ -170,10 +168,6 @@ const Bip = () => {
     }
   }
 
-  const handleDeviceSwitcherChange = () => {
-    setIsDeviceSwitcherChecked(!isDeviceSwitcherChecked)
-  }
-
   const ref = useRef(null)
 
   return (
@@ -181,19 +175,6 @@ const Bip = () => {
       {
         <main className="container mt-3">
           <div className="teste">
-            <div className="custom-control custom-switch device-switcher-container">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                id="customSwitches"
-                checked={isDeviceSwitcherChecked}
-                onChange={handleDeviceSwitcherChange}
-                readOnly
-              />
-              <label className="custom-control-label" htmlFor="customSwitches">
-                Estou utilizando teclado
-              </label>
-            </div>
             <label>Quantidade</label>
             <InputGroup className="mb-3">
               <FormControl
@@ -225,9 +206,9 @@ const Bip = () => {
                 className="shadow-none"
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
-                onChange={(e) => onChangeCode(e.target.value)}
+                onChange={(e) => handleBarCodeChange(e.target.value)}
+                onKeyDown={handleEnterKeyDown}
                 autoFocus
-                /* disabled={isDisabled} */
               />
               <Button
                 variant="primary"
