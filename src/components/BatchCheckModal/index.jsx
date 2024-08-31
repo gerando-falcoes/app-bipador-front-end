@@ -19,7 +19,6 @@ const BatchCheckModal = ({
   const [amount, setAmount] = useState(1)
   const [code, setCode] = useState('')
   const [checkerContent, setCheckerContent] = useState([])
-  /* const [isDisabled, setIsDisabled] = useState(false) */
   const [isVerifyButtonDisabled, setIsVerifyButtonDisabled] = useState()
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true)
   const [totalProducts, setTotalProducts] = useState(0)
@@ -41,7 +40,6 @@ const BatchCheckModal = ({
     }, 0)
 
     setTotalProducts(calculatedTotalProducts)
-
   }, [checkerContent])
 
   const handleUpdateBatchContent = async () => {
@@ -156,20 +154,32 @@ const BatchCheckModal = ({
       }
     }
 
-    onChangeCode(value.toString().replace(/,/g, ''))
+    handleBarCodeChange(value.toString().replace(/,/g, ''))
 
     ref.current.focus()
   }
-
-  const onChangeCode = async (targetValue) => {
-    const value = targetValue
-    /* setIsDisabled(true) */
+ 
+  const handleEnterKeyDown = (event) => {
+    let value
+    if (event.key === 'Enter' && code.length < 12) {
+      value = Array.from(code)
+      for (let i = 0; i < 12 - code.length; i++) {
+        value.unshift('0')
+      }
+      value = value.toString().replace(/,/g, '')
+      setCode(value)
+      handleBarCodeChange(value)
+    }
+  };
+  
+  const handleBarCodeChange = async (targetValue) => {
+    let value = targetValue
     if (!amount || amount <= 0) {
-      /* setIsDisabled(false) */
       setCode('')
       toast.error('Insira a quantidade primeiro.')
       return
     }
+
     setCode(value)
 
     if (value?.length === 12) {
@@ -199,7 +209,6 @@ const BatchCheckModal = ({
         })
         .finally(setAmount(1))
     }
-    /* setIsDisabled(false) */
   }
 
   const handleDelete = (index) => {
@@ -262,10 +271,10 @@ const BatchCheckModal = ({
                   aria-label="Recipient's username"
                   aria-describedby="basic-addon2"
                   onChange={(e) => {
-                    onChangeCode(e.target.value)
+                    handleBarCodeChange(e.target.value)
                   }}
+                  onKeyDown={handleEnterKeyDown}
                   autoFocus
-                  /* disabled={isDisabled} */
                 />
                 <Button
                   variant="primary"
@@ -278,7 +287,7 @@ const BatchCheckModal = ({
               </InputGroup>
             </div>
             <Table className="mb-0" bordered>
-            <thead>
+              <thead>
                 <tr>
                   <td className={style.tableFooter} colSpan="4">
                     <p className="mb-0">

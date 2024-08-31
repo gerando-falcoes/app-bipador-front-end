@@ -1,9 +1,14 @@
-.teste{
-    margin-top: 92px;
+.teste {
+  margin-top: 92px;
 }
 
 .saveButton {
-    display: flex;
-    justify-content: flex-end;
-    padding-bottom: 16px;
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 16px;
+}
+
+.device-switcher-container {
+  display: flex !important;
+  justify-content: flex-end;
 }
