@@ -30,7 +30,7 @@ const handleFileUpload = async e => {
         resolve({
           name: file.name,
           textContent: text,
-          itemCount: fileTotal, // opcional: pode usar depois se quiser ver por arquivo
+          itemCount: fileTotal,
         });
       };
       reader.readAsText(file);
@@ -40,7 +40,6 @@ const handleFileUpload = async e => {
   const fileData = await Promise.all(promises);
   setFileList(fileData);
 
-  // Soma total de todos os arquivos
   const total = fileData.reduce((sum, file) => sum + file.itemCount, 0);
   setTotalQuantity(total);
 };
@@ -69,7 +68,6 @@ const mergeFiles = async () => {
     });
   });
 
-  // Ordena os códigos numericamente (opcional)
   const sortedEntries = Array.from(productMap.entries()).sort((a, b) => a[0].localeCompare(b[0]));
 
   let result = sortedEntries.map(([code, quantity]) => `${code} ${quantity}`).join('\n');
